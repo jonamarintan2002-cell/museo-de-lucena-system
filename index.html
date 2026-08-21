@@ -1,0 +1,1029 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Web-Based Information and Filing System for Artifact Records of Museo de Lucena">
+  <title>Museo de Lucena | Artifact Records System</title>
+  <link rel="icon" type="image/png" href="assets/images/museo-logo.png">
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap"rel="stylesheet">
+  <!-- Styles -->
+  <link rel="stylesheet" href="assets/css/global.css">
+  <link rel="stylesheet" href="assets/css/homepage.css">
+</head>
+
+<body>
+
+  <!-- =======================================================
+       HEADER
+  ======================================================== -->
+  <header class="site-header" id="siteHeader">
+
+    <div class="container header-container">
+
+      <a href="#home" class="brand" aria-label="Museo de Lucena Home">
+
+        <div class="brand-logo-wrap">
+          <img
+            src="assets/images/museo-logo.png"
+            alt="Museo de Lucena Logo"
+            class="brand-logo"
+            onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
+          >
+
+          <div class="brand-logo-fallback">
+            M
+          </div>
+        </div>
+
+        <div class="brand-text">
+          <span class="brand-title">Museo de Lucena</span>
+          <span class="brand-subtitle">Artifact Records System</span>
+        </div>
+
+      </a>
+
+
+      <nav class="desktop-nav" aria-label="Main navigation">
+
+        <a href="#home" class="nav-link active">
+          Home
+        </a>
+
+        <a href="#about" class="nav-link">
+          About
+        </a>
+
+        <a href="#features" class="nav-link">
+          System
+        </a>
+
+        <a href="#preservation" class="nav-link">
+          Preservation
+        </a>
+
+      </nav>
+
+
+      <div class="header-actions">
+
+        <a href="login.html" class="login-button">
+
+          <svg
+            viewBox="0 0 24 24"
+            width="18"
+            height="18"
+            aria-hidden="true"
+          >
+            <path
+              d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4M10 17l5-5-5-5M15 12H3"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.8"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+          </svg>
+
+          <span>Personnel Login</span>
+
+        </a>
+
+
+        <button
+          class="mobile-menu-button"
+          id="mobileMenuButton"
+          aria-label="Open menu"
+          aria-expanded="false"
+        >
+
+          <span></span>
+          <span></span>
+          <span></span>
+
+        </button>
+
+      </div>
+
+    </div>
+
+
+    <!-- MOBILE MENU -->
+    <div class="mobile-menu" id="mobileMenu">
+
+      <a href="#home">Home</a>
+      <a href="#about">About</a>
+      <a href="#features">System</a>
+      <a href="#preservation">Preservation</a>
+
+      <a href="login.html" class="mobile-login">
+        Authorized Personnel Login
+      </a>
+
+    </div>
+
+  </header>
+
+
+
+  <main>
+
+    <!-- =======================================================
+         HERO
+    ======================================================== -->
+    <section class="hero-section" id="home">
+
+      <div class="hero-background"></div>
+      <div class="hero-overlay"></div>
+
+      <div class="hero-decoration hero-decoration-one"></div>
+      <div class="hero-decoration hero-decoration-two"></div>
+
+      <div class="container hero-container">
+
+        <div class="hero-content">
+
+          <div class="hero-eyebrow">
+            <span class="eyebrow-line"></span>
+            Digital Heritage Management
+          </div>
+
+          <h1 class="hero-title">
+
+            Preserving Lucena's
+
+            <span>
+              Cultural Heritage
+            </span>
+
+            Through Digital Records
+
+          </h1>
+
+          <p class="hero-description">
+            A centralized web-based information and filing system
+            designed to help Museo de Lucena securely document,
+            organize, manage, and retrieve artifact records.
+          </p>
+
+
+          <div class="hero-buttons">
+
+            <a href="#about" class="button button-primary">
+              Explore the System
+
+              <svg
+                viewBox="0 0 24 24"
+                width="18"
+                height="18"
+                aria-hidden="true"
+              >
+                <path
+                  d="M5 12h14M13 6l6 6-6 6"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+            </a>
+
+            <a href="login.html" class="button button-secondary">
+              Authorized Login
+            </a>
+
+          </div>
+
+
+          <div class="hero-note">
+
+            <div class="hero-note-icon">
+
+              <svg
+                viewBox="0 0 24 24"
+                width="18"
+                height="18"
+                aria-hidden="true"
+              >
+                <path
+                  d="M12 3l7 3v5c0 4.8-2.9 8.3-7 10-4.1-1.7-7-5.2-7-10V6l7-3z"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.7"
+                  stroke-linejoin="round"
+                />
+
+                <path
+                  d="M9 12l2 2 4-4"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.7"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+
+            </div>
+
+            <span>
+              Secure access for authorized museum personnel
+            </span>
+
+          </div>
+
+        </div>
+
+
+        <!-- HERO VISUAL -->
+        <div class="hero-visual">
+
+          <div class="museum-frame">
+
+            <div class="museum-frame-top">
+              <span>MUSEO DE LUCENA</span>
+              <span class="frame-number">01</span>
+            </div>
+
+            <div class="museum-image-wrap">
+
+              <img
+                src="assets/images/bgformuseo.jpg"
+                alt="Museo de Lucena"
+                class="museum-image"
+                onerror="this.style.display='none'; this.parentElement.classList.add('no-image');"
+              >
+
+              <div class="museum-placeholder">
+
+                <div class="placeholder-emblem">
+                  M
+                </div>
+
+                <p>
+                  Museo de Lucena
+                </p>
+
+              </div>
+
+            </div>
+
+
+            <div class="museum-frame-bottom">
+
+              <div>
+                <span class="frame-label">SYSTEM</span>
+                <strong>Artifact Records</strong>
+              </div>
+
+              <div>
+                <span class="frame-label">ACCESS</span>
+                <strong>Authorized Personnel</strong>
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <div class="hero-bottom-line"></div>
+
+    </section>
+
+
+
+    <!-- =======================================================
+         INTRO STRIP
+    ======================================================== -->
+    <section class="intro-strip">
+
+      <div class="container intro-grid">
+
+        <div class="intro-item">
+
+          <div class="intro-number">01</div>
+
+          <div>
+            <strong>Digitize</strong>
+            <span>Artifact documentation</span>
+          </div>
+
+        </div>
+
+
+        <div class="intro-item">
+
+          <div class="intro-number">02</div>
+
+          <div>
+            <strong>Organize</strong>
+            <span>Centralized records</span>
+          </div>
+
+        </div>
+
+
+        <div class="intro-item">
+
+          <div class="intro-number">03</div>
+
+          <div>
+            <strong>Protect</strong>
+            <span>Controlled information access</span>
+          </div>
+
+        </div>
+
+
+        <div class="intro-item">
+
+          <div class="intro-number">04</div>
+
+          <div>
+            <strong>Preserve</strong>
+            <span>Cultural information</span>
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+
+    <!-- =======================================================
+         ABOUT
+    ======================================================== -->
+    <section class="section about-section" id="about">
+
+      <div class="container about-container">
+
+
+        <div class="section-heading">
+
+          <span class="section-kicker">
+            About the Project
+          </span>
+
+          <h2>
+            A modern approach to
+            <span>artifact record management.</span>
+          </h2>
+
+        </div>
+
+
+        <div class="about-grid">
+
+          <div class="about-main-card">
+
+            <div class="about-card-number">
+              01
+            </div>
+
+            <p class="about-lead">
+              Museo de Lucena preserves historical and cultural
+              materials that contribute to the documentation of
+              Lucena City's heritage.
+            </p>
+
+            <p>
+              The Web-Based Information and Filing System for Artifact
+              Records is designed to replace inefficient paper-based
+              record management with an organized digital platform.
+            </p>
+
+            <p>
+              It provides authorized museum personnel with tools for
+              recording, updating, searching, retrieving, and managing
+              artifact information through a centralized system.
+            </p>
+
+          </div>
+
+
+          <div class="about-side">
+
+            <article class="info-card">
+
+              <div class="info-icon">
+
+                <svg
+                  viewBox="0 0 24 24"
+                  width="26"
+                  height="26"
+                  aria-hidden="true"
+                >
+                  <path
+                    d="M4 5h16v14H4zM8 3v4M16 3v4M8 11h8M8 15h5"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.6"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                </svg>
+
+              </div>
+
+              <div>
+
+                <h3>
+                  Organized Documentation
+                </h3>
+
+                <p>
+                  Maintain structured and searchable information for
+                  museum artifact records.
+                </p>
+
+              </div>
+
+            </article>
+
+
+            <article class="info-card">
+
+              <div class="info-icon">
+
+                <svg
+                  viewBox="0 0 24 24"
+                  width="26"
+                  height="26"
+                  aria-hidden="true"
+                >
+                  <path
+                    d="M12 3l7 3v5c0 4.8-2.9 8.3-7 10-4.1-1.7-7-5.2-7-10V6l7-3zM9.5 12l1.8 1.8 3.7-4"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.6"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                </svg>
+
+              </div>
+
+              <div>
+
+                <h3>
+                  Secure Access
+                </h3>
+
+                <p>
+                  Authentication and role-based access help protect
+                  museum information from unauthorized users.
+                </p>
+
+              </div>
+
+            </article>
+
+
+            <article class="info-card">
+
+              <div class="info-icon">
+
+                <svg
+                  viewBox="0 0 24 24"
+                  width="26"
+                  height="26"
+                  aria-hidden="true"
+                >
+                  <circle
+                    cx="11"
+                    cy="11"
+                    r="6"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.6"
+                  />
+
+                  <path
+                    d="M16 16l5 5"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.6"
+                    stroke-linecap="round"
+                  />
+                </svg>
+
+              </div>
+
+              <div>
+
+                <h3>
+                  Faster Retrieval
+                </h3>
+
+                <p>
+                  Search and filtering functions make locating artifact
+                  information faster and more convenient.
+                </p>
+
+              </div>
+
+            </article>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+
+    <!-- =======================================================
+         FEATURES
+    ======================================================== -->
+    <section class="section features-section" id="features">
+
+      <div class="container">
+
+        <div class="features-header">
+
+          <div class="section-heading">
+
+            <span class="section-kicker">
+              System Capabilities
+            </span>
+
+            <h2>
+              Built around the museum's
+              <span>record management workflow.</span>
+            </h2>
+
+          </div>
+
+          <p class="features-intro">
+            The platform focuses on the essential functions required
+            for maintaining accurate, accessible, and secure artifact
+            documentation.
+          </p>
+
+        </div>
+
+
+        <div class="feature-grid">
+
+          <!-- FEATURE 1 -->
+          <article class="feature-card">
+
+            <span class="feature-index">
+              01
+            </span>
+
+            <div class="feature-icon">
+
+              <svg
+                viewBox="0 0 24 24"
+                width="28"
+                height="28"
+                aria-hidden="true"
+              >
+                <path
+                  d="M5 4h14v16H5zM9 8h6M9 12h6M9 16h4"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.6"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+
+            </div>
+
+            <h3>
+              Artifact Records
+            </h3>
+
+            <p>
+              Record and maintain artifact information including
+              descriptions, categories, historical background,
+              origin, condition, and related details.
+            </p>
+
+          </article>
+
+
+          <!-- FEATURE 2 -->
+          <article class="feature-card">
+
+            <span class="feature-index">
+              02
+            </span>
+
+            <div class="feature-icon">
+
+              <svg
+                viewBox="0 0 24 24"
+                width="28"
+                height="28"
+                aria-hidden="true"
+              >
+                <circle
+                  cx="11"
+                  cy="11"
+                  r="6"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.6"
+                />
+
+                <path
+                  d="M16 16l5 5M8 11h6"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.6"
+                  stroke-linecap="round"
+                />
+              </svg>
+
+            </div>
+
+            <h3>
+              Search & Retrieval
+            </h3>
+
+            <p>
+              Locate specific artifact records efficiently through
+              keyword search and organized filtering functions.
+            </p>
+
+          </article>
+
+
+          <!-- FEATURE 3 -->
+          <article class="feature-card">
+
+            <span class="feature-index">
+              03
+            </span>
+
+            <div class="feature-icon">
+
+              <svg
+                viewBox="0 0 24 24"
+                width="28"
+                height="28"
+                aria-hidden="true"
+              >
+                <path
+                  d="M12 3l7 3v5c0 4.8-2.9 8.3-7 10-4.1-1.7-7-5.2-7-10V6l7-3zM9 12h6M12 9v6"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.6"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+
+            </div>
+
+            <h3>
+              User Authentication
+            </h3>
+
+            <p>
+              Restrict management functions to authorized
+              Administrators and Museum Staff using secure accounts.
+            </p>
+
+          </article>
+
+
+          <!-- FEATURE 4 -->
+          <article class="feature-card">
+
+            <span class="feature-index">
+              04
+            </span>
+
+            <div class="feature-icon">
+
+              <svg
+                viewBox="0 0 24 24"
+                width="28"
+                height="28"
+                aria-hidden="true"
+              >
+                <path
+                  d="M5 19V9M10 19V5M15 19v-7M20 19V3M3 19h19"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.6"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+
+            </div>
+
+            <h3>
+              Reports
+            </h3>
+
+            <p>
+              Generate organized summaries that support artifact
+              documentation, inventory monitoring, and administrative
+              requirements.
+            </p>
+
+          </article>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+
+    <!-- =======================================================
+         PRESERVATION
+    ======================================================== -->
+    <section class="preservation-section" id="preservation">
+
+      <div class="container preservation-container">
+
+        <div class="preservation-content">
+
+          <span class="preservation-kicker">
+            Cultural Heritage Preservation
+          </span>
+
+          <h2>
+            Records today.
+            <span>Heritage tomorrow.</span>
+          </h2>
+
+          <p>
+            Digitizing artifact information supports the long-term
+            organization and preservation of historical records while
+            reducing reliance on vulnerable paper-based documentation.
+          </p>
+
+          <div class="preservation-rule"></div>
+
+          <p class="sdg-text">
+            The project supports cultural heritage preservation in
+            connection with Sustainable Development Goal 11.4.
+          </p>
+
+        </div>
+
+
+        <div class="preservation-mark">
+
+          <div class="mark-circle">
+            <span>11.4</span>
+          </div>
+
+          <div class="mark-text">
+            <span>SUSTAINABLE</span>
+            <span>CULTURAL</span>
+            <span>HERITAGE</span>
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+
+    <!-- =======================================================
+         ACCESS CTA
+    ======================================================== -->
+    <section class="access-section">
+
+      <div class="container access-container">
+
+        <div>
+
+          <span class="access-label">
+            Internal System
+          </span>
+
+          <h2>
+            Authorized museum personnel?
+          </h2>
+
+          <p>
+            Sign in to manage artifact records and access protected
+            system functions.
+          </p>
+
+        </div>
+
+        <a href="login.html" class="access-button">
+
+          Go to Personnel Login
+
+          <svg
+            viewBox="0 0 24 24"
+            width="18"
+            height="18"
+            aria-hidden="true"
+          >
+            <path
+              d="M5 12h14M13 6l6 6-6 6"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.8"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+          </svg>
+
+        </a>
+
+      </div>
+
+    </section>
+
+  </main>
+
+
+
+  <!-- =======================================================
+       FOOTER
+  ======================================================== -->
+  <footer class="site-footer">
+
+    <div class="container footer-container">
+
+      <div class="footer-brand">
+
+        <div class="footer-logo">
+          M
+        </div>
+
+        <div>
+          <strong>Museo de Lucena</strong>
+          <span>Artifact Records Management System</span>
+        </div>
+
+      </div>
+
+
+      <div class="footer-info">
+        <p>
+          Web-Based Information and Filing System for Artifact Records
+          of Museo de Lucena
+        </p>
+
+        <span>
+          Lucena City, Quezon Province
+        </span>
+      </div>
+
+    </div>
+
+
+    <div class="container footer-bottom">
+
+      <span>
+        © <span id="currentYear"></span> Museo de Lucena
+      </span>
+
+      <span>
+        For authorized institutional use
+      </span>
+
+    </div>
+
+  </footer>
+
+
+
+  <script>
+
+    // CURRENT YEAR
+    document.getElementById("currentYear").textContent =
+      new Date().getFullYear();
+
+
+    // MOBILE MENU
+    const mobileMenuButton =
+      document.getElementById("mobileMenuButton");
+
+    const mobileMenu =
+      document.getElementById("mobileMenu");
+
+
+    mobileMenuButton.addEventListener("click", () => {
+
+      const isOpen =
+        mobileMenu.classList.toggle("open");
+
+      mobileMenuButton.classList.toggle(
+        "active",
+        isOpen
+      );
+
+      mobileMenuButton.setAttribute(
+        "aria-expanded",
+        isOpen
+      );
+
+    });
+
+
+    // CLOSE MOBILE MENU WHEN LINK CLICKED
+    document
+      .querySelectorAll(".mobile-menu a")
+      .forEach(link => {
+
+        link.addEventListener("click", () => {
+
+          mobileMenu.classList.remove("open");
+
+          mobileMenuButton.classList.remove("active");
+
+          mobileMenuButton.setAttribute(
+            "aria-expanded",
+            "false"
+          );
+
+        });
+
+      });
+
+
+    // HEADER EFFECT
+    const siteHeader =
+      document.getElementById("siteHeader");
+
+
+    window.addEventListener("scroll", () => {
+
+      if (window.scrollY > 30) {
+
+        siteHeader.classList.add("scrolled");
+
+      } else {
+
+        siteHeader.classList.remove("scrolled");
+
+      }
+
+    });
+
+
+    // ACTIVE NAV
+    const sections =
+      document.querySelectorAll("main section[id]");
+
+    const navLinks =
+      document.querySelectorAll(".desktop-nav .nav-link");
+
+
+    window.addEventListener("scroll", () => {
+
+      let currentSection = "home";
+
+      sections.forEach(section => {
+
+        const sectionTop =
+          section.offsetTop - 160;
+
+        if (window.scrollY >= sectionTop) {
+          currentSection = section.id;
+        }
+
+      });
+
+
+      navLinks.forEach(link => {
+
+        link.classList.remove("active");
+
+        if (
+          link.getAttribute("href") ===
+          `#${currentSection}`
+        ) {
+
+          link.classList.add("active");
+
+        }
+
+      });
+
+    });
+
+  </script>
+
+</body>
+</html>

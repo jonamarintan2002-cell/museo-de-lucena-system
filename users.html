@@ -1,0 +1,948 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <title>User Management | Museo de Lucena</title>
+
+
+  <!-- FAVICON -->
+  <link
+    rel="icon"
+    type="image/png"
+    href="assets/images/museo-logo.png"
+  >
+
+
+  <!-- GOOGLE FONTS -->
+  <link
+    rel="preconnect"
+    href="https://fonts.googleapis.com"
+  >
+
+  <link
+    rel="preconnect"
+    href="https://fonts.gstatic.com"
+    crossorigin
+  >
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap"
+    rel="stylesheet"
+  >
+
+
+  <!-- GLOBAL CSS -->
+  <link
+    rel="stylesheet"
+    href="assets/css/global.css"
+  >
+
+
+  <!-- USERS CSS -->
+  <link
+    rel="stylesheet"
+    href="assets/css/users.css"
+  >
+
+</head>
+
+
+<body>
+
+  <div class="page-layout">
+
+
+    <!-- =====================================================
+         SIDEBAR
+    ====================================================== -->
+
+    <aside
+      class="sidebar"
+      id="sidebar"
+    >
+
+      <div class="sidebar-brand">
+
+        <div class="sidebar-logo">
+          M
+        </div>
+
+
+        <div class="sidebar-brand-text">
+
+          <strong>
+            Museo de Lucena
+          </strong>
+
+          <span>
+            Artifact Records System
+          </span>
+
+        </div>
+
+      </div>
+
+
+
+      <!-- NAVIGATION -->
+
+      <nav class="sidebar-nav">
+
+        <p class="nav-label">
+          Workspace
+        </p>
+
+
+        <!-- DASHBOARD -->
+
+        <a
+          href="dashboard.html"
+          class="nav-item"
+        >
+
+          <svg viewBox="0 0 24 24">
+
+            <path
+              d="M4 4h6v6H4zM14 4h6v6h-6zM4 14h6v6H4zM14 14h6v6h-6z"
+            />
+
+          </svg>
+
+          <span>
+            Dashboard
+          </span>
+
+        </a>
+
+
+
+        <!-- ARTIFACT RECORDS -->
+
+        <a
+          href="artifacts.html"
+          class="nav-item"
+        >
+
+          <svg viewBox="0 0 24 24">
+
+            <path
+              d="M5 4h14v16H5zM8 8h8M8 12h8M8 16h5"
+            />
+
+          </svg>
+
+          <span>
+            Artifact Records
+          </span>
+
+        </a>
+
+
+
+        <!-- CATEGORIES -->
+
+        <a
+          href="categories.html"
+          class="nav-item"
+        >
+
+          <svg viewBox="0 0 24 24">
+
+            <path
+              d="M4 6h7l2 2h7v10H4z"
+            />
+
+          </svg>
+
+          <span>
+            Categories
+          </span>
+
+        </a>
+
+
+
+        <!-- REPORTS -->
+
+        <a
+          href="reports.html"
+          class="nav-item"
+        >
+
+          <svg viewBox="0 0 24 24">
+
+            <path
+              d="M5 19V9M10 19V5M15 19v-7M20 19V3M3 19h19"
+            />
+
+          </svg>
+
+          <span>
+            Reports
+          </span>
+
+        </a>
+
+
+
+        <p class="nav-label second">
+          Administration
+        </p>
+
+
+
+        <!-- USER MANAGEMENT -->
+
+        <a
+          href="users.html"
+          class="nav-item active admin-only"
+          aria-current="page"
+        >
+
+          <svg viewBox="0 0 24 24">
+
+            <path
+              d="M16 20v-2a4 4 0 0 0-4-4H7a4 4 0 0 0-4 4v2M9.5 10a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM18 8v6M15 11h6"
+            />
+
+          </svg>
+
+          <span>
+            User Management
+          </span>
+
+        </a>
+
+
+
+        <!-- ACTIVITY LOGS -->
+
+        <a
+          href="activity.html"
+          class="nav-item admin-only"
+          id="activityNav"
+        >
+
+          <svg viewBox="0 0 24 24">
+
+            <path
+              d="M12 8v5l3 2M21 12a9 9 0 1 1-9-9"
+            />
+
+          </svg>
+
+          <span>
+            Activity Logs
+          </span>
+
+        </a>
+
+      </nav>
+
+
+
+      <!-- SIDEBAR FOOTER -->
+
+      <div class="sidebar-footer">
+
+        <div class="sidebar-user">
+
+          <div
+            class="sidebar-avatar"
+            id="sidebarAvatar"
+          >
+            M
+          </div>
+
+
+          <div class="sidebar-user-info">
+
+            <strong id="sidebarUserName">
+              Loading...
+            </strong>
+
+            <span id="sidebarUserRole">
+              —
+            </span>
+
+          </div>
+
+        </div>
+
+
+        <button
+          type="button"
+          class="logout-button"
+          id="logoutButton"
+        >
+          Sign Out
+        </button>
+
+      </div>
+
+    </aside>
+
+
+
+    <!-- =====================================================
+         MAIN CONTENT
+    ====================================================== -->
+
+    <main class="main-content">
+
+
+      <!-- TOPBAR -->
+
+      <header class="topbar">
+
+        <div class="topbar-left">
+
+          <button
+            type="button"
+            class="menu-button"
+            id="menuButton"
+            aria-label="Open sidebar"
+          >
+            ☰
+          </button>
+
+
+          <div>
+
+            <span class="page-label">
+              Administration
+            </span>
+
+            <h1>
+              User Management
+            </h1>
+
+          </div>
+
+        </div>
+
+
+        <button
+          type="button"
+          class="add-user-button"
+          id="openAddUser"
+        >
+          + Add Staff Account
+        </button>
+
+      </header>
+
+
+
+      <div class="content">
+
+
+        <!-- =================================================
+             INTRO
+        ================================================== -->
+
+        <section class="user-intro">
+
+          <div>
+
+            <span class="intro-label">
+              System Access
+            </span>
+
+
+            <h2>
+
+              Manage authorized
+
+              <span>
+                system users.
+              </span>
+
+            </h2>
+
+
+            <p>
+
+              View and manage Administrator and Museum Staff
+              accounts authorized to access the Museo de
+              Lucena Artifact Records System.
+
+            </p>
+
+          </div>
+
+        </section>
+
+
+
+        <!-- =================================================
+             SUMMARY
+        ================================================== -->
+
+        <section class="user-summary">
+
+          <article class="summary-card">
+
+            <span>
+              Total Users
+            </span>
+
+            <strong id="totalUserCount">
+              0
+            </strong>
+
+            <small>
+              Registered system profiles
+            </small>
+
+          </article>
+
+
+          <article class="summary-card">
+
+            <span>
+              Administrators
+            </span>
+
+            <strong id="adminUserCount">
+              0
+            </strong>
+
+            <small>
+              Accounts with full access
+            </small>
+
+          </article>
+
+
+          <article class="summary-card">
+
+            <span>
+              Museum Staff
+            </span>
+
+            <strong id="staffUserCount">
+              0
+            </strong>
+
+            <small>
+              Authorized staff accounts
+            </small>
+
+          </article>
+
+
+          <article class="summary-card">
+
+            <span>
+              Inactive
+            </span>
+
+            <strong id="inactiveUserCount">
+              0
+            </strong>
+
+            <small>
+              Access currently disabled
+            </small>
+
+          </article>
+
+        </section>
+
+
+
+        <!-- =================================================
+             TOOLBAR
+        ================================================== -->
+
+        <section class="user-toolbar">
+
+          <div class="user-search">
+
+            <svg viewBox="0 0 24 24">
+
+              <circle
+                cx="11"
+                cy="11"
+                r="6"
+              ></circle>
+
+              <path
+                d="M16 16l5 5"
+              ></path>
+
+            </svg>
+
+
+            <input
+              type="search"
+              id="userSearch"
+              placeholder="Search name or email..."
+              autocomplete="off"
+            >
+
+          </div>
+
+
+          <select
+            id="roleFilter"
+            class="user-filter"
+          >
+
+            <option value="">
+              All Roles
+            </option>
+
+            <option value="admin">
+              Administrator
+            </option>
+
+            <option value="staff">
+              Museum Staff
+            </option>
+
+          </select>
+
+
+          <select
+            id="userStatusFilter"
+            class="user-filter"
+          >
+
+            <option value="">
+              All Status
+            </option>
+
+            <option value="active">
+              Active
+            </option>
+
+            <option value="inactive">
+              Inactive
+            </option>
+
+          </select>
+
+
+          <button
+            type="button"
+            class="reset-user-filter"
+            id="resetUserFilters"
+          >
+            Reset
+          </button>
+
+        </section>
+
+
+
+        <!-- =================================================
+             USER TABLE
+        ================================================== -->
+
+        <section class="users-card">
+
+          <div class="users-card-header">
+
+            <div>
+
+              <span class="section-label">
+                Authorized Accounts
+              </span>
+
+              <h3>
+                System Users
+              </h3>
+
+            </div>
+
+
+            <span
+              class="user-result-count"
+              id="userResultCount"
+            >
+              0 users
+            </span>
+
+          </div>
+
+
+
+          <div class="users-table-wrapper">
+
+            <table class="users-table">
+
+              <thead>
+
+                <tr>
+
+                  <th>
+                    User
+                  </th>
+
+                  <th>
+                    Email
+                  </th>
+
+                  <th>
+                    Role
+                  </th>
+
+                  <th>
+                    Status
+                  </th>
+
+                  <th>
+                    Created
+                  </th>
+
+                  <th>
+                    Actions
+                  </th>
+
+                </tr>
+
+              </thead>
+
+
+              <tbody id="usersTableBody">
+
+                <tr>
+
+                  <td colspan="6">
+
+                    <div class="user-empty-state">
+
+                      <strong>
+                        Loading users...
+                      </strong>
+
+                      <p>
+                        Retrieving authorized system profiles.
+                      </p>
+
+                    </div>
+
+                  </td>
+
+                </tr>
+
+              </tbody>
+
+            </table>
+
+          </div>
+
+        </section>
+
+
+
+        <!-- FOOTER -->
+
+        <footer class="page-footer">
+
+          <span>
+            Museo de Lucena Artifact Records System
+          </span>
+
+          <span>
+            Administrator Access
+          </span>
+
+        </footer>
+
+      </div>
+
+    </main>
+
+  </div>
+
+
+
+  <!-- =====================================================
+       ADD STAFF MODAL
+  ====================================================== -->
+
+  <div
+    class="modal-overlay"
+    id="userModal"
+  >
+
+    <div class="modal-card user-modal-card">
+
+
+      <div class="modal-header">
+
+        <div>
+
+          <span class="modal-label">
+            Authorized Account
+          </span>
+
+          <h2>
+            Add Staff Account
+          </h2>
+
+          <p>
+            Create an account for an authorized Museo de Lucena staff member.
+          </p>
+
+        </div>
+
+
+        <button
+          type="button"
+          class="close-modal"
+          id="closeUserModal"
+          aria-label="Close user form"
+        >
+          ×
+        </button>
+
+      </div>
+
+
+
+      <form id="userForm">
+
+
+        <!-- NAME -->
+
+        <div class="form-group">
+
+          <label for="userFullName">
+
+            Full Name
+
+            <span>
+              *
+            </span>
+
+          </label>
+
+
+          <input
+            type="text"
+            id="userFullName"
+            maxlength="150"
+            placeholder="Enter staff member's full name"
+            autocomplete="off"
+            required
+          >
+
+        </div>
+
+
+
+        <!-- EMAIL -->
+
+        <div class="form-group">
+
+          <label for="userEmail">
+
+            Email Address
+
+            <span>
+              *
+            </span>
+
+          </label>
+
+
+          <input
+            type="email"
+            id="userEmail"
+            maxlength="200"
+            placeholder="staff@example.com"
+            autocomplete="off"
+            required
+          >
+
+        </div>
+
+
+
+        <!-- PASSWORD -->
+
+        <div class="form-group">
+
+          <label for="userPassword">
+
+            Temporary Password
+
+            <span>
+              *
+            </span>
+
+          </label>
+
+
+          <input
+            type="password"
+            id="userPassword"
+            minlength="8"
+            maxlength="100"
+            placeholder="Minimum 8 characters"
+            autocomplete="new-password"
+            required
+          >
+
+
+          <small class="field-note">
+            Provide this temporary password securely to the staff member.
+          </small>
+
+        </div>
+
+
+
+        <!-- ROLE -->
+
+        <div class="form-group">
+
+          <label for="newUserRole">
+            Role
+          </label>
+
+
+          <select
+            id="newUserRole"
+            disabled
+          >
+
+            <option value="staff">
+              Museum Staff
+            </option>
+
+          </select>
+
+
+          <small class="field-note">
+            New accounts created from this page are Museum Staff accounts.
+          </small>
+
+        </div>
+
+
+
+        <!-- STATUS -->
+
+        <div class="form-group">
+
+          <label for="newUserStatus">
+            Account Status
+          </label>
+
+
+          <select id="newUserStatus">
+
+            <option value="active">
+              Active
+            </option>
+
+            <option value="inactive">
+              Inactive
+            </option>
+
+          </select>
+
+        </div>
+
+
+
+        <!-- MESSAGE -->
+
+        <div
+          class="form-message"
+          id="userFormMessage"
+          aria-live="polite"
+        ></div>
+
+
+
+        <!-- ACTIONS -->
+
+        <div class="modal-actions">
+
+          <button
+            type="button"
+            class="cancel-button"
+            id="cancelUser"
+          >
+            Cancel
+          </button>
+
+
+          <button
+            type="submit"
+            class="save-button"
+            id="saveUser"
+          >
+            Create Staff Account
+          </button>
+
+        </div>
+
+      </form>
+
+    </div>
+
+  </div>
+
+
+
+  <!-- =====================================================
+       MOBILE SIDEBAR OVERLAY
+  ====================================================== -->
+
+  <div
+    class="sidebar-overlay"
+    id="sidebarOverlay"
+  ></div>
+
+
+
+  <!-- =====================================================
+       PAGE LOADER
+  ====================================================== -->
+
+  <div
+    class="page-loader"
+    id="pageLoader"
+  >
+
+    <div class="loader-logo">
+      M
+    </div>
+
+    <div class="spinner"></div>
+
+    <span>
+      Loading user management...
+    </span>
+
+  </div>
+
+
+
+  <!-- =====================================================
+       USERS JAVASCRIPT
+  ====================================================== -->
+
+  <script
+    type="module"
+    src="assets/js/users.js"
+  ></script>
+
+</body>
+
+</html>

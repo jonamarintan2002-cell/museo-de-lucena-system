@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Personnel Login | Museo de Lucena</title>
+  <link rel="icon" type="image/png" href="assets/images/museo-logo.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap"
+    rel="stylesheet"
+  >
+
+  <link rel="stylesheet" href="assets/css/global.css">
+  <link rel="stylesheet" href="assets/css/login.css">
+</head>
+
+<body>
+
+  <main class="login-page">
+
+    <!-- LEFT SIDE -->
+    <section class="login-visual">
+
+      <div class="login-background"></div>
+      <div class="login-overlay"></div>
+
+      <div class="visual-content">
+
+        <a href="index.html" class="back-home">
+          ← Back to Home
+        </a>
+
+        <div class="visual-bottom">
+
+          <span class="visual-kicker">
+            Museo de Lucena
+          </span>
+
+          <h1>
+            Protecting history through
+            <span>organized digital records.</span>
+          </h1>
+
+          <p>
+            Secure personnel access to the Web-Based Information
+            and Filing System for Artifact Records of Museo de Lucena.
+          </p>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- RIGHT SIDE -->
+    <section class="login-panel">
+
+      <div class="login-container">
+
+        <div class="login-brand">
+
+          <div class="login-logo">
+            M
+          </div>
+
+          <div>
+            <strong>Museo de Lucena</strong>
+            <span>Artifact Records System</span>
+          </div>
+
+        </div>
+
+
+        <div class="login-heading">
+
+          <span class="login-eyebrow">
+            Authorized Personnel
+          </span>
+
+          <h2>Welcome back.</h2>
+
+          <p>
+            Enter your registered account credentials to continue.
+          </p>
+
+        </div>
+
+
+        <!-- MESSAGE -->
+        <div
+          class="login-message"
+          id="loginMessage"
+          role="alert"
+        ></div>
+
+
+        <!-- FORM -->
+        <form id="loginForm" class="login-form">
+
+          <div class="form-group">
+
+            <label for="email">
+              Email Address
+            </label>
+
+            <div class="input-wrapper">
+
+              <svg
+                viewBox="0 0 24 24"
+                width="20"
+                height="20"
+                aria-hidden="true"
+              >
+                <path
+                  d="M3 5h18v14H3zM3 7l9 6 9-6"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.7"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+
+              <input
+                type="email"
+                id="email"
+                name="email"
+                placeholder="Enter your email"
+                autocomplete="email"
+                required
+              >
+
+            </div>
+
+          </div>
+
+
+          <div class="form-group">
+
+            <div class="password-label-row">
+
+              <label for="password">
+                Password
+              </label>
+
+            </div>
+
+            <div class="input-wrapper">
+
+              <svg
+                viewBox="0 0 24 24"
+                width="20"
+                height="20"
+                aria-hidden="true"
+              >
+                <rect
+                  x="5"
+                  y="10"
+                  width="14"
+                  height="10"
+                  rx="2"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.7"
+                />
+
+                <path
+                  d="M8 10V7a4 4 0 0 1 8 0v3"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.7"
+                  stroke-linecap="round"
+                />
+              </svg>
+
+              <input
+                type="password"
+                id="password"
+                name="password"
+                placeholder="Enter your password"
+                autocomplete="current-password"
+                required
+              >
+
+              <button
+                type="button"
+                class="toggle-password"
+                id="togglePassword"
+                aria-label="Show password"
+              >
+                Show
+              </button>
+
+            </div>
+
+          </div>
+
+
+          <button
+            type="submit"
+            class="login-submit"
+            id="loginButton"
+          >
+
+            <span id="loginButtonText">
+              Sign In
+            </span>
+
+            <span
+              class="button-spinner"
+              id="loginSpinner"
+            ></span>
+
+          </button>
+
+        </form>
+
+
+        <div class="login-security">
+
+          <svg
+            viewBox="0 0 24 24"
+            width="18"
+            height="18"
+            aria-hidden="true"
+          >
+            <path
+              d="M12 3l7 3v5c0 4.8-2.9 8.3-7 10-4.1-1.7-7-5.2-7-10V6l7-3z"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.6"
+            />
+          </svg>
+
+          <p>
+            Access is restricted to authorized Museum Administrators
+            and Museum Staff.
+          </p>
+
+        </div>
+
+
+        <div class="login-footer">
+          <span>Internal institutional system</span>
+          <span>•</span>
+          <span>Lucena City, Quezon Province</span>
+        </div>
+
+      </div>
+
+    </section>
+
+  </main>
+
+
+  <script type="module" src="assets/js/auth.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,1610 @@
+/* =========================================================
+   MUSEO DE LUCENA
+   REPORTS PAGE
+========================================================= */
+
+
+/* =========================================================
+   MAIN CONTENT
+========================================================= */
+
+.main-content {
+  min-height: 100vh;
+  background:
+    radial-gradient(
+      circle at top right,
+      rgba(171, 122, 57, 0.08),
+      transparent 30%
+    ),
+    #f7f4ef;
+}
+
+
+/* =========================================================
+   TOPBAR
+========================================================= */
+
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+
+  padding: 24px 32px;
+
+  background: rgba(255, 255, 255, 0.92);
+
+  border-bottom: 1px solid rgba(73, 44, 35, 0.08);
+
+  position: sticky;
+  top: 0;
+
+  z-index: 30;
+
+  backdrop-filter: blur(14px);
+}
+
+
+.topbar-left {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+
+
+.page-label {
+  display: block;
+
+  margin-bottom: 5px;
+
+  font-size: 0.72rem;
+  font-weight: 700;
+
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+
+  color: #9b6c2f;
+}
+
+
+.topbar h1 {
+  margin: 0;
+
+  font-family: "Playfair Display", serif;
+
+  font-size: 1.8rem;
+
+  color: #341b1b;
+}
+
+
+/* =========================================================
+   MENU BUTTON
+========================================================= */
+
+.menu-button {
+  display: none;
+
+  width: 42px;
+  height: 42px;
+
+  border: 1px solid rgba(70, 39, 31, 0.12);
+
+  border-radius: 12px;
+
+  background: #ffffff;
+
+  color: #4d2926;
+
+  cursor: pointer;
+
+  font-size: 1.15rem;
+}
+
+
+/* =========================================================
+   PRINT BUTTON
+========================================================= */
+
+.print-report-button {
+  border: 0;
+
+  padding: 12px 18px;
+
+  border-radius: 12px;
+
+  background: #5b2025;
+
+  color: #ffffff;
+
+  font-family: "DM Sans", sans-serif;
+
+  font-size: 0.88rem;
+  font-weight: 700;
+
+  cursor: pointer;
+
+  transition:
+    transform 0.2s ease,
+    opacity 0.2s ease,
+    background 0.2s ease;
+}
+
+
+.print-report-button:hover:not(:disabled) {
+  transform: translateY(-1px);
+
+  background: #6d252b;
+}
+
+
+.print-report-button:disabled {
+  opacity: 0.45;
+
+  cursor: not-allowed;
+}
+
+
+/* =========================================================
+   CONTENT
+========================================================= */
+
+.content {
+  width: min(1440px, 100%);
+
+  margin: 0 auto;
+
+  padding: 32px;
+}
+
+
+/* =========================================================
+   REPORT INTRO
+========================================================= */
+
+.report-intro {
+  position: relative;
+
+  overflow: hidden;
+
+  padding: 34px;
+
+  border-radius: 22px;
+
+  background:
+    linear-gradient(
+      125deg,
+      #42181d 0%,
+      #5a2024 55%,
+      #6d2b28 100%
+    );
+
+  box-shadow:
+    0 20px 45px rgba(59, 26, 24, 0.14);
+
+  color: #ffffff;
+}
+
+
+.report-intro::after {
+  content: "";
+
+  position: absolute;
+
+  width: 260px;
+  height: 260px;
+
+  right: -90px;
+  top: -110px;
+
+  border-radius: 50%;
+
+  border: 1px solid rgba(229, 190, 122, 0.24);
+}
+
+
+.report-intro::before {
+  content: "";
+
+  position: absolute;
+
+  width: 150px;
+  height: 150px;
+
+  right: 35px;
+  bottom: -85px;
+
+  border-radius: 50%;
+
+  background: rgba(225, 181, 108, 0.08);
+}
+
+
+.report-intro > div {
+  position: relative;
+
+  z-index: 2;
+}
+
+
+.intro-label {
+  display: inline-block;
+
+  margin-bottom: 12px;
+
+  font-size: 0.72rem;
+  font-weight: 700;
+
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+
+  color: #e3bd78;
+}
+
+
+.report-intro h2 {
+  max-width: 700px;
+
+  margin: 0 0 14px;
+
+  font-family: "Playfair Display", serif;
+
+  font-size: clamp(2rem, 4vw, 3rem);
+  line-height: 1.1;
+
+  font-weight: 700;
+}
+
+
+.report-intro h2 span {
+  color: #e5be75;
+}
+
+
+.report-intro p {
+  max-width: 720px;
+
+  margin: 0;
+
+  color: rgba(255, 255, 255, 0.78);
+
+  font-size: 0.95rem;
+  line-height: 1.7;
+}
+
+
+/* =========================================================
+   SUMMARY CARDS
+========================================================= */
+
+.report-summary {
+  display: grid;
+
+  grid-template-columns:
+    repeat(4, minmax(0, 1fr));
+
+  gap: 16px;
+
+  margin-top: 22px;
+}
+
+
+.summary-card {
+  position: relative;
+
+  overflow: hidden;
+
+  padding: 22px;
+
+  border: 1px solid rgba(67, 41, 33, 0.08);
+
+  border-radius: 18px;
+
+  background: #ffffff;
+
+  box-shadow:
+    0 12px 28px rgba(55, 33, 27, 0.05);
+}
+
+
+.summary-card::before {
+  content: "";
+
+  position: absolute;
+
+  top: 0;
+  left: 0;
+
+  width: 100%;
+  height: 3px;
+
+  background:
+    linear-gradient(
+      90deg,
+      #5b2025,
+      #bd8e47
+    );
+}
+
+
+.summary-card span {
+  display: block;
+
+  color: #77655f;
+
+  font-size: 0.78rem;
+  font-weight: 700;
+
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+}
+
+
+.summary-card strong {
+  display: block;
+
+  margin: 8px 0 5px;
+
+  font-family: "Playfair Display", serif;
+
+  font-size: 2.2rem;
+
+  color: #3c2020;
+}
+
+
+.summary-card small {
+  color: #9a8a84;
+
+  font-size: 0.78rem;
+}
+
+
+/* =========================================================
+   REPORT GENERATOR
+========================================================= */
+
+.report-generator-card {
+  margin-top: 22px;
+
+  padding: 26px;
+
+  border: 1px solid rgba(67, 41, 33, 0.08);
+
+  border-radius: 20px;
+
+  background: #ffffff;
+
+  box-shadow:
+    0 14px 30px rgba(55, 33, 27, 0.05);
+}
+
+
+.section-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 20px;
+
+  padding-bottom: 18px;
+
+  border-bottom: 1px solid #eee6df;
+}
+
+
+.section-label {
+  display: block;
+
+  margin-bottom: 5px;
+
+  font-size: 0.7rem;
+  font-weight: 700;
+
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+
+  color: #a07034;
+}
+
+
+.section-heading h3 {
+  margin: 0;
+
+  font-family: "Playfair Display", serif;
+
+  color: #3d2220;
+
+  font-size: 1.35rem;
+}
+
+
+/* =========================================================
+   REPORT FORM
+========================================================= */
+
+.report-form-grid {
+  display: grid;
+
+  grid-template-columns:
+    repeat(4, minmax(0, 1fr));
+
+  gap: 16px;
+
+  margin-top: 22px;
+}
+
+
+.form-group {
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 8px;
+}
+
+
+.form-group label {
+  font-size: 0.82rem;
+  font-weight: 700;
+
+  color: #5c4540;
+}
+
+
+.form-group select {
+  width: 100%;
+
+  min-height: 45px;
+
+  padding: 0 13px;
+
+  border: 1px solid #ded2c9;
+
+  border-radius: 11px;
+
+  outline: none;
+
+  background: #fcfaf8;
+
+  color: #4a302d;
+
+  font-family: "DM Sans", sans-serif;
+
+  font-size: 0.88rem;
+
+  transition:
+    border 0.2s ease,
+    box-shadow 0.2s ease,
+    background 0.2s ease;
+}
+
+
+.form-group select:focus {
+  border-color: #a86e38;
+
+  background: #ffffff;
+
+  box-shadow:
+    0 0 0 3px rgba(168, 110, 56, 0.11);
+}
+
+
+.form-group select:disabled {
+  opacity: 0.55;
+
+  cursor: not-allowed;
+
+  background: #f2eeea;
+}
+
+
+/* =========================================================
+   REPORT ACTIONS
+========================================================= */
+
+.report-actions {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+
+  gap: 10px;
+
+  margin-top: 22px;
+
+  padding-top: 20px;
+
+  border-top: 1px solid #eee6df;
+}
+
+
+.reset-report-button,
+.generate-report-button {
+  min-height: 43px;
+
+  padding: 0 18px;
+
+  border-radius: 11px;
+
+  font-family: "DM Sans", sans-serif;
+
+  font-size: 0.86rem;
+  font-weight: 700;
+
+  cursor: pointer;
+
+  transition:
+    transform 0.2s ease,
+    background 0.2s ease,
+    border 0.2s ease;
+}
+
+
+.reset-report-button {
+  border: 1px solid #d9cbc1;
+
+  background: #ffffff;
+
+  color: #5f4540;
+}
+
+
+.reset-report-button:hover {
+  background: #f8f3ef;
+}
+
+
+.generate-report-button {
+  border: 1px solid #5a2025;
+
+  background: #5a2025;
+
+  color: #ffffff;
+}
+
+
+.generate-report-button:hover {
+  transform: translateY(-1px);
+
+  background: #6c252a;
+}
+
+
+/* =========================================================
+   REPORT PREVIEW
+========================================================= */
+
+.report-preview-card {
+  margin-top: 22px;
+
+  overflow: hidden;
+
+  border: 1px solid rgba(67, 41, 33, 0.08);
+
+  border-radius: 20px;
+
+  background: #ffffff;
+
+  box-shadow:
+    0 14px 30px rgba(55, 33, 27, 0.05);
+}
+
+
+.report-preview-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 20px;
+
+  padding: 24px 26px;
+
+  border-bottom: 1px solid #eee6df;
+}
+
+
+.report-preview-header h3 {
+  margin: 0 0 5px;
+
+  font-family: "Playfair Display", serif;
+
+  font-size: 1.35rem;
+
+  color: #3c211f;
+}
+
+
+.report-preview-header p {
+  margin: 0;
+
+  color: #8b7770;
+
+  font-size: 0.84rem;
+}
+
+
+.report-meta {
+  min-width: 92px;
+
+  padding: 12px 14px;
+
+  text-align: center;
+
+  border-radius: 13px;
+
+  background: #f8f3ed;
+}
+
+
+.report-meta span {
+  display: block;
+
+  margin-bottom: 3px;
+
+  color: #927b71;
+
+  font-size: 0.7rem;
+  font-weight: 700;
+
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+
+.report-meta strong {
+  font-family: "Playfair Display", serif;
+
+  font-size: 1.55rem;
+
+  color: #5b2426;
+}
+
+
+/* =========================================================
+   REPORT TABLE
+========================================================= */
+
+.report-table-wrapper {
+  width: 100%;
+
+  overflow-x: auto;
+}
+
+
+.report-table {
+  width: 100%;
+
+  border-collapse: collapse;
+
+  min-width: 900px;
+}
+
+
+.report-table th {
+  padding: 14px 16px;
+
+  text-align: left;
+
+  border-bottom: 1px solid #e8dfd8;
+
+  background: #faf7f4;
+
+  color: #7b625b;
+
+  font-size: 0.7rem;
+  font-weight: 700;
+
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+
+  white-space: nowrap;
+}
+
+
+.report-table td {
+  padding: 15px 16px;
+
+  border-bottom: 1px solid #f0e8e2;
+
+  color: #59423d;
+
+  font-size: 0.83rem;
+
+  vertical-align: middle;
+}
+
+
+.report-table tbody tr {
+  transition: background 0.18s ease;
+}
+
+
+.report-table tbody tr:hover {
+  background: #fcfaf8;
+}
+
+
+.report-table tbody tr:last-child td {
+  border-bottom: 0;
+}
+
+
+/* =========================================================
+   STATUS / CONDITION BADGES
+========================================================= */
+
+.report-condition,
+.report-status {
+  display: inline-flex;
+  align-items: center;
+
+  padding: 5px 9px;
+
+  border-radius: 999px;
+
+  font-size: 0.72rem;
+  font-weight: 700;
+}
+
+
+.report-condition.good {
+  background: #edf7ef;
+
+  color: #317847;
+}
+
+
+.report-condition.fair {
+  background: #fff5df;
+
+  color: #94691f;
+}
+
+
+.report-condition.poor {
+  background: #fbe9e8;
+
+  color: #a4443e;
+}
+
+
+.report-status.active {
+  background: #edf4fb;
+
+  color: #386d93;
+}
+
+
+.report-status.archived {
+  background: #eee9e6;
+
+  color: #75655f;
+}
+
+
+/* =========================================================
+   EMPTY STATE
+========================================================= */
+
+.report-empty-state {
+  width: 100%;
+
+  padding: 52px 20px;
+
+  text-align: center;
+}
+
+
+.report-empty-state strong {
+  display: block;
+
+  margin-bottom: 6px;
+
+  font-family: "Playfair Display", serif;
+
+  font-size: 1.05rem;
+
+  color: #503330;
+}
+
+
+.report-empty-state p {
+  margin: 0;
+
+  color: #917e76;
+
+  font-size: 0.82rem;
+}
+
+
+/* =========================================================
+   PAGE FOOTER
+========================================================= */
+
+.page-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 16px;
+
+  padding: 26px 4px 6px;
+
+  color: #927f77;
+
+  font-size: 0.75rem;
+}
+
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media (max-width: 1200px) {
+
+  .report-summary {
+    grid-template-columns:
+      repeat(2, minmax(0, 1fr));
+  }
+
+
+  .report-form-grid {
+    grid-template-columns:
+      repeat(2, minmax(0, 1fr));
+  }
+
+}
+
+
+@media (max-width: 900px) {
+
+  .menu-button {
+    display: grid;
+
+    place-items: center;
+  }
+
+
+  .topbar {
+    padding: 18px 20px;
+  }
+
+
+  .content {
+    padding: 22px 18px;
+  }
+
+
+  .report-intro {
+    padding: 28px 24px;
+  }
+
+}
+
+
+@media (max-width: 650px) {
+
+  .topbar {
+    align-items: flex-start;
+  }
+
+
+  .topbar h1 {
+    font-size: 1.5rem;
+  }
+
+
+  .print-report-button {
+    padding: 10px 13px;
+
+    font-size: 0.78rem;
+  }
+
+
+  .report-summary {
+    grid-template-columns:
+      1fr;
+  }
+
+
+  .report-form-grid {
+    grid-template-columns:
+      1fr;
+  }
+
+
+  .report-actions {
+    flex-direction: column-reverse;
+
+    align-items: stretch;
+  }
+
+
+  .reset-report-button,
+  .generate-report-button {
+    width: 100%;
+  }
+
+
+  .report-preview-header {
+    align-items: flex-start;
+
+    flex-direction: column;
+  }
+
+
+  .report-meta {
+    width: 100%;
+
+    text-align: left;
+  }
+
+
+  .page-footer {
+    flex-direction: column;
+
+    align-items: flex-start;
+  }
+
+}
+
+
+/* =========================================================
+   PRINT MODE
+========================================================= */
+
+@media print {
+
+  body {
+    background: #ffffff !important;
+  }
+
+
+  .sidebar,
+  .topbar,
+  .report-intro,
+  .report-summary,
+  .report-generator-card,
+  .page-footer,
+  .sidebar-overlay,
+  .page-loader {
+    display: none !important;
+  }
+
+
+  .main-content {
+    margin: 0 !important;
+
+    width: 100% !important;
+
+    background: #ffffff !important;
+  }
+
+
+  .content {
+    width: 100% !important;
+
+    max-width: none !important;
+
+    padding: 0 !important;
+  }
+
+
+  .report-preview-card {
+    margin: 0 !important;
+
+    border: 0 !important;
+
+    border-radius: 0 !important;
+
+    box-shadow: none !important;
+  }
+
+
+  .report-preview-header {
+    padding:
+      0 0 18px !important;
+  }
+
+
+  .report-table {
+    min-width: 0;
+
+    width: 100%;
+  }
+
+
+  .report-table th,
+  .report-table td {
+    padding: 8px 7px;
+
+    font-size: 10px;
+  }
+
+
+  .report-table tbody tr:hover {
+    background: transparent;
+  }
+
+}
+/* =========================================================
+   MUSEO DE LUCENA
+   SHARED REPORTS PAGE LAYOUT
+========================================================= */
+
+
+/* =========================================================
+   RESET
+========================================================= */
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  min-height: 100%;
+}
+
+body {
+  min-height: 100vh;
+
+  font-family: "DM Sans", sans-serif;
+
+  background: #f7f4ef;
+
+  color: #3f2d29;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+
+button {
+  border: 0;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.hidden {
+  display: none !important;
+}
+
+
+/* =========================================================
+   PAGE LAYOUT
+========================================================= */
+
+.page-layout {
+  display: flex;
+
+  width: 100%;
+  min-height: 100vh;
+}
+
+
+/* =========================================================
+   SIDEBAR
+========================================================= */
+
+.sidebar {
+  position: sticky;
+  top: 0;
+
+  width: 270px;
+  min-width: 270px;
+  height: 100vh;
+
+  display: flex;
+  flex-direction: column;
+
+  overflow: hidden;
+
+  background:
+    linear-gradient(
+      180deg,
+      #351619 0%,
+      #461b20 52%,
+      #291215 100%
+    );
+
+  color: #ffffff;
+
+  border-right:
+    1px solid rgba(255, 255, 255, 0.06);
+
+  box-shadow:
+    12px 0 35px rgba(47, 18, 20, 0.08);
+
+  z-index: 100;
+}
+
+
+/* =========================================================
+   SIDEBAR BRAND
+========================================================= */
+
+.sidebar-brand {
+  display: flex;
+  align-items: center;
+
+  gap: 12px;
+
+  padding: 24px 20px;
+
+  border-bottom:
+    1px solid rgba(255, 255, 255, 0.08);
+}
+
+
+.sidebar-logo {
+  width: 44px;
+  height: 44px;
+
+  flex: 0 0 44px;
+
+  display: grid;
+  place-items: center;
+
+  border:
+    1px solid rgba(224, 183, 111, 0.4);
+
+  border-radius: 13px;
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(217, 176, 103, 0.18),
+      rgba(255, 255, 255, 0.03)
+    );
+
+  font-family:
+    "Playfair Display",
+    serif;
+
+  font-size: 1.35rem;
+  font-weight: 700;
+
+  color: #e5bd76;
+}
+
+
+.sidebar-brand-text {
+  min-width: 0;
+
+  display: flex;
+  flex-direction: column;
+
+  gap: 3px;
+}
+
+
+.sidebar-brand-text strong {
+  font-family:
+    "Playfair Display",
+    serif;
+
+  font-size: 0.98rem;
+
+  color: #ffffff;
+}
+
+
+.sidebar-brand-text span {
+  color:
+    rgba(255, 255, 255, 0.56);
+
+  font-size: 0.68rem;
+
+  line-height: 1.35;
+}
+
+
+/* =========================================================
+   SIDEBAR NAVIGATION
+========================================================= */
+
+.sidebar-nav {
+  flex: 1;
+
+  overflow-y: auto;
+
+  padding: 22px 14px;
+}
+
+
+.nav-label {
+  margin:
+    0 10px 10px;
+
+  color:
+    rgba(255, 255, 255, 0.38);
+
+  font-size: 0.63rem;
+  font-weight: 700;
+
+  text-transform: uppercase;
+
+  letter-spacing: 0.14em;
+}
+
+
+.nav-label.second {
+  margin-top: 25px;
+}
+
+
+.nav-item {
+  width: 100%;
+
+  display: flex;
+  align-items: center;
+
+  gap: 12px;
+
+  min-height: 45px;
+
+  padding: 10px 12px;
+
+  margin-bottom: 5px;
+
+  border-radius: 11px;
+
+  color:
+    rgba(255, 255, 255, 0.72);
+
+  font-size: 0.85rem;
+  font-weight: 600;
+
+  transition:
+    background 0.2s ease,
+    color 0.2s ease,
+    transform 0.2s ease;
+}
+
+
+.nav-item:hover {
+  background:
+    rgba(255, 255, 255, 0.06);
+
+  color: #ffffff;
+
+  transform: translateX(2px);
+}
+
+
+.nav-item.active {
+  background:
+    linear-gradient(
+      90deg,
+      rgba(213, 166, 88, 0.17),
+      rgba(255, 255, 255, 0.045)
+    );
+
+  color: #e8c47f;
+
+  box-shadow:
+    inset 3px 0 0 #d9a957;
+}
+
+
+/* =========================================================
+   IMPORTANT SVG FIX
+========================================================= */
+
+.sidebar-nav svg {
+  width: 19px;
+  height: 19px;
+
+  flex: 0 0 19px;
+
+  fill: none;
+
+  stroke: currentColor;
+
+  stroke-width: 1.8;
+
+  stroke-linecap: round;
+  stroke-linejoin: round;
+
+  overflow: visible;
+}
+
+
+/* =========================================================
+   SIDEBAR FOOTER
+========================================================= */
+
+.sidebar-footer {
+  padding: 16px;
+
+  border-top:
+    1px solid rgba(255, 255, 255, 0.08);
+}
+
+
+.sidebar-user {
+  display: flex;
+  align-items: center;
+
+  gap: 10px;
+
+  padding: 10px 6px 14px;
+}
+
+
+.sidebar-avatar {
+  width: 38px;
+  height: 38px;
+
+  flex: 0 0 38px;
+
+  display: grid;
+  place-items: center;
+
+  border-radius: 50%;
+
+  background:
+    rgba(218, 172, 93, 0.16);
+
+  border:
+    1px solid rgba(218, 172, 93, 0.27);
+
+  color: #e6bd77;
+
+  font-family:
+    "Playfair Display",
+    serif;
+
+  font-weight: 700;
+}
+
+
+.sidebar-user-info {
+  min-width: 0;
+
+  display: flex;
+  flex-direction: column;
+
+  gap: 2px;
+}
+
+
+.sidebar-user-info strong {
+  overflow: hidden;
+
+  color: #ffffff;
+
+  font-size: 0.78rem;
+
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+
+.sidebar-user-info span {
+  color:
+    rgba(255, 255, 255, 0.47);
+
+  font-size: 0.67rem;
+}
+
+
+.logout-button {
+  width: 100%;
+
+  min-height: 42px;
+
+  border:
+    1px solid rgba(224, 183, 111, 0.22);
+
+  border-radius: 10px;
+
+  background:
+    rgba(255, 255, 255, 0.045);
+
+  color:
+    rgba(255, 255, 255, 0.75);
+
+  cursor: pointer;
+
+  font-size: 0.78rem;
+  font-weight: 700;
+
+  transition:
+    background 0.2s ease,
+    color 0.2s ease;
+}
+
+
+.logout-button:hover {
+  background:
+    rgba(224, 183, 111, 0.12);
+
+  color: #ffffff;
+}
+
+
+/* =========================================================
+   MAIN CONTENT
+========================================================= */
+
+.main-content {
+  flex: 1;
+
+  min-width: 0;
+  min-height: 100vh;
+
+  background:
+    radial-gradient(
+      circle at top right,
+      rgba(171, 122, 57, 0.08),
+      transparent 30%
+    ),
+    #f7f4ef;
+}
+
+
+/* =========================================================
+   SIDEBAR OVERLAY
+========================================================= */
+
+.sidebar-overlay {
+  position: fixed;
+
+  inset: 0;
+
+  background:
+    rgba(20, 12, 12, 0.55);
+
+  opacity: 0;
+  visibility: hidden;
+
+  transition:
+    opacity 0.25s ease,
+    visibility 0.25s ease;
+
+  z-index: 90;
+}
+
+
+.sidebar-overlay.show {
+  opacity: 1;
+  visibility: visible;
+}
+
+
+/* =========================================================
+   PAGE LOADER
+========================================================= */
+
+.page-loader {
+  position: fixed;
+
+  inset: 0;
+
+  z-index: 9999;
+
+  display: flex;
+  flex-direction: column;
+
+  align-items: center;
+  justify-content: center;
+
+  gap: 16px;
+
+  background: #f7f4ef;
+
+  transition:
+    opacity 0.3s ease,
+    visibility 0.3s ease;
+}
+
+
+.page-loader.hide {
+  opacity: 0;
+  visibility: hidden;
+
+  pointer-events: none;
+}
+
+
+.loader-logo {
+  width: 58px;
+  height: 58px;
+
+  display: grid;
+  place-items: center;
+
+  border-radius: 18px;
+
+  background: #4a1c20;
+
+  color: #e4ba70;
+
+  font-family:
+    "Playfair Display",
+    serif;
+
+  font-size: 1.55rem;
+  font-weight: 700;
+}
+
+
+.spinner {
+  width: 27px;
+  height: 27px;
+
+  border:
+    3px solid rgba(82, 34, 36, 0.13);
+
+  border-top-color: #6a282c;
+
+  border-radius: 50%;
+
+  animation:
+    reportsSpin 0.8s linear infinite;
+}
+
+
+@keyframes reportsSpin {
+
+  to {
+    transform: rotate(360deg);
+  }
+
+}
+
+
+.page-loader span {
+  color: #816e66;
+
+  font-size: 0.8rem;
+}
+
+
+/* =========================================================
+   RESPONSIVE SIDEBAR
+========================================================= */
+
+@media (max-width: 900px) {
+
+  .sidebar {
+    position: fixed;
+
+    top: 0;
+    left: 0;
+
+    transform:
+      translateX(-105%);
+
+    transition:
+      transform 0.25s ease;
+
+    z-index: 100;
+  }
+
+
+  .sidebar.open {
+    transform:
+      translateX(0);
+  }
+
+
+  .main-content {
+    width: 100%;
+  }
+
+}

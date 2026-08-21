@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Categories | Museo de Lucena</title>
+  <link rel="icon" type="image/png" href="assets/images/museo-logo.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap"rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/global.css">
+  <link rel="stylesheet" href="assets/css/categories.css">
+</head>
+
+<body>
+
+  <div class="page-layout">
+
+    <!-- =====================================================
+         SIDEBAR
+    ====================================================== -->
+    <aside class="sidebar" id="sidebar">
+
+      <div class="sidebar-brand">
+
+        <div class="sidebar-logo">
+          M
+        </div>
+
+        <div class="sidebar-brand-text">
+          <strong>Museo de Lucena</strong>
+          <span>Artifact Records System</span>
+        </div>
+
+      </div>
+
+
+     <nav class="sidebar-nav">
+
+  <p class="nav-label">
+    Workspace
+  </p>
+
+
+  <!-- DASHBOARD -->
+  <a href="dashboard.html" class="nav-item">
+
+    <svg viewBox="0 0 24 24">
+      <path d="M4 4h6v6H4zM14 4h6v6h-6zM4 14h6v6H4zM14 14h6v6h-6z"/>
+    </svg>
+
+    <span>Dashboard</span>
+
+  </a>
+
+
+  <!-- ARTIFACT RECORDS -->
+  <a href="artifacts.html" class="nav-item">
+
+    <svg viewBox="0 0 24 24">
+      <path d="M5 4h14v16H5zM8 8h8M8 12h8M8 16h5"/>
+    </svg>
+
+    <span>Artifact Records</span>
+
+  </a>
+
+
+  <!-- CATEGORIES -->
+  <a
+    href="categories.html"
+    class="nav-item active"
+    aria-current="page"
+  >
+
+    <svg viewBox="0 0 24 24">
+      <path d="M4 6h7l2 2h7v10H4z"/>
+    </svg>
+
+    <span>Categories</span>
+
+  </a>
+
+
+  <!-- REPORTS -->
+  <a href="reports.html" class="nav-item">
+
+    <svg viewBox="0 0 24 24">
+      <path d="M5 19V9M10 19V5M15 19v-7M20 19V3M3 19h19"/>
+    </svg>
+
+    <span>Reports</span>
+
+  </a>
+
+
+  <!-- ADMINISTRATION -->
+  <p class="nav-label second admin-only">
+    Administration
+  </p>
+
+
+  <!-- USER MANAGEMENT -->
+  <a
+    href="users.html"
+    class="nav-item admin-only"
+  >
+
+    <svg viewBox="0 0 24 24">
+      <path d="M16 20v-2a4 4 0 0 0-4-4H7a4 4 0 0 0-4 4v2M9.5 10a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM18 8v6M15 11h6"/>
+    </svg>
+
+    <span>User Management</span>
+
+  </a>
+
+
+  <!-- ACTIVITY LOGS -->
+  <a
+    href="activity.html"
+    class="nav-item admin-only"
+  >
+
+    <svg viewBox="0 0 24 24">
+      <path d="M12 8v5l3 2M21 12a9 9 0 1 1-9-9"/>
+    </svg>
+
+    <span>Activity Logs</span>
+
+  </a>
+
+</nav>
+
+
+      <div class="sidebar-footer">
+
+        <div class="sidebar-user">
+
+          <div class="sidebar-avatar" id="sidebarAvatar">
+            M
+          </div>
+
+          <div>
+
+            <strong id="sidebarUserName">
+              Loading...
+            </strong>
+
+            <span id="sidebarUserRole">
+              —
+            </span>
+
+          </div>
+
+        </div>
+
+
+        <button id="logoutButton" class="logout-button">
+          Sign Out
+        </button>
+
+      </div>
+
+    </aside>
+
+
+    <!-- =====================================================
+         MAIN
+    ====================================================== -->
+    <main class="main-content">
+
+      <!-- TOPBAR -->
+      <header class="topbar">
+
+        <div class="topbar-left">
+
+          <button
+            class="menu-button"
+            id="menuButton"
+          >
+            ☰
+          </button>
+
+          <div>
+
+            <span class="page-label">
+              Collection Management
+            </span>
+
+            <h1>Categories</h1>
+
+          </div>
+
+        </div>
+
+
+        <button
+          class="add-button admin-only"
+          id="openAddCategory"
+        >
+          + Add Category
+        </button>
+
+      </header>
+
+
+      <div class="content">
+
+        <!-- INTRO -->
+        <section class="page-intro">
+
+          <div>
+
+            <span class="intro-label">
+              Artifact Classification
+            </span>
+
+            <h2>
+              Organize artifact records into
+              <span>defined categories.</span>
+            </h2>
+
+            <p>
+              Categories provide a consistent method of classifying
+              and organizing artifact information stored in the system.
+            </p>
+
+          </div>
+
+
+          <div class="category-count">
+
+            <span id="categoryCount">
+              0
+            </span>
+
+            <small>
+              Total Categories
+            </small>
+
+          </div>
+
+        </section>
+
+
+        <!-- TOOLBAR -->
+        <section class="toolbar">
+
+          <div class="search-box">
+
+            <svg viewBox="0 0 24 24">
+              <circle cx="11" cy="11" r="6"></circle>
+              <path d="M16 16l5 5"></path>
+            </svg>
+
+            <input
+              type="search"
+              id="searchCategory"
+              placeholder="Search categories..."
+            >
+
+          </div>
+
+        </section>
+
+
+        <!-- CATEGORY LIST -->
+        <section
+          class="category-grid"
+          id="categoryGrid"
+        >
+
+          <div class="empty-state">
+
+            <div class="empty-symbol">
+              C
+            </div>
+
+            <h3>No categories yet</h3>
+
+            <p>
+              Artifact categories created by the Administrator
+              will appear here.
+            </p>
+
+          </div>
+
+        </section>
+
+
+        <footer class="page-footer">
+
+          <span>
+            Museo de Lucena Artifact Records System
+          </span>
+
+          <span>
+            Authorized institutional use
+          </span>
+
+        </footer>
+
+      </div>
+
+    </main>
+
+  </div>
+
+
+  <!-- =====================================================
+       ADD / EDIT MODAL
+  ====================================================== -->
+  <div class="modal-overlay" id="categoryModal">
+
+    <div class="modal-card">
+
+      <div class="modal-header">
+
+        <div>
+
+          <span class="modal-label">
+            Collection Classification
+          </span>
+
+          <h2 id="modalTitle">
+            Add Category
+          </h2>
+
+        </div>
+
+        <button
+          class="close-modal"
+          id="closeCategoryModal"
+        >
+          ×
+        </button>
+
+      </div>
+
+
+      <form id="categoryForm">
+
+        <input
+          type="hidden"
+          id="categoryId"
+        >
+
+
+        <div class="form-group">
+
+          <label for="categoryName">
+            Category Name
+            <span>*</span>
+          </label>
+
+          <input
+            type="text"
+            id="categoryName"
+            maxlength="80"
+            placeholder="Enter category name"
+            required
+          >
+
+        </div>
+
+
+        <div class="form-group">
+
+          <label for="categoryDescription">
+            Description
+          </label>
+
+          <textarea
+            id="categoryDescription"
+            rows="5"
+            maxlength="500"
+            placeholder="Describe the category..."
+          ></textarea>
+
+        </div>
+
+
+        <div
+          class="form-message"
+          id="formMessage"
+        ></div>
+
+
+        <div class="modal-actions">
+
+          <button
+            type="button"
+            class="cancel-button"
+            id="cancelCategory"
+          >
+            Cancel
+          </button>
+
+          <button
+            type="submit"
+            class="save-button"
+            id="saveCategory"
+          >
+            Save Category
+          </button>
+
+        </div>
+
+      </form>
+
+    </div>
+
+  </div>
+
+
+  <!-- MOBILE OVERLAY -->
+  <div
+    class="sidebar-overlay"
+    id="sidebarOverlay"
+  ></div>
+
+
+  <!-- LOADER -->
+  <div class="page-loader" id="pageLoader">
+
+    <div class="loader-logo">
+      M
+    </div>
+
+    <div class="spinner"></div>
+
+    <span>
+      Loading categories...
+    </span>
+
+  </div>
+
+
+  <script
+    type="module"
+    src="assets/js/categories.js"
+  ></script>
+
+</body>
+</html>

@@ -1,0 +1,1196 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <title>Dashboard | Museo de Lucena</title>
+
+
+  <!-- FAVICON -->
+  <link
+    rel="icon"
+    type="image/png"
+    href="assets/images/museo-logo.png"
+  >
+
+  <link
+    rel="shortcut icon"
+    type="image/png"
+    href="assets/images/museo-logo.png"
+  >
+
+
+  <!-- GOOGLE FONTS -->
+  <link
+    rel="preconnect"
+    href="https://fonts.googleapis.com"
+  >
+
+  <link
+    rel="preconnect"
+    href="https://fonts.gstatic.com"
+    crossorigin
+  >
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap"
+    rel="stylesheet"
+  >
+
+
+  <!-- GLOBAL CSS -->
+  <link
+    rel="stylesheet"
+    href="assets/css/global.css"
+  >
+
+
+  <!-- DASHBOARD CSS -->
+  <link
+    rel="stylesheet"
+    href="assets/css/dashboard.css"
+  >
+
+</head>
+
+
+<body>
+
+  <div class="dashboard-layout">
+
+
+    <!-- =====================================================
+         SIDEBAR
+    ====================================================== -->
+
+    <aside
+      class="sidebar"
+      id="sidebar"
+    >
+
+
+      <!-- BRAND -->
+
+      <div class="sidebar-brand">
+
+        <div class="sidebar-logo">
+          M
+        </div>
+
+
+        <div class="sidebar-brand-text">
+
+          <strong>
+            Museo de Lucena
+          </strong>
+
+          <span>
+            Artifact Records System
+          </span>
+
+        </div>
+
+      </div>
+
+
+
+      <!-- =================================================
+           NAVIGATION
+      ================================================== -->
+
+      <nav class="sidebar-nav">
+
+
+        <p class="nav-label">
+          Workspace
+        </p>
+
+
+
+        <!-- DASHBOARD -->
+
+        <a
+          href="dashboard.html"
+          class="nav-item active"
+        >
+
+          <svg viewBox="0 0 24 24">
+
+            <path
+              d="M4 4h6v6H4zM14 4h6v6h-6zM4 14h6v6H4zM14 14h6v6h-6z"
+            />
+
+          </svg>
+
+          <span>
+            Dashboard
+          </span>
+
+        </a>
+
+
+
+        <!-- ARTIFACT RECORDS -->
+
+        <a
+          href="artifacts.html"
+          class="nav-item"
+          id="artifactNav"
+        >
+
+          <svg viewBox="0 0 24 24">
+
+            <path
+              d="M5 4h14v16H5zM8 8h8M8 12h8M8 16h5"
+            />
+
+          </svg>
+
+          <span>
+            Artifact Records
+          </span>
+
+        </a>
+
+
+
+        <!-- CATEGORIES -->
+
+        <a
+          href="categories.html"
+          class="nav-item"
+          id="categoryNav"
+        >
+
+          <svg viewBox="0 0 24 24">
+
+            <path
+              d="M4 6h7l2 2h7v10H4z"
+            />
+
+          </svg>
+
+          <span>
+            Categories
+          </span>
+
+        </a>
+
+
+
+        <!-- REPORTS -->
+
+        <a
+          href="reports.html"
+          class="nav-item"
+          id="reportNav"
+        >
+
+          <svg viewBox="0 0 24 24">
+
+            <path
+              d="M5 19V9M10 19V5M15 19v-7M20 19V3M3 19h19"
+            />
+
+          </svg>
+
+          <span>
+            Reports
+          </span>
+
+        </a>
+
+
+
+        <!-- =================================================
+             ADMINISTRATION
+        ================================================== -->
+
+        <p class="nav-label second admin-only">
+          Administration
+        </p>
+
+
+
+        <!-- USER MANAGEMENT -->
+
+        <a
+          href="users.html"
+          class="nav-item admin-only"
+          id="usersNav"
+        >
+
+          <svg viewBox="0 0 24 24">
+
+            <path
+              d="M16 20v-2a4 4 0 0 0-4-4H7a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM18 8v6M15 11h6"
+            />
+
+          </svg>
+
+          <span>
+            User Management
+          </span>
+
+        </a>
+
+
+
+        <!-- ACTIVITY LOGS -->
+
+        <a
+          href="activity.html"
+          class="nav-item admin-only"
+          id="activityNav"
+        >
+
+          <svg viewBox="0 0 24 24">
+
+            <path
+              d="M12 8v5l3 2M21 12a9 9 0 1 1-9-9"
+            />
+
+          </svg>
+
+          <span>
+            Activity Logs
+          </span>
+
+        </a>
+
+      </nav>
+
+
+
+      <!-- =================================================
+           SIDEBAR FOOTER
+      ================================================== -->
+
+      <div class="sidebar-footer">
+
+        <div class="sidebar-user">
+
+          <div
+            class="sidebar-avatar"
+            id="sidebarAvatar"
+          >
+            M
+          </div>
+
+
+          <div class="sidebar-user-info">
+
+            <strong id="sidebarUserName">
+              Loading...
+            </strong>
+
+            <span id="sidebarUserRole">
+              —
+            </span>
+
+          </div>
+
+        </div>
+
+
+        <button
+          type="button"
+          class="logout-button"
+          id="logoutButton"
+        >
+
+          <svg viewBox="0 0 24 24">
+
+            <path
+              d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4M10 17l5-5-5-5M15 12H3"
+            />
+
+          </svg>
+
+          <span>
+            Sign Out
+          </span>
+
+        </button>
+
+      </div>
+
+    </aside>
+
+
+
+    <!-- =====================================================
+         MAIN CONTENT
+    ====================================================== -->
+
+    <main class="dashboard-main">
+
+
+      <!-- =================================================
+           TOPBAR
+      ================================================== -->
+
+      <header class="dashboard-topbar">
+
+        <div class="topbar-left">
+
+          <button
+            type="button"
+            class="menu-button"
+            id="menuButton"
+            aria-label="Open sidebar"
+          >
+
+            <span></span>
+            <span></span>
+            <span></span>
+
+          </button>
+
+
+          <div>
+
+            <p class="page-eyebrow">
+              Museo de Lucena
+            </p>
+
+            <h1>
+              Dashboard
+            </h1>
+
+          </div>
+
+        </div>
+
+
+
+        <div class="topbar-right">
+
+          <div class="date-card">
+
+            <span id="currentDate">
+              —
+            </span>
+
+          </div>
+
+
+          <div class="topbar-profile">
+
+            <div
+              class="topbar-avatar"
+              id="topbarAvatar"
+            >
+              M
+            </div>
+
+
+            <div>
+
+              <strong id="topbarUserName">
+                Loading...
+              </strong>
+
+              <span id="topbarUserRole">
+                —
+              </span>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </header>
+
+
+
+      <!-- =================================================
+           DASHBOARD CONTENT
+      ================================================== -->
+
+      <div class="dashboard-content">
+
+
+        <!-- =================================================
+             WELCOME
+        ================================================== -->
+
+        <section class="welcome-section">
+
+          <div>
+
+            <span class="welcome-label">
+              Artifact Records Management
+            </span>
+
+
+            <h2>
+
+              Welcome back,
+
+              <span id="welcomeName">
+                Administrator
+              </span>.
+
+            </h2>
+
+
+            <p>
+              Monitor and manage Museo de Lucena's digital artifact
+              records from one centralized workspace.
+            </p>
+
+          </div>
+
+
+          <button
+            type="button"
+            class="primary-action"
+            id="addArtifactButton"
+          >
+
+            <span class="plus-icon">
+              +
+            </span>
+
+            Add Artifact
+
+          </button>
+
+        </section>
+
+
+
+        <!-- =================================================
+             STAT CARDS
+        ================================================== -->
+
+        <section class="stats-grid">
+
+
+          <!-- TOTAL ARTIFACTS -->
+
+          <article class="stat-card">
+
+            <div class="stat-top">
+
+              <div class="stat-icon">
+
+                <svg viewBox="0 0 24 24">
+
+                  <path
+                    d="M5 4h14v16H5zM8 8h8M8 12h8M8 16h5"
+                  />
+
+                </svg>
+
+              </div>
+
+
+              <span class="stat-number-label">
+                01
+              </span>
+
+            </div>
+
+
+            <div
+              class="stat-value"
+              id="totalArtifacts"
+            >
+              0
+            </div>
+
+
+            <div class="stat-title">
+              Total Artifacts
+            </div>
+
+
+            <p>
+              Digital artifact records stored in the system.
+            </p>
+
+          </article>
+
+
+
+          <!-- CATEGORIES -->
+
+          <article class="stat-card">
+
+            <div class="stat-top">
+
+              <div class="stat-icon">
+
+                <svg viewBox="0 0 24 24">
+
+                  <path
+                    d="M4 6h7l2 2h7v10H4z"
+                  />
+
+                </svg>
+
+              </div>
+
+
+              <span class="stat-number-label">
+                02
+              </span>
+
+            </div>
+
+
+            <div
+              class="stat-value"
+              id="totalCategories"
+            >
+              0
+            </div>
+
+
+            <div class="stat-title">
+              Categories
+            </div>
+
+
+            <p>
+              Classification groups used for artifact organization.
+            </p>
+
+          </article>
+
+
+
+          <!-- GOOD CONDITION -->
+
+          <article class="stat-card">
+
+            <div class="stat-top">
+
+              <div class="stat-icon success">
+
+                <svg viewBox="0 0 24 24">
+
+                  <path
+                    d="M20 6L9 17l-5-5"
+                  />
+
+                </svg>
+
+              </div>
+
+
+              <span class="stat-number-label">
+                03
+              </span>
+
+            </div>
+
+
+            <div
+              class="stat-value"
+              id="goodCondition"
+            >
+              0
+            </div>
+
+
+            <div class="stat-title">
+              Good Condition
+            </div>
+
+
+            <p>
+              Records currently marked in good physical condition.
+            </p>
+
+          </article>
+
+
+
+          <!-- NEEDS ATTENTION -->
+
+          <article class="stat-card">
+
+            <div class="stat-top">
+
+              <div class="stat-icon warning">
+
+                <svg viewBox="0 0 24 24">
+
+                  <path
+                    d="M12 3L2 20h20L12 3zM12 9v5M12 17h.01"
+                  />
+
+                </svg>
+
+              </div>
+
+
+              <span class="stat-number-label">
+                04
+              </span>
+
+            </div>
+
+
+            <div
+              class="stat-value"
+              id="needsAttention"
+            >
+              0
+            </div>
+
+
+            <div class="stat-title">
+              Needs Attention
+            </div>
+
+
+            <p>
+              Artifact records requiring condition monitoring.
+            </p>
+
+          </article>
+
+        </section>
+
+
+
+        <!-- =================================================
+             MAIN GRID
+        ================================================== -->
+
+        <section class="dashboard-grid">
+
+
+          <!-- =================================================
+               RECENT ARTIFACTS
+          ================================================== -->
+
+          <article class="dashboard-card recent-artifacts-card">
+
+            <div class="card-header">
+
+              <div>
+
+                <span class="card-kicker">
+                  Collection
+                </span>
+
+                <h3>
+                  Recently Added Artifacts
+                </h3>
+
+              </div>
+
+
+              <button
+                type="button"
+                class="text-button"
+                id="viewArtifactsButton"
+              >
+                View All
+              </button>
+
+            </div>
+
+
+
+            <div
+              class="artifact-list"
+              id="recentArtifacts"
+            >
+
+              <div class="empty-state">
+
+                <div class="empty-icon">
+
+                  <svg viewBox="0 0 24 24">
+
+                    <path
+                      d="M5 4h14v16H5zM8 8h8M8 12h8M8 16h5"
+                    />
+
+                  </svg>
+
+                </div>
+
+
+                <strong>
+                  No artifact records yet
+                </strong>
+
+
+                <p>
+                  Added artifacts will appear here.
+                </p>
+
+              </div>
+
+            </div>
+
+          </article>
+
+
+
+          <!-- =================================================
+               CONDITION OVERVIEW
+          ================================================== -->
+
+          <article class="dashboard-card condition-card">
+
+            <div class="card-header">
+
+              <div>
+
+                <span class="card-kicker">
+                  Monitoring
+                </span>
+
+                <h3>
+                  Condition Overview
+                </h3>
+
+              </div>
+
+            </div>
+
+
+
+            <div class="condition-content">
+
+
+              <!-- GOOD -->
+
+              <div class="condition-item">
+
+                <div class="condition-heading">
+
+                  <span>
+                    Good
+                  </span>
+
+                  <strong id="conditionGoodCount">
+                    0
+                  </strong>
+
+                </div>
+
+
+                <div class="condition-track">
+
+                  <div
+                    class="condition-fill"
+                    id="conditionGoodBar"
+                  ></div>
+
+                </div>
+
+              </div>
+
+
+
+              <!-- FAIR -->
+
+              <div class="condition-item">
+
+                <div class="condition-heading">
+
+                  <span>
+                    Fair
+                  </span>
+
+                  <strong id="conditionFairCount">
+                    0
+                  </strong>
+
+                </div>
+
+
+                <div class="condition-track">
+
+                  <div
+                    class="condition-fill"
+                    id="conditionFairBar"
+                  ></div>
+
+                </div>
+
+              </div>
+
+
+
+              <!-- POOR -->
+
+              <div class="condition-item">
+
+                <div class="condition-heading">
+
+                  <span>
+                    Poor
+                  </span>
+
+                  <strong id="conditionPoorCount">
+                    0
+                  </strong>
+
+                </div>
+
+
+                <div class="condition-track">
+
+                  <div
+                    class="condition-fill"
+                    id="conditionPoorBar"
+                  ></div>
+
+                </div>
+
+              </div>
+
+            </div>
+
+
+
+            <div class="condition-note">
+
+              <div class="condition-note-icon">
+                i
+              </div>
+
+
+              <p>
+                Artifact conditions will be calculated automatically
+                based on stored records.
+              </p>
+
+            </div>
+
+          </article>
+
+        </section>
+
+
+
+        <!-- =================================================
+             BOTTOM GRID
+        ================================================== -->
+
+        <section class="bottom-grid">
+
+
+          <!-- =================================================
+               QUICK ACTIONS
+          ================================================== -->
+
+          <article class="dashboard-card">
+
+            <div class="card-header">
+
+              <div>
+
+                <span class="card-kicker">
+                  Shortcuts
+                </span>
+
+                <h3>
+                  Quick Actions
+                </h3>
+
+              </div>
+
+            </div>
+
+
+
+            <div class="quick-actions">
+
+
+              <!-- ADD ARTIFACT -->
+
+              <button
+                type="button"
+                class="quick-action"
+                id="quickAddArtifact"
+              >
+
+                <div class="quick-icon">
+                  +
+                </div>
+
+
+                <div>
+
+                  <strong>
+                    Add Artifact
+                  </strong>
+
+                  <span>
+                    Create a new artifact record
+                  </span>
+
+                </div>
+
+              </button>
+
+
+
+              <!-- SEARCH RECORDS -->
+
+              <button
+                type="button"
+                class="quick-action"
+                id="quickSearch"
+              >
+
+                <div class="quick-icon">
+
+                  <svg viewBox="0 0 24 24">
+
+                    <circle
+                      cx="11"
+                      cy="11"
+                      r="6"
+                    />
+
+                    <path
+                      d="M16 16l5 5"
+                    />
+
+                  </svg>
+
+                </div>
+
+
+                <div>
+
+                  <strong>
+                    Search Records
+                  </strong>
+
+                  <span>
+                    Find stored artifact information
+                  </span>
+
+                </div>
+
+              </button>
+
+
+
+              <!-- REPORTS -->
+
+              <button
+                type="button"
+                class="quick-action"
+                id="quickReports"
+              >
+
+                <div class="quick-icon">
+
+                  <svg viewBox="0 0 24 24">
+
+                    <path
+                      d="M5 19V9M10 19V5M15 19v-7M20 19V3"
+                    />
+
+                  </svg>
+
+                </div>
+
+
+                <div>
+
+                  <strong>
+                    Generate Report
+                  </strong>
+
+                  <span>
+                    Prepare artifact documentation
+                  </span>
+
+                </div>
+
+              </button>
+
+
+
+              <!-- USER MANAGEMENT -->
+
+              <button
+                type="button"
+                class="quick-action admin-only"
+                id="quickUsers"
+              >
+
+                <div class="quick-icon">
+
+                  <svg viewBox="0 0 24 24">
+
+                    <circle
+                      cx="9"
+                      cy="8"
+                      r="4"
+                    />
+
+                    <path
+                      d="M3 21v-2a6 6 0 0 1 12 0v2M19 8v6M16 11h6"
+                    />
+
+                  </svg>
+
+                </div>
+
+
+                <div>
+
+                  <strong>
+                    Manage Users
+                  </strong>
+
+                  <span>
+                    Administrator account controls
+                  </span>
+
+                </div>
+
+              </button>
+
+            </div>
+
+          </article>
+
+
+
+          <!-- =================================================
+               RECENT ACTIVITY
+          ================================================== -->
+
+          <article
+            class="dashboard-card admin-only"
+            id="activityCard"
+          >
+
+            <div class="card-header">
+
+              <div>
+
+                <span class="card-kicker">
+                  System
+                </span>
+
+                <h3>
+                  Recent Activity
+                </h3>
+
+              </div>
+
+            </div>
+
+
+            <div
+              class="activity-list"
+              id="activityList"
+            >
+
+              <div class="empty-state compact">
+
+                <strong>
+                  No recent activity
+                </strong>
+
+                <p>
+                  System activities will appear here.
+                </p>
+
+              </div>
+
+            </div>
+
+          </article>
+
+        </section>
+
+
+
+        <!-- =================================================
+             FOOTER
+        ================================================== -->
+
+        <footer class="dashboard-footer">
+
+          <p>
+            Web-Based Information and Filing System for Artifact
+            Records of Museo de Lucena
+          </p>
+
+          <span>
+            Authorized institutional use
+          </span>
+
+        </footer>
+
+      </div>
+
+    </main>
+
+  </div>
+
+
+
+  <!-- =====================================================
+       MOBILE OVERLAY
+  ====================================================== -->
+
+  <div
+    class="sidebar-overlay"
+    id="sidebarOverlay"
+  ></div>
+
+
+
+  <!-- =====================================================
+       LOADING SCREEN
+  ====================================================== -->
+
+  <div
+    class="page-loader"
+    id="pageLoader"
+  >
+
+    <div class="loader-logo">
+      M
+    </div>
+
+    <div class="loader-spinner"></div>
+
+    <span>
+      Loading Museo de Lucena...
+    </span>
+
+  </div>
+
+
+
+  <!-- =====================================================
+       DASHBOARD JAVASCRIPT
+  ====================================================== -->
+
+  <script
+    type="module"
+    src="assets/js/dashboard.js"
+  ></script>
+
+</body>
+
+</html>

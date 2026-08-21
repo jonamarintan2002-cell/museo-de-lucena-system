@@ -1,0 +1,1667 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <title>Artifact Records | Museo de Lucena</title>
+
+
+  <!-- =====================================================
+       FAVICON
+  ====================================================== -->
+
+  <link
+    rel="icon"
+    type="image/png"
+    href="assets/images/museo-logo.png?v=3"
+  >
+
+  <link
+    rel="shortcut icon"
+    type="image/png"
+    href="assets/images/museo-logo.png?v=3"
+  >
+
+
+  <!-- =====================================================
+       GOOGLE FONTS
+  ====================================================== -->
+
+  <link
+    rel="preconnect"
+    href="https://fonts.googleapis.com"
+  >
+
+  <link
+    rel="preconnect"
+    href="https://fonts.gstatic.com"
+    crossorigin
+  >
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap"
+    rel="stylesheet"
+  >
+
+
+  <!-- =====================================================
+       STYLESHEETS
+  ====================================================== -->
+
+  <link
+    rel="stylesheet"
+    href="assets/css/global.css"
+  >
+
+  <link
+    rel="stylesheet"
+    href="assets/css/artifacts.css"
+  >
+
+</head>
+
+
+<body>
+
+  <div class="page-layout">
+
+
+    <!-- =====================================================
+         SIDEBAR
+    ====================================================== -->
+
+    <aside
+      class="sidebar"
+      id="sidebar"
+    >
+
+
+      <!-- =================================================
+           BRAND
+      ================================================== -->
+
+      <div class="sidebar-brand">
+
+        <div class="sidebar-logo">
+          M
+        </div>
+
+
+        <div class="sidebar-brand-text">
+
+          <strong>
+            Museo de Lucena
+          </strong>
+
+          <span>
+            Artifact Records System
+          </span>
+
+        </div>
+
+      </div>
+
+
+
+      <!-- =================================================
+           NAVIGATION
+      ================================================== -->
+
+      <nav class="sidebar-nav">
+
+        <p class="nav-label">
+          Workspace
+        </p>
+
+
+        <!-- DASHBOARD -->
+
+        <a
+          href="dashboard.html"
+          class="nav-item"
+        >
+
+          <svg viewBox="0 0 24 24">
+
+            <path
+              d="M4 4h6v6H4zM14 4h6v6h-6zM4 14h6v6H4zM14 14h6v6h-6z"
+            />
+
+          </svg>
+
+          <span>
+            Dashboard
+          </span>
+
+        </a>
+
+
+
+        <!-- ARTIFACT RECORDS -->
+
+        <a
+          href="artifacts.html"
+          class="nav-item active"
+          aria-current="page"
+        >
+
+          <svg viewBox="0 0 24 24">
+
+            <path
+              d="M5 4h14v16H5zM8 8h8M8 12h8M8 16h5"
+            />
+
+          </svg>
+
+          <span>
+            Artifact Records
+          </span>
+
+        </a>
+
+
+
+        <!-- CATEGORIES -->
+
+        <a
+          href="categories.html"
+          class="nav-item"
+        >
+
+          <svg viewBox="0 0 24 24">
+
+            <path
+              d="M4 6h7l2 2h7v10H4z"
+            />
+
+          </svg>
+
+          <span>
+            Categories
+          </span>
+
+        </a>
+
+
+
+        <!-- REPORTS -->
+
+        <a
+          href="reports.html"
+          class="nav-item"
+        >
+
+          <svg viewBox="0 0 24 24">
+
+            <path
+              d="M5 19V9M10 19V5M15 19v-7M20 19V3M3 19h19"
+            />
+
+          </svg>
+
+          <span>
+            Reports
+          </span>
+
+        </a>
+
+
+
+        <!-- ADMINISTRATION -->
+
+        <p class="nav-label second admin-only">
+          Administration
+        </p>
+
+
+
+        <!-- USER MANAGEMENT -->
+
+        <a
+          href="users.html"
+          class="nav-item admin-only"
+        >
+
+          <svg viewBox="0 0 24 24">
+
+            <path
+              d="M16 20v-2a4 4 0 0 0-4-4H7a4 4 0 0 0-4 4v2M9.5 10a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM18 8v6M15 11h6"
+            />
+
+          </svg>
+
+          <span>
+            User Management
+          </span>
+
+        </a>
+
+
+
+        <!-- ACTIVITY LOGS -->
+
+        <a
+          href="activity.html"
+          class="nav-item admin-only"
+        >
+
+          <svg viewBox="0 0 24 24">
+
+            <path
+              d="M12 8v5l3 2M21 12a9 9 0 1 1-9-9"
+            />
+
+          </svg>
+
+          <span>
+            Activity Logs
+          </span>
+
+        </a>
+
+      </nav>
+
+
+
+      <!-- =================================================
+           SIDEBAR FOOTER
+      ================================================== -->
+
+      <div class="sidebar-footer">
+
+        <div class="sidebar-user">
+
+          <div
+            class="sidebar-avatar"
+            id="sidebarAvatar"
+          >
+            M
+          </div>
+
+
+          <div class="sidebar-user-info">
+
+            <strong id="sidebarUserName">
+              Loading...
+            </strong>
+
+            <span id="sidebarUserRole">
+              —
+            </span>
+
+          </div>
+
+        </div>
+
+
+        <button
+          type="button"
+          class="logout-button"
+          id="logoutButton"
+        >
+          Sign Out
+        </button>
+
+      </div>
+
+    </aside>
+
+
+
+    <!-- =====================================================
+         MAIN CONTENT
+    ====================================================== -->
+
+    <main class="main-content">
+
+
+      <!-- =================================================
+           TOPBAR
+      ================================================== -->
+
+      <header class="topbar">
+
+        <div class="topbar-left">
+
+          <button
+            type="button"
+            class="menu-button"
+            id="menuButton"
+            aria-label="Open sidebar"
+          >
+            ☰
+          </button>
+
+
+          <div>
+
+            <span class="page-label">
+              Collection Management
+            </span>
+
+            <h1>
+              Artifact Records
+            </h1>
+
+          </div>
+
+        </div>
+
+
+        <button
+          type="button"
+          class="add-button"
+          id="openAddArtifact"
+        >
+          + Add Artifact
+        </button>
+
+      </header>
+
+
+
+      <!-- =================================================
+           PAGE CONTENT
+      ================================================== -->
+
+      <div class="content">
+
+
+        <!-- =================================================
+             INTRODUCTION
+        ================================================== -->
+
+        <section class="page-intro">
+
+          <div class="intro-content">
+
+            <span class="intro-label">
+              Digital Collection
+            </span>
+
+
+            <h2>
+
+              Manage Museo de Lucena's
+
+              <span>
+                artifact documentation.
+              </span>
+
+            </h2>
+
+
+            <p>
+              Record, organize, search, update, and monitor
+              artifact information through one centralized
+              digital filing system.
+            </p>
+
+          </div>
+
+
+
+          <!-- SUMMARY STATISTICS -->
+
+          <div class="intro-statistics">
+
+            <div class="intro-stat">
+
+              <strong id="totalArtifactCount">
+                0
+              </strong>
+
+              <span>
+                Total Records
+              </span>
+
+            </div>
+
+
+            <div class="intro-stat">
+
+              <strong id="activeArtifactCount">
+                0
+              </strong>
+
+              <span>
+                Active
+              </span>
+
+            </div>
+
+
+            <div class="intro-stat">
+
+              <strong id="archivedArtifactCount">
+                0
+              </strong>
+
+              <span>
+                Archived
+              </span>
+
+            </div>
+
+          </div>
+
+        </section>
+
+
+
+        <!-- =================================================
+             SEARCH AND FILTERS
+        ================================================== -->
+
+        <section class="toolbar">
+
+
+          <!-- SEARCH -->
+
+          <div class="search-box">
+
+            <svg viewBox="0 0 24 24">
+
+              <circle
+                cx="11"
+                cy="11"
+                r="6"
+              ></circle>
+
+              <path
+                d="M16 16l5 5"
+              ></path>
+
+            </svg>
+
+
+            <input
+              type="search"
+              id="artifactSearch"
+              placeholder="Search artifact name, accession number, origin..."
+              autocomplete="off"
+            >
+
+          </div>
+
+
+
+          <!-- CATEGORY FILTER -->
+
+          <select
+            id="categoryFilter"
+            class="filter-select"
+            aria-label="Filter by category"
+          >
+
+            <option value="">
+              All Categories
+            </option>
+
+          </select>
+
+
+
+          <!-- CONDITION FILTER -->
+
+          <select
+            id="conditionFilter"
+            class="filter-select"
+            aria-label="Filter by condition"
+          >
+
+            <option value="">
+              All Conditions
+            </option>
+
+            <option value="Good">
+              Good
+            </option>
+
+            <option value="Fair">
+              Fair
+            </option>
+
+            <option value="Poor">
+              Poor
+            </option>
+
+          </select>
+
+
+
+          <!-- STATUS FILTER -->
+
+          <select
+            id="statusFilter"
+            class="filter-select"
+            aria-label="Filter by status"
+          >
+
+            <option value="">
+              All Status
+            </option>
+
+            <option value="Active">
+              Active
+            </option>
+
+            <option value="Archived">
+              Archived
+            </option>
+
+          </select>
+
+
+
+          <!-- RESET -->
+
+          <button
+            type="button"
+            class="reset-filter"
+            id="resetFilters"
+          >
+            Reset
+          </button>
+
+        </section>
+
+
+
+        <!-- =================================================
+             ARTIFACT RECORDS
+        ================================================== -->
+
+        <section class="records-card">
+
+
+          <!-- RECORD HEADER -->
+
+          <div class="records-header">
+
+            <div>
+
+              <span class="records-label">
+                Artifact Collection
+              </span>
+
+              <h3>
+                Stored Records
+              </h3>
+
+            </div>
+
+
+            <span
+              class="result-count"
+              id="resultCount"
+            >
+              0 records
+            </span>
+
+          </div>
+
+
+
+          <!-- TABLE -->
+
+          <div class="table-wrapper">
+
+            <table class="artifact-table">
+
+              <thead>
+
+                <tr>
+
+                  <th>
+                    Artifact
+                  </th>
+
+                  <th>
+                    Accession No.
+                  </th>
+
+                  <th>
+                    Category
+                  </th>
+
+                  <th>
+                    Condition
+                  </th>
+
+                  <th>
+                    Status
+                  </th>
+
+                  <th>
+                    Date Acquired
+                  </th>
+
+                  <th>
+                    Actions
+                  </th>
+
+                </tr>
+
+              </thead>
+
+
+              <tbody id="artifactTableBody">
+
+                <tr>
+
+                  <td colspan="7">
+
+                    <div class="empty-state">
+
+                      <div class="empty-symbol">
+                        A
+                      </div>
+
+                      <h3>
+                        No artifact records yet
+                      </h3>
+
+                      <p>
+                        Add the first artifact record to begin
+                        building the digital collection.
+                      </p>
+
+                    </div>
+
+                  </td>
+
+                </tr>
+
+              </tbody>
+
+            </table>
+
+          </div>
+
+        </section>
+
+
+
+        <!-- =================================================
+             PAGE FOOTER
+        ================================================== -->
+
+        <footer class="page-footer">
+
+          <span>
+            Museo de Lucena Artifact Records System
+          </span>
+
+          <span>
+            Authorized institutional use
+          </span>
+
+        </footer>
+
+      </div>
+
+    </main>
+
+  </div>
+
+
+
+  <!-- =====================================================
+       ADD / EDIT ARTIFACT MODAL
+  ====================================================== -->
+
+  <div
+    class="modal-overlay"
+    id="artifactModal"
+  >
+
+    <div class="modal-card artifact-form-modal">
+
+
+      <!-- =================================================
+           MODAL HEADER
+      ================================================== -->
+
+      <div class="modal-header">
+
+        <div>
+
+          <span class="modal-label">
+            Artifact Documentation
+          </span>
+
+
+          <h2 id="artifactModalTitle">
+            Add Artifact
+          </h2>
+
+
+          <p>
+            Enter the available information about the
+            museum artifact.
+          </p>
+
+        </div>
+
+
+        <button
+          type="button"
+          class="close-modal"
+          id="closeArtifactModal"
+          aria-label="Close artifact form"
+        >
+          ×
+        </button>
+
+      </div>
+
+
+
+      <!-- =================================================
+           ARTIFACT FORM
+      ================================================== -->
+
+      <form id="artifactForm">
+
+
+        <!-- FIRESTORE DOCUMENT ID -->
+
+        <input
+          type="hidden"
+          id="artifactId"
+        >
+
+
+
+        <!-- =================================================
+             SECTION 01
+             BASIC INFORMATION
+        ================================================== -->
+
+        <div class="form-section">
+
+          <div class="form-section-heading">
+
+            <span>
+              01
+            </span>
+
+
+            <div>
+
+              <h3>
+                Basic Information
+              </h3>
+
+              <p>
+                Identification and classification details.
+              </p>
+
+            </div>
+
+          </div>
+
+
+
+          <div class="form-grid">
+
+
+            <!-- ACCESSION NUMBER -->
+
+            <div class="form-group">
+
+              <label for="accessionNumber">
+
+                Accession / Artifact Number
+
+                <span>
+                  *
+                </span>
+
+              </label>
+
+
+              <input
+                type="text"
+                id="accessionNumber"
+                maxlength="100"
+                placeholder="e.g. MDL-2026-001"
+                autocomplete="off"
+                required
+              >
+
+            </div>
+
+
+
+            <!-- ARTIFACT NAME -->
+
+            <div class="form-group">
+
+              <label for="artifactName">
+
+                Artifact Name
+
+                <span>
+                  *
+                </span>
+
+              </label>
+
+
+              <input
+                type="text"
+                id="artifactName"
+                maxlength="150"
+                placeholder="Enter artifact name"
+                autocomplete="off"
+                required
+              >
+
+            </div>
+
+
+
+            <!-- CATEGORY -->
+
+            <div class="form-group">
+
+              <label for="artifactCategory">
+
+                Category
+
+                <span>
+                  *
+                </span>
+
+              </label>
+
+
+              <select
+                id="artifactCategory"
+                required
+              >
+
+                <option value="">
+                  Select category
+                </option>
+
+              </select>
+
+            </div>
+
+
+
+            <!-- CONDITION -->
+
+            <div class="form-group">
+
+              <label for="condition">
+
+                Condition
+
+                <span>
+                  *
+                </span>
+
+              </label>
+
+
+              <select
+                id="condition"
+                required
+              >
+
+                <option value="">
+                  Select condition
+                </option>
+
+                <option value="Good">
+                  Good
+                </option>
+
+                <option value="Fair">
+                  Fair
+                </option>
+
+                <option value="Poor">
+                  Poor
+                </option>
+
+              </select>
+
+            </div>
+
+          </div>
+
+        </div>
+
+
+
+        <!-- =================================================
+             SECTION 02
+             ARTIFACT DOCUMENTATION
+        ================================================== -->
+
+        <div class="form-section">
+
+          <div class="form-section-heading">
+
+            <span>
+              02
+            </span>
+
+
+            <div>
+
+              <h3>
+                Artifact Documentation
+              </h3>
+
+              <p>
+                Description and historical information.
+              </p>
+
+            </div>
+
+          </div>
+
+
+
+          <!-- DESCRIPTION -->
+
+          <div class="form-group full-width">
+
+            <label for="artifactDescription">
+
+              Description
+
+              <span>
+                *
+              </span>
+
+            </label>
+
+
+            <textarea
+              id="artifactDescription"
+              rows="4"
+              maxlength="1500"
+              placeholder="Describe the artifact, its characteristics, materials, appearance, or known details..."
+              required
+            ></textarea>
+
+          </div>
+
+
+
+          <!-- HISTORICAL BACKGROUND -->
+
+          <div class="form-group full-width">
+
+            <label for="historicalBackground">
+              Historical Background
+            </label>
+
+
+            <textarea
+              id="historicalBackground"
+              rows="4"
+              maxlength="2000"
+              placeholder="Enter known historical background or significance..."
+            ></textarea>
+
+          </div>
+
+        </div>
+
+
+
+        <!-- =================================================
+             SECTION 03
+             ORIGIN AND ACQUISITION
+        ================================================== -->
+
+        <div class="form-section">
+
+          <div class="form-section-heading">
+
+            <span>
+              03
+            </span>
+
+
+            <div>
+
+              <h3>
+                Origin & Acquisition
+              </h3>
+
+              <p>
+                Provenance and acquisition information.
+              </p>
+
+            </div>
+
+          </div>
+
+
+
+          <div class="form-grid">
+
+
+            <!-- ORIGIN -->
+
+            <div class="form-group">
+
+              <label for="origin">
+                Origin / Provenance
+              </label>
+
+
+              <input
+                type="text"
+                id="origin"
+                maxlength="200"
+                placeholder="Known origin or provenance"
+                autocomplete="off"
+              >
+
+            </div>
+
+
+
+            <!-- DATE ACQUIRED -->
+
+            <div class="form-group">
+
+              <label for="dateAcquired">
+                Date Acquired
+              </label>
+
+
+              <input
+                type="date"
+                id="dateAcquired"
+              >
+
+            </div>
+
+
+
+            <!-- CURRENT LOCATION -->
+
+            <div class="form-group">
+
+              <label for="currentLocation">
+                Current Location
+              </label>
+
+
+              <input
+                type="text"
+                id="currentLocation"
+                maxlength="200"
+                placeholder="Exhibit room, storage area, cabinet, etc."
+                autocomplete="off"
+              >
+
+            </div>
+
+
+
+            <!-- STATUS -->
+
+            <div class="form-group">
+
+              <label for="artifactStatus">
+                Record Status
+              </label>
+
+
+              <select id="artifactStatus">
+
+                <option value="Active">
+                  Active
+                </option>
+
+                <option value="Archived">
+                  Archived
+                </option>
+
+              </select>
+
+            </div>
+
+          </div>
+
+        </div>
+
+
+
+        <!-- =================================================
+             SECTION 04
+             ARTIFACT IMAGE
+        ================================================== -->
+
+        <div class="form-section">
+
+          <div class="form-section-heading">
+
+            <span>
+              04
+            </span>
+
+
+            <div>
+
+              <h3>
+                Artifact Image
+              </h3>
+
+
+              <p>
+                Artifact image upload is temporarily unavailable.
+                Records may still be saved without an image.
+              </p>
+
+            </div>
+
+          </div>
+
+
+
+          <div class="image-upload-area">
+
+
+            <!-- IMAGE PREVIEW -->
+
+            <div
+              class="image-preview"
+              id="imagePreview"
+            >
+
+              <div class="image-placeholder">
+
+                <span>
+                  i
+                </span>
+
+
+                <strong>
+                  Image upload temporarily unavailable
+                </strong>
+
+
+                <small>
+                  You may continue saving this artifact
+                  record without a photograph.
+                </small>
+
+              </div>
+
+            </div>
+
+
+
+            <!-- IMAGE CONTROLS -->
+
+            <div class="image-controls">
+
+              <label
+                class="choose-image"
+                aria-disabled="true"
+                style="
+                  opacity: 0.55;
+                  cursor: not-allowed;
+                  pointer-events: none;
+                "
+              >
+                Image Upload Unavailable
+              </label>
+
+
+              <input
+                type="file"
+                id="artifactImage"
+                accept="image/jpeg,image/png,image/webp"
+                hidden
+                disabled
+              >
+
+
+              <button
+                type="button"
+                class="remove-image"
+                id="removeSelectedImage"
+                disabled
+              >
+                Clear Selection
+              </button>
+
+            </div>
+
+          </div>
+
+        </div>
+
+
+
+        <!-- =================================================
+             SECTION 05
+             ADDITIONAL INFORMATION
+        ================================================== -->
+
+        <div class="form-section">
+
+          <div class="form-section-heading">
+
+            <span>
+              05
+            </span>
+
+
+            <div>
+
+              <h3>
+                Additional Information
+              </h3>
+
+              <p>
+                Optional notes about the artifact.
+              </p>
+
+            </div>
+
+          </div>
+
+
+
+          <!-- REMARKS -->
+
+          <div class="form-group full-width">
+
+            <label for="remarks">
+              Remarks
+            </label>
+
+
+            <textarea
+              id="remarks"
+              rows="3"
+              maxlength="1000"
+              placeholder="Additional notes or remarks..."
+            ></textarea>
+
+          </div>
+
+        </div>
+
+
+
+        <!-- =================================================
+             FORM MESSAGE
+        ================================================== -->
+
+        <div
+          class="form-message"
+          id="artifactFormMessage"
+          aria-live="polite"
+        ></div>
+
+
+
+        <!-- =================================================
+             FORM ACTIONS
+        ================================================== -->
+
+        <div class="modal-actions">
+
+          <button
+            type="button"
+            class="cancel-button"
+            id="cancelArtifact"
+          >
+            Cancel
+          </button>
+
+
+          <button
+            type="submit"
+            class="save-button"
+            id="saveArtifact"
+          >
+            Save Artifact
+          </button>
+
+        </div>
+
+      </form>
+
+    </div>
+
+  </div>
+
+
+
+  <!-- =====================================================
+       VIEW ARTIFACT MODAL
+  ====================================================== -->
+
+  <div
+    class="modal-overlay"
+    id="viewArtifactModal"
+  >
+
+    <div class="modal-card view-modal">
+
+
+      <!-- =================================================
+           MODAL HEADER
+      ================================================== -->
+
+      <div class="modal-header">
+
+        <div>
+
+          <span class="modal-label">
+            Artifact Record
+          </span>
+
+
+          <h2 id="viewArtifactName">
+            Artifact
+          </h2>
+
+
+          <p id="viewAccession">
+            —
+          </p>
+
+        </div>
+
+
+        <button
+          type="button"
+          class="close-modal"
+          id="closeViewModal"
+          aria-label="Close artifact details"
+        >
+          ×
+        </button>
+
+      </div>
+
+
+
+      <!-- =================================================
+           ARTIFACT DETAILS
+      ================================================== -->
+
+      <div class="view-layout">
+
+
+        <!-- IMAGE -->
+
+        <div class="view-image">
+
+          <img
+            id="viewArtifactImage"
+            alt="Artifact image"
+          >
+
+
+          <div
+            class="view-image-placeholder"
+            id="viewImagePlaceholder"
+          >
+            M
+          </div>
+
+        </div>
+
+
+
+        <!-- BASIC DETAILS -->
+
+        <div class="view-details">
+
+
+          <div class="detail-item">
+
+            <span>
+              Category
+            </span>
+
+            <strong id="viewCategory">
+              —
+            </strong>
+
+          </div>
+
+
+
+          <div class="detail-item">
+
+            <span>
+              Condition
+            </span>
+
+            <strong id="viewCondition">
+              —
+            </strong>
+
+          </div>
+
+
+
+          <div class="detail-item">
+
+            <span>
+              Status
+            </span>
+
+            <strong id="viewStatus">
+              —
+            </strong>
+
+          </div>
+
+
+
+          <div class="detail-item">
+
+            <span>
+              Date Acquired
+            </span>
+
+            <strong id="viewDateAcquired">
+              —
+            </strong>
+
+          </div>
+
+
+
+          <div class="detail-item">
+
+            <span>
+              Origin / Provenance
+            </span>
+
+            <strong id="viewOrigin">
+              —
+            </strong>
+
+          </div>
+
+
+
+          <div class="detail-item">
+
+            <span>
+              Current Location
+            </span>
+
+            <strong id="viewLocation">
+              —
+            </strong>
+
+          </div>
+
+        </div>
+
+      </div>
+
+
+
+      <!-- =================================================
+           DESCRIPTION
+      ================================================== -->
+
+      <div class="view-text-section">
+
+        <span>
+          Description
+        </span>
+
+        <p id="viewDescription">
+          —
+        </p>
+
+      </div>
+
+
+
+      <!-- =================================================
+           HISTORICAL BACKGROUND
+      ================================================== -->
+
+      <div class="view-text-section">
+
+        <span>
+          Historical Background
+        </span>
+
+        <p id="viewHistory">
+          —
+        </p>
+
+      </div>
+
+
+
+      <!-- =================================================
+           REMARKS
+      ================================================== -->
+
+      <div class="view-text-section">
+
+        <span>
+          Remarks
+        </span>
+
+        <p id="viewRemarks">
+          —
+        </p>
+
+      </div>
+
+
+
+      <!-- =================================================
+           RECORD METADATA
+      ================================================== -->
+
+      <div class="record-metadata">
+
+
+        <div>
+
+          <span>
+            Encoded By
+          </span>
+
+          <strong id="viewCreatedBy">
+            —
+          </strong>
+
+        </div>
+
+
+        <div>
+
+          <span>
+            Last Updated By
+          </span>
+
+          <strong id="viewUpdatedBy">
+            —
+          </strong>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+
+
+  <!-- =====================================================
+       MOBILE SIDEBAR OVERLAY
+  ====================================================== -->
+
+  <div
+    class="sidebar-overlay"
+    id="sidebarOverlay"
+  ></div>
+
+
+
+  <!-- =====================================================
+       PAGE LOADER
+  ====================================================== -->
+
+  <div
+    class="page-loader"
+    id="pageLoader"
+  >
+
+    <div class="loader-logo">
+      M
+    </div>
+
+
+    <div class="spinner"></div>
+
+
+    <span>
+      Loading artifact records...
+    </span>
+
+  </div>
+
+
+
+  <!-- =====================================================
+       JAVASCRIPT
+  ====================================================== -->
+
+  <script
+    type="module"
+    src="assets/js/artifacts.js"
+  ></script>
+
+</body>
+
+</html>

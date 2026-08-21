@@ -1,0 +1,839 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <title>Activity Logs | Museo de Lucena</title>
+
+   <!-- FAVICON -->
+  <link
+    rel="icon"
+    type="image/png"
+    href="assets/images/museo-logo.png"
+  >
+
+
+  <!-- =====================================================
+       GOOGLE FONTS
+  ====================================================== -->
+
+  <link
+    rel="preconnect"
+    href="https://fonts.googleapis.com"
+  >
+
+  <link
+    rel="preconnect"
+    href="https://fonts.gstatic.com"
+    crossorigin
+  >
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap"
+    rel="stylesheet"
+  >
+
+
+  <!-- =====================================================
+       STYLESHEETS
+  ====================================================== -->
+
+  <link
+    rel="stylesheet"
+    href="assets/css/global.css"
+  >
+
+  <link
+    rel="stylesheet"
+    href="assets/css/activity.css"
+  >
+
+</head>
+
+
+<body>
+
+  <div class="page-layout">
+
+
+    <!-- =====================================================
+         SIDEBAR
+    ====================================================== -->
+
+    <aside
+      class="sidebar"
+      id="sidebar"
+    >
+
+      <!-- BRAND -->
+
+      <div class="sidebar-brand">
+
+        <div class="sidebar-logo">
+          M
+        </div>
+
+
+        <div class="sidebar-brand-text">
+
+          <strong>
+            Museo de Lucena
+          </strong>
+
+          <span>
+            Artifact Records System
+          </span>
+
+        </div>
+
+      </div>
+
+
+
+      <!-- =================================================
+           NAVIGATION
+      ================================================== -->
+
+      <nav class="sidebar-nav">
+
+        <p class="nav-label">
+          Workspace
+        </p>
+
+
+        <!-- DASHBOARD -->
+
+        <a
+          href="dashboard.html"
+          class="nav-item"
+        >
+
+          <svg viewBox="0 0 24 24">
+
+            <path
+              d="M4 4h6v6H4zM14 4h6v6h-6zM4 14h6v6H4zM14 14h6v6h-6z"
+            />
+
+          </svg>
+
+          <span>
+            Dashboard
+          </span>
+
+        </a>
+
+
+
+        <!-- ARTIFACT RECORDS -->
+
+        <a
+          href="artifacts.html"
+          class="nav-item"
+        >
+
+          <svg viewBox="0 0 24 24">
+
+            <path
+              d="M5 4h14v16H5zM8 8h8M8 12h8M8 16h5"
+            />
+
+          </svg>
+
+          <span>
+            Artifact Records
+          </span>
+
+        </a>
+
+
+
+        <!-- CATEGORIES -->
+
+        <a
+          href="categories.html"
+          class="nav-item"
+        >
+
+          <svg viewBox="0 0 24 24">
+
+            <path
+              d="M4 6h7l2 2h7v10H4z"
+            />
+
+          </svg>
+
+          <span>
+            Categories
+          </span>
+
+        </a>
+
+
+
+        <!-- REPORTS -->
+
+        <a
+          href="reports.html"
+          class="nav-item"
+        >
+
+          <svg viewBox="0 0 24 24">
+
+            <path
+              d="M5 19V9M10 19V5M15 19v-7M20 19V3M3 19h19"
+            />
+
+          </svg>
+
+          <span>
+            Reports
+          </span>
+
+        </a>
+
+
+
+        <!-- =================================================
+             ADMINISTRATION
+        ================================================== -->
+
+        <p class="nav-label second">
+          Administration
+        </p>
+
+
+
+        <!-- USER MANAGEMENT -->
+
+        <a
+          href="users.html"
+          class="nav-item admin-only"
+        >
+
+          <svg viewBox="0 0 24 24">
+
+            <path
+              d="M16 20v-2a4 4 0 0 0-4-4H7a4 4 0 0 0-4 4v2M9.5 10a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM18 8v6M15 11h6"
+            />
+
+          </svg>
+
+          <span>
+            User Management
+          </span>
+
+        </a>
+
+
+
+        <!-- ACTIVITY LOGS -->
+
+        <a
+          href="activity.html"
+          class="nav-item active admin-only"
+          aria-current="page"
+        >
+
+          <svg viewBox="0 0 24 24">
+
+            <path
+              d="M12 8v5l3 2M21 12a9 9 0 1 1-9-9"
+            />
+
+          </svg>
+
+          <span>
+            Activity Logs
+          </span>
+
+        </a>
+
+      </nav>
+
+
+
+      <!-- =================================================
+           SIDEBAR FOOTER
+      ================================================== -->
+
+      <div class="sidebar-footer">
+
+        <div class="sidebar-user">
+
+          <div
+            class="sidebar-avatar"
+            id="sidebarAvatar"
+          >
+            M
+          </div>
+
+
+          <div class="sidebar-user-info">
+
+            <strong id="sidebarUserName">
+              Loading...
+            </strong>
+
+            <span id="sidebarUserRole">
+              —
+            </span>
+
+          </div>
+
+        </div>
+
+
+        <button
+          type="button"
+          class="logout-button"
+          id="logoutButton"
+        >
+          Sign Out
+        </button>
+
+      </div>
+
+    </aside>
+
+
+
+    <!-- =====================================================
+         MAIN CONTENT
+    ====================================================== -->
+
+    <main class="main-content">
+
+
+      <!-- =================================================
+           TOPBAR
+      ================================================== -->
+
+      <header class="topbar">
+
+        <div class="topbar-left">
+
+          <button
+            type="button"
+            class="menu-button"
+            id="menuButton"
+            aria-label="Open sidebar"
+          >
+            ☰
+          </button>
+
+
+          <div>
+
+            <span class="page-label">
+              Administration
+            </span>
+
+            <h1>
+              Activity Logs
+            </h1>
+
+          </div>
+
+        </div>
+
+
+        <button
+          type="button"
+          class="refresh-button"
+          id="refreshLogs"
+        >
+          Refresh Logs
+        </button>
+
+      </header>
+
+
+
+      <!-- =================================================
+           PAGE CONTENT
+      ================================================== -->
+
+      <div class="content">
+
+
+        <!-- =================================================
+             INTRODUCTION
+        ================================================== -->
+
+        <section class="activity-intro">
+
+          <div>
+
+            <span class="intro-label">
+              System Audit Trail
+            </span>
+
+
+            <h2>
+
+              Track important
+
+              <span>
+                system activities.
+              </span>
+
+            </h2>
+
+
+            <p>
+
+              Review actions performed by authorized
+              administrators and Museum Staff within the
+              Museo de Lucena Artifact Records System.
+
+            </p>
+
+          </div>
+
+        </section>
+
+
+
+        <!-- =================================================
+             SUMMARY CARDS
+        ================================================== -->
+
+        <section class="activity-summary">
+
+
+          <!-- TOTAL LOGS -->
+
+          <article class="summary-card">
+
+            <span>
+              Total Activities
+            </span>
+
+            <strong id="totalActivityCount">
+              0
+            </strong>
+
+            <small>
+              Recorded system actions
+            </small>
+
+          </article>
+
+
+
+          <!-- TODAY -->
+
+          <article class="summary-card">
+
+            <span>
+              Today's Activities
+            </span>
+
+            <strong id="todayActivityCount">
+              0
+            </strong>
+
+            <small>
+              Actions recorded today
+            </small>
+
+          </article>
+
+
+
+          <!-- ADMIN -->
+
+          <article class="summary-card">
+
+            <span>
+              Administrator Actions
+            </span>
+
+            <strong id="adminActivityCount">
+              0
+            </strong>
+
+            <small>
+              Activities performed by admins
+            </small>
+
+          </article>
+
+
+
+          <!-- STAFF -->
+
+          <article class="summary-card">
+
+            <span>
+              Staff Actions
+            </span>
+
+            <strong id="staffActivityCount">
+              0
+            </strong>
+
+            <small>
+              Activities performed by Museum Staff
+            </small>
+
+          </article>
+
+        </section>
+
+
+
+        <!-- =================================================
+             FILTERS
+        ================================================== -->
+
+        <section class="activity-toolbar">
+
+
+          <!-- SEARCH -->
+
+          <div class="activity-search">
+
+            <svg viewBox="0 0 24 24">
+
+              <circle
+                cx="11"
+                cy="11"
+                r="6"
+              ></circle>
+
+              <path
+                d="M16 16l5 5"
+              ></path>
+
+            </svg>
+
+
+            <input
+              type="search"
+              id="activitySearch"
+              placeholder="Search action, user or description..."
+              autocomplete="off"
+            >
+
+          </div>
+
+
+
+          <!-- ROLE FILTER -->
+
+          <select
+            id="activityRoleFilter"
+            class="activity-filter"
+          >
+
+            <option value="">
+              All Users
+            </option>
+
+            <option value="admin">
+              Administrator
+            </option>
+
+            <option value="staff">
+              Museum Staff
+            </option>
+
+          </select>
+
+
+
+          <!-- ACTION FILTER -->
+
+          <select
+            id="activityActionFilter"
+            class="activity-filter"
+          >
+
+            <option value="">
+              All Activities
+            </option>
+
+            <option value="artifact">
+              Artifact Activities
+            </option>
+
+            <option value="category">
+              Category Activities
+            </option>
+
+            <option value="user">
+              User Activities
+            </option>
+
+            <option value="report">
+              Report Activities
+            </option>
+
+          </select>
+
+
+
+          <!-- DATE FILTER -->
+
+          <select
+            id="activityDateFilter"
+            class="activity-filter"
+          >
+
+            <option value="">
+              All Dates
+            </option>
+
+            <option value="today">
+              Today
+            </option>
+
+            <option value="7days">
+              Last 7 Days
+            </option>
+
+            <option value="30days">
+              Last 30 Days
+            </option>
+
+          </select>
+
+
+
+          <!-- RESET -->
+
+          <button
+            type="button"
+            class="reset-activity-filter"
+            id="resetActivityFilters"
+          >
+            Reset
+          </button>
+
+        </section>
+
+
+
+        <!-- =================================================
+             ACTIVITY TABLE
+        ================================================== -->
+
+        <section class="activity-card">
+
+
+          <!-- HEADER -->
+
+          <div class="activity-card-header">
+
+            <div>
+
+              <span class="section-label">
+                Audit History
+              </span>
+
+              <h3>
+                Recorded Activities
+              </h3>
+
+            </div>
+
+
+            <span
+              class="activity-result-count"
+              id="activityResultCount"
+            >
+              0 activities
+            </span>
+
+          </div>
+
+
+
+          <!-- TABLE -->
+
+          <div class="activity-table-wrapper">
+
+            <table class="activity-table">
+
+              <thead>
+
+                <tr>
+
+                  <th>
+                    Date & Time
+                  </th>
+
+                  <th>
+                    User
+                  </th>
+
+                  <th>
+                    Role
+                  </th>
+
+                  <th>
+                    Action
+                  </th>
+
+                  <th>
+                    Description
+                  </th>
+
+                </tr>
+
+              </thead>
+
+
+              <tbody id="activityTableBody">
+
+                <tr>
+
+                  <td colspan="5">
+
+                    <div class="activity-empty-state">
+
+                      <strong>
+                        Loading activity logs...
+                      </strong>
+
+                      <p>
+                        Retrieving recorded system activities.
+                      </p>
+
+                    </div>
+
+                  </td>
+
+                </tr>
+
+              </tbody>
+
+            </table>
+
+          </div>
+
+        </section>
+
+
+
+        <!-- =================================================
+             INFORMATION NOTE
+        ================================================== -->
+
+        <section class="audit-note">
+
+          <div class="audit-note-icon">
+
+            <svg viewBox="0 0 24 24">
+
+              <path
+                d="M12 3l8 4v5c0 5-3.5 8-8 9-4.5-1-8-4-8-9V7z"
+              />
+
+              <path
+                d="M9 12l2 2 4-4"
+              />
+
+            </svg>
+
+          </div>
+
+
+          <div>
+
+            <strong>
+              Audit records are protected.
+            </strong>
+
+            <p>
+              Activity logs are maintained as a historical
+              record of important actions performed within
+              the system and are accessible only to
+              administrators.
+            </p>
+
+          </div>
+
+        </section>
+
+
+
+        <!-- =================================================
+             FOOTER
+        ================================================== -->
+
+        <footer class="page-footer">
+
+          <span>
+            Museo de Lucena Artifact Records System
+          </span>
+
+          <span>
+            Administrator Access
+          </span>
+
+        </footer>
+
+      </div>
+
+    </main>
+
+  </div>
+
+
+
+  <!-- =====================================================
+       MOBILE SIDEBAR OVERLAY
+  ====================================================== -->
+
+  <div
+    class="sidebar-overlay"
+    id="sidebarOverlay"
+  ></div>
+
+
+
+  <!-- =====================================================
+       PAGE LOADER
+  ====================================================== -->
+
+  <div
+    class="page-loader"
+    id="pageLoader"
+  >
+
+    <div class="loader-logo">
+      M
+    </div>
+
+    <div class="spinner">
+    </div>
+
+    <span>
+      Loading activity logs...
+    </span>
+
+  </div>
+
+
+
+  <!-- =====================================================
+       JAVASCRIPT
+  ====================================================== -->
+
+  <script
+    type="module"
+    src="assets/js/activity.js"
+  ></script>
+
+</body>
+
+</html>

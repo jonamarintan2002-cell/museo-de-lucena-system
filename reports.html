@@ -1,0 +1,865 @@
+<head>
+
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <title>Reports | Museo de Lucena</title>
+
+
+  <!-- FAVICON -->
+  <link
+    rel="icon"
+    type="image/png"
+    href="assets/images/museo-logo.png"
+  >
+
+  <link
+    rel="shortcut icon"
+    type="image/png"
+    href="assets/images/museo-logo.png"
+  >
+
+
+  <!-- GOOGLE FONTS -->
+  <link
+    rel="preconnect"
+    href="https://fonts.googleapis.com"
+  >
+
+  <link
+    rel="preconnect"
+    href="https://fonts.gstatic.com"
+    crossorigin
+  >
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap"
+    rel="stylesheet"
+  >
+
+
+  <!-- GLOBAL CSS -->
+  <link
+    rel="stylesheet"
+    href="assets/css/global.css"
+  >
+
+
+  <!-- REPORTS CSS -->
+  <link
+    rel="stylesheet"
+    href="assets/css/reports.css"
+  >
+
+</head>
+
+
+<body>
+
+  <div class="page-layout">
+
+
+    <!-- =====================================================
+         SIDEBAR
+    ====================================================== -->
+
+    <aside
+      class="sidebar"
+      id="sidebar"
+    >
+
+      <div class="sidebar-brand">
+
+        <div class="sidebar-logo">
+          M
+        </div>
+
+
+        <div class="sidebar-brand-text">
+
+          <strong>
+            Museo de Lucena
+          </strong>
+
+          <span>
+            Artifact Records System
+          </span>
+
+        </div>
+
+      </div>
+
+
+
+      <!-- NAVIGATION -->
+
+      <nav class="sidebar-nav">
+
+        <p class="nav-label">
+          Workspace
+        </p>
+
+
+
+        <!-- DASHBOARD -->
+
+        <a
+          href="dashboard.html"
+          class="nav-item"
+        >
+
+          <svg viewBox="0 0 24 24">
+
+            <path
+              d="M4 4h6v6H4zM14 4h6v6h-6zM4 14h6v6H4zM14 14h6v6h-6z"
+            />
+
+          </svg>
+
+          <span>
+            Dashboard
+          </span>
+
+        </a>
+
+
+
+        <!-- ARTIFACT RECORDS -->
+
+        <a
+          href="artifacts.html"
+          class="nav-item"
+        >
+
+          <svg viewBox="0 0 24 24">
+
+            <path
+              d="M5 4h14v16H5zM8 8h8M8 12h8M8 16h5"
+            />
+
+          </svg>
+
+          <span>
+            Artifact Records
+          </span>
+
+        </a>
+
+
+
+        <!-- CATEGORIES -->
+
+        <a
+          href="categories.html"
+          class="nav-item"
+        >
+
+          <svg viewBox="0 0 24 24">
+
+            <path
+              d="M4 6h7l2 2h7v10H4z"
+            />
+
+          </svg>
+
+          <span>
+            Categories
+          </span>
+
+        </a>
+
+
+
+        <!-- REPORTS -->
+
+        <a
+          href="reports.html"
+          class="nav-item active"
+          aria-current="page"
+        >
+
+          <svg viewBox="0 0 24 24">
+
+            <path
+              d="M5 19V9M10 19V5M15 19v-7M20 19V3M3 19h19"
+            />
+
+          </svg>
+
+          <span>
+            Reports
+          </span>
+
+        </a>
+
+
+
+        <p class="nav-label second admin-only">
+        Administration </p>
+
+
+
+        <!-- USER MANAGEMENT -->
+
+        <a
+          href="users.html"
+          class="nav-item admin-only"
+          id="usersNav"
+        >
+
+          <svg viewBox="0 0 24 24">
+
+            <path
+              d="M16 20v-2a4 4 0 0 0-4-4H7a4 4 0 0 0- 4v2M9.5 10a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM18 8v6M15 11h6"
+            />
+
+          </svg>
+
+          <span>
+            User Management
+          </span>
+
+        </a>
+
+
+
+        <!-- ACTIVITY LOGS -->
+
+        <a
+          href="activity.html"
+          class="nav-item admin-only"
+          id="activityNav"
+        >
+
+          <svg viewBox="0 0 24 24">
+
+            <path
+              d="M12 8v5l3 2M21 12a9 9 0 1 1-9-9"
+            />
+
+          </svg>
+
+          <span>
+            Activity Logs
+          </span>
+
+        </a>
+
+      </nav>
+
+
+
+      <!-- SIDEBAR USER -->
+
+      <div class="sidebar-footer">
+
+        <div class="sidebar-user">
+
+          <div
+            class="sidebar-avatar"
+            id="sidebarAvatar"
+          >
+            M
+          </div>
+
+
+          <div class="sidebar-user-info">
+
+            <strong id="sidebarUserName">
+              Loading...
+            </strong>
+
+            <span id="sidebarUserRole">
+              —
+            </span>
+
+          </div>
+
+        </div>
+
+
+        <button
+          type="button"
+          class="logout-button"
+          id="logoutButton"
+        >
+          Sign Out
+        </button>
+
+      </div>
+
+    </aside>
+
+
+
+    <!-- =====================================================
+         MAIN CONTENT
+    ====================================================== -->
+
+    <main class="main-content">
+
+
+      <!-- TOPBAR -->
+
+      <header class="topbar">
+
+        <div class="topbar-left">
+
+          <button
+            type="button"
+            class="menu-button"
+            id="menuButton"
+            aria-label="Open sidebar"
+          >
+            ☰
+          </button>
+
+
+          <div>
+
+            <span class="page-label">
+              Collection Management
+            </span>
+
+            <h1>
+              Reports
+            </h1>
+
+          </div>
+
+        </div>
+
+
+        <button
+          type="button"
+          class="print-report-button"
+          id="printReportButton"
+          disabled
+        >
+          Print Report
+        </button>
+
+      </header>
+
+
+
+      <div class="content">
+
+
+        <!-- =================================================
+             PAGE INTRO
+        ================================================== -->
+
+        <section class="report-intro">
+
+          <div>
+
+            <span class="intro-label">
+              Artifact Reporting
+            </span>
+
+
+            <h2>
+
+              Generate organized
+
+              <span>
+                collection reports.
+              </span>
+
+            </h2>
+
+
+            <p>
+
+              Review and generate reports from the
+              artifact records stored in the
+              Museo de Lucena digital filing system.
+
+            </p>
+
+          </div>
+
+        </section>
+
+
+
+        <!-- =================================================
+             SUMMARY CARDS
+        ================================================== -->
+
+        <section class="report-summary">
+
+
+          <!-- TOTAL ARTIFACTS -->
+
+          <article class="summary-card">
+
+            <span>
+              Total Artifacts
+            </span>
+
+            <strong id="reportTotalArtifacts">
+              0
+            </strong>
+
+            <small>
+              All stored artifact records
+            </small>
+
+          </article>
+
+
+
+          <!-- GOOD CONDITION -->
+
+          <article class="summary-card">
+
+            <span>
+              Good Condition
+            </span>
+
+            <strong id="reportGoodCondition">
+              0
+            </strong>
+
+            <small>
+              Artifacts recorded as good
+            </small>
+
+          </article>
+
+
+
+          <!-- NEEDS ATTENTION -->
+
+          <article class="summary-card">
+
+            <span>
+              Needs Attention
+            </span>
+
+            <strong id="reportNeedsAttention">
+              0
+            </strong>
+
+            <small>
+              Fair and poor condition
+            </small>
+
+          </article>
+
+
+
+          <!-- ARCHIVED -->
+
+          <article class="summary-card">
+
+            <span>
+              Archived Records
+            </span>
+
+            <strong id="reportArchived">
+              0
+            </strong>
+
+            <small>
+              Archived artifact records
+            </small>
+
+          </article>
+
+        </section>
+
+
+
+        <!-- =================================================
+             REPORT GENERATOR
+        ================================================== -->
+
+        <section class="report-generator-card">
+
+          <div class="section-heading">
+
+            <div>
+
+              <span class="section-label">
+                Report Generator
+              </span>
+
+              <h3>
+                Select Report Type
+              </h3>
+
+            </div>
+
+          </div>
+
+
+
+          <div class="report-form-grid">
+
+
+            <!-- REPORT TYPE -->
+
+            <div class="form-group">
+
+              <label for="reportType">
+                Report Type
+              </label>
+
+
+              <select id="reportType">
+
+                <option value="all">
+                  All Artifacts
+                </option>
+
+                <option value="category">
+                  By Category
+                </option>
+
+                <option value="condition">
+                  By Condition
+                </option>
+
+                <option value="status">
+                  By Status
+                </option>
+
+              </select>
+
+            </div>
+
+
+
+            <!-- CATEGORY -->
+
+            <div
+              class="form-group report-filter-group"
+              id="categoryReportGroup"
+            >
+
+              <label for="reportCategory">
+                Category
+              </label>
+
+
+              <select
+                id="reportCategory"
+                disabled
+              >
+
+                <option value="">
+                  Select category
+                </option>
+
+              </select>
+
+            </div>
+
+
+
+            <!-- CONDITION -->
+
+            <div
+              class="form-group report-filter-group"
+              id="conditionReportGroup"
+            >
+
+              <label for="reportCondition">
+                Condition
+              </label>
+
+
+              <select
+                id="reportCondition"
+                disabled
+              >
+
+                <option value="">
+                  Select condition
+                </option>
+
+                <option value="Good">
+                  Good
+                </option>
+
+                <option value="Fair">
+                  Fair
+                </option>
+
+                <option value="Poor">
+                  Poor
+                </option>
+
+              </select>
+
+            </div>
+
+
+
+            <!-- STATUS -->
+
+            <div
+              class="form-group report-filter-group"
+              id="statusReportGroup"
+            >
+
+              <label for="reportStatus">
+                Status
+              </label>
+
+
+              <select
+                id="reportStatus"
+                disabled
+              >
+
+                <option value="">
+                  Select status
+                </option>
+
+                <option value="Active">
+                  Active
+                </option>
+
+                <option value="Archived">
+                  Archived
+                </option>
+
+              </select>
+
+            </div>
+
+          </div>
+
+
+
+          <!-- ACTIONS -->
+
+          <div class="report-actions">
+
+            <button
+              type="button"
+              class="reset-report-button"
+              id="resetReportButton"
+            >
+              Reset
+            </button>
+
+
+            <button
+              type="button"
+              class="generate-report-button"
+              id="generateReportButton"
+            >
+              Generate Report
+            </button>
+
+          </div>
+
+        </section>
+
+
+
+        <!-- =================================================
+             REPORT PREVIEW
+        ================================================== -->
+
+        <section
+          class="report-preview-card"
+          id="reportPreview"
+        >
+
+
+          <!-- REPORT HEADER -->
+
+          <div class="report-preview-header">
+
+            <div>
+
+              <span class="section-label">
+                Report Preview
+              </span>
+
+
+              <h3 id="reportTitle">
+                All Artifact Records
+              </h3>
+
+
+              <p id="reportSubtitle">
+                Generate a report to display artifact records.
+              </p>
+
+            </div>
+
+
+            <div class="report-meta">
+
+              <span>
+                Records
+              </span>
+
+              <strong id="reportRecordCount">
+                0
+              </strong>
+
+            </div>
+
+          </div>
+
+
+
+          <!-- REPORT TABLE -->
+
+          <div class="report-table-wrapper">
+
+            <table class="report-table">
+
+              <thead>
+
+                <tr>
+
+                  <th>
+                    Accession No.
+                  </th>
+
+                  <th>
+                    Artifact Name
+                  </th>
+
+                  <th>
+                    Category
+                  </th>
+
+                  <th>
+                    Condition
+                  </th>
+
+                  <th>
+                    Status
+                  </th>
+
+                  <th>
+                    Date Acquired
+                  </th>
+
+                  <th>
+                    Location
+                  </th>
+
+                </tr>
+
+              </thead>
+
+
+
+              <tbody id="reportTableBody">
+
+                <tr>
+
+                  <td colspan="7">
+
+                    <div class="report-empty-state">
+
+                      <strong>
+                        No report generated
+                      </strong>
+
+                      <p>
+                        Select a report type and click
+                        Generate Report.
+                      </p>
+
+                    </div>
+
+                  </td>
+
+                </tr>
+
+              </tbody>
+
+            </table>
+
+          </div>
+
+        </section>
+
+
+
+        <!-- =================================================
+             FOOTER
+        ================================================== -->
+
+        <footer class="page-footer">
+
+          <span>
+            Museo de Lucena Artifact Records System
+          </span>
+
+          <span>
+            Authorized institutional use
+          </span>
+
+        </footer>
+
+      </div>
+
+    </main>
+
+  </div>
+
+
+
+  <!-- =====================================================
+       MOBILE SIDEBAR OVERLAY
+  ====================================================== -->
+
+  <div
+    class="sidebar-overlay"
+    id="sidebarOverlay"
+  ></div>
+
+
+
+  <!-- =====================================================
+       PAGE LOADER
+  ====================================================== -->
+
+  <div
+    class="page-loader"
+    id="pageLoader"
+  >
+
+    <div class="loader-logo">
+      M
+    </div>
+
+    <div class="spinner"></div>
+
+    <span>
+      Loading reports...
+    </span>
+
+  </div>
+
+
+
+  <!-- =====================================================
+       REPORT JAVASCRIPT
+  ====================================================== -->
+
+  <script
+    type="module"
+    src="assets/js/reports.js"
+  ></script>
+
+</body>
+
+</html>
