@@ -58,6 +58,9 @@
     href="assets/css/dashboard.css"
   >
 
+<!-- SHARED SIDEBAR -->
+<link rel="stylesheet" href="assets/css/sidebar.css">
+
 </head>
 
 
@@ -76,7 +79,9 @@
     >
 
 
-      <!-- BRAND -->
+      <!-- =================================================
+           BRAND
+      ================================================== -->
 
       <div class="sidebar-brand">
 
@@ -109,7 +114,7 @@
 
 
         <p class="nav-label">
-          Workspace
+          Main Navigation
         </p>
 
 
@@ -119,6 +124,7 @@
         <a
           href="dashboard.html"
           class="nav-item active"
+          aria-current="page"
         >
 
           <svg viewBox="0 0 24 24">
@@ -673,9 +679,7 @@
         <section class="dashboard-grid">
 
 
-          <!-- =================================================
-               RECENT ARTIFACTS
-          ================================================== -->
+          <!-- RECENT ARTIFACTS -->
 
           <article class="dashboard-card recent-artifacts-card">
 
@@ -705,7 +709,6 @@
             </div>
 
 
-
             <div
               class="artifact-list"
               id="recentArtifacts"
@@ -730,7 +733,6 @@
                   No artifact records yet
                 </strong>
 
-
                 <p>
                   Added artifacts will appear here.
                 </p>
@@ -743,9 +745,7 @@
 
 
 
-          <!-- =================================================
-               CONDITION OVERVIEW
-          ================================================== -->
+          <!-- CONDITION OVERVIEW -->
 
           <article class="dashboard-card condition-card">
 
@@ -766,11 +766,8 @@
             </div>
 
 
-
             <div class="condition-content">
 
-
-              <!-- GOOD -->
 
               <div class="condition-item">
 
@@ -800,8 +797,6 @@
 
 
 
-              <!-- FAIR -->
-
               <div class="condition-item">
 
                 <div class="condition-heading">
@@ -829,8 +824,6 @@
               </div>
 
 
-
-              <!-- POOR -->
 
               <div class="condition-item">
 
@@ -861,7 +854,6 @@
             </div>
 
 
-
             <div class="condition-note">
 
               <div class="condition-note-icon">
@@ -889,9 +881,7 @@
         <section class="bottom-grid">
 
 
-          <!-- =================================================
-               QUICK ACTIONS
-          ================================================== -->
+          <!-- QUICK ACTIONS -->
 
           <article class="dashboard-card">
 
@@ -912,11 +902,8 @@
             </div>
 
 
-
             <div class="quick-actions">
 
-
-              <!-- ADD ARTIFACT -->
 
               <button
                 type="button"
@@ -944,8 +931,6 @@
               </button>
 
 
-
-              <!-- SEARCH RECORDS -->
 
               <button
                 type="button"
@@ -988,8 +973,6 @@
 
 
 
-              <!-- REPORTS -->
-
               <button
                 type="button"
                 class="quick-action"
@@ -1024,8 +1007,6 @@
               </button>
 
 
-
-              <!-- USER MANAGEMENT -->
 
               <button
                 type="button"
@@ -1072,9 +1053,7 @@
 
 
 
-          <!-- =================================================
-               RECENT ACTIVITY
-          ================================================== -->
+          <!-- RECENT ACTIVITY -->
 
           <article
             class="dashboard-card admin-only"
@@ -1148,9 +1127,7 @@
 
 
 
-  <!-- =====================================================
-       MOBILE OVERLAY
-  ====================================================== -->
+  <!-- MOBILE OVERLAY -->
 
   <div
     class="sidebar-overlay"
@@ -1159,9 +1136,7 @@
 
 
 
-  <!-- =====================================================
-       LOADING SCREEN
-  ====================================================== -->
+  <!-- LOADING SCREEN -->
 
   <div
     class="page-loader"
@@ -1182,9 +1157,7 @@
 
 
 
-  <!-- =====================================================
-       DASHBOARD JAVASCRIPT
-  ====================================================== -->
+  <!-- DASHBOARD JAVASCRIPT -->
 
   <script
     type="module"

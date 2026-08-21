@@ -1,0 +1,770 @@
+/* =========================================================
+   MUSEO DE LUCENA
+   SHARED PREMIUM SIDEBAR
+========================================================= */
+
+:root {
+  --sidebar-width: 285px;
+}
+
+
+/* =========================================================
+   SIDEBAR
+========================================================= */
+
+.sidebar {
+  width: var(--sidebar-width);
+  height: 100vh;
+
+  position: fixed;
+  top: 0;
+  left: 0;
+
+  z-index: 1000;
+
+  padding: 26px 20px 20px;
+
+  display: flex;
+  flex-direction: column;
+
+  overflow: hidden;
+
+  color: #ffffff;
+
+  background:
+    linear-gradient(
+      180deg,
+      rgba(20, 10, 8, 0.93) 0%,
+      rgba(34, 15, 13, 0.85) 42%,
+      rgba(20, 10, 8, 0.95) 100%
+    ),
+    url("../images/bgformuseo.jpg")
+    center center / cover
+    no-repeat;
+
+  box-shadow:
+    8px 0 35px rgba(22, 12, 9, 0.18);
+}
+
+
+/* SUBTLE DARK VIGNETTE */
+
+.sidebar::before {
+  content: "";
+
+  position: absolute;
+
+  inset: 0;
+
+  z-index: 0;
+
+  background:
+    linear-gradient(
+      90deg,
+      rgba(12, 6, 5, 0.30),
+      rgba(12, 6, 5, 0.08) 50%,
+      rgba(12, 6, 5, 0.22)
+    );
+
+  pointer-events: none;
+}
+
+
+.sidebar > * {
+  position: relative;
+
+  z-index: 2;
+}
+
+
+/* =========================================================
+   BRAND
+========================================================= */
+
+.sidebar-brand {
+  min-height: 82px;
+
+  flex: 0 0 auto;
+
+  padding:
+    0 8px 24px;
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 14px;
+
+  border-bottom:
+    1px solid rgba(215, 188, 131, 0.22);
+}
+
+
+.sidebar-logo {
+  width: 52px;
+  height: 52px;
+
+  flex: 0 0 auto;
+
+  display: grid;
+
+  place-items: center;
+
+  border-radius: 50%;
+
+  border:
+    1px solid rgba(224, 184, 107, 0.72);
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(126, 37, 39, 0.97),
+      rgba(73, 20, 22, 0.97)
+    );
+
+  box-shadow:
+    0 8px 25px rgba(0, 0, 0, 0.25);
+
+  font-family:
+    "Playfair Display",
+    Georgia,
+    serif;
+
+  font-size: 1.65rem;
+
+  font-weight: 600;
+
+  color: #e3c27d;
+}
+
+
+.sidebar-brand-text {
+  min-width: 0;
+
+  display: flex;
+
+  flex-direction: column;
+}
+
+
+.sidebar-brand-text strong {
+  font-family:
+    "Playfair Display",
+    Georgia,
+    serif;
+
+  font-size: 1.05rem;
+
+  font-weight: 600;
+
+  line-height: 1.2;
+
+  color: #f6ead4;
+
+  white-space: nowrap;
+}
+
+
+.sidebar-brand-text span {
+  margin-top: 4px;
+
+  font-size: 0.57rem;
+
+  font-weight: 600;
+
+  letter-spacing: 0.10em;
+
+  text-transform: uppercase;
+
+  color:
+    rgba(226, 194, 128, 0.72);
+}
+
+
+/* =========================================================
+   NAVIGATION
+========================================================= */
+
+.sidebar-nav {
+  flex: 1 1 auto;
+
+  min-height: 0;
+
+  padding:
+    26px 0 18px;
+
+  overflow-y: auto;
+
+  overflow-x: hidden;
+
+  scrollbar-width: thin;
+
+  scrollbar-color:
+    rgba(215, 188, 131, 0.25)
+    transparent;
+}
+
+
+.sidebar-nav::-webkit-scrollbar {
+  width: 4px;
+}
+
+
+.sidebar-nav::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+
+.sidebar-nav::-webkit-scrollbar-thumb {
+  border-radius: 999px;
+
+  background:
+    rgba(215, 188, 131, 0.24);
+}
+
+
+.sidebar-nav::-webkit-scrollbar-thumb:hover {
+  background:
+    rgba(215, 188, 131, 0.38);
+}
+
+
+/* =========================================================
+   NAVIGATION LABEL
+========================================================= */
+
+.nav-label {
+  margin:
+    0 0 12px;
+
+  padding:
+    0 12px;
+
+  font-size: 0.61rem;
+
+  font-weight: 700;
+
+  letter-spacing: 0.16em;
+
+  text-transform: uppercase;
+
+  color: #c89a4c;
+
+  pointer-events: none;
+}
+
+
+.nav-label.second {
+  margin-top: 30px;
+
+  padding-top: 20px;
+
+  position: relative;
+}
+
+
+.nav-label.second::before {
+  content: "";
+
+  position: absolute;
+
+  top: 0;
+
+  left: 12px;
+  right: 12px;
+
+  height: 1px;
+
+  background:
+    linear-gradient(
+      90deg,
+      rgba(215, 188, 131, 0.58),
+      rgba(215, 188, 131, 0.08)
+    );
+}
+
+
+/* =========================================================
+   NAVIGATION ITEMS
+========================================================= */
+
+.nav-item {
+  min-height: 52px;
+
+  margin-bottom: 5px;
+
+  padding:
+    0 14px;
+
+  position: relative;
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 14px;
+
+  overflow: hidden;
+
+  border-radius: 11px;
+
+  border:
+    1px solid transparent;
+
+  font-size: 0.82rem;
+
+  font-weight: 600;
+
+  color:
+    rgba(255, 248, 238, 0.74);
+
+  cursor: pointer;
+
+  user-select: none;
+
+  transition:
+    color 0.22s ease,
+    background 0.22s ease,
+    transform 0.22s ease,
+    box-shadow 0.22s ease,
+    border-color 0.22s ease;
+}
+
+
+/* LEFT GOLD INDICATOR */
+
+.nav-item::before {
+  content: "";
+
+  position: absolute;
+
+  left: 0;
+
+  top: 10px;
+  bottom: 10px;
+
+  width: 3px;
+
+  border-radius: 999px;
+
+  background: transparent;
+
+  transition:
+    background 0.22s ease;
+}
+
+
+/* HOVER */
+
+.nav-item:hover {
+  color: #ffffff;
+
+  background:
+    rgba(255, 255, 255, 0.055);
+
+  transform:
+    translateX(2px);
+}
+
+
+.nav-item:hover svg {
+  color: #dfb660;
+}
+
+
+/* ACTIVE PAGE */
+
+.nav-item.active {
+  color: #ffffff;
+
+  background:
+    linear-gradient(
+      90deg,
+      rgba(117, 31, 33, 0.96),
+      rgba(92, 27, 29, 0.82)
+    );
+
+  border-color:
+    rgba(215, 188, 131, 0.11);
+
+  box-shadow:
+    0 10px 30px rgba(34, 9, 9, 0.24);
+}
+
+
+.nav-item.active::before {
+  background: #e1b85d;
+}
+
+
+.nav-item.active svg {
+  color: #e1b85d;
+}
+
+
+/* ICON */
+
+.nav-item svg {
+  width: 21px;
+  height: 21px;
+
+  flex: 0 0 auto;
+
+  fill: none;
+
+  stroke: currentColor;
+
+  stroke-width: 1.65;
+
+  stroke-linecap: round;
+
+  stroke-linejoin: round;
+
+  transition:
+    color 0.22s ease;
+
+  pointer-events: none;
+}
+
+
+.nav-item span {
+  pointer-events: none;
+}
+
+
+/* =========================================================
+   SIDEBAR FOOTER
+========================================================= */
+
+.sidebar-footer {
+  flex: 0 0 auto;
+
+  padding:
+    15px 10px 0;
+
+  border-top:
+    1px solid rgba(215, 188, 131, 0.22);
+
+  background:
+    linear-gradient(
+      180deg,
+      rgba(21, 10, 8, 0.10),
+      rgba(21, 10, 8, 0.48)
+    );
+
+  backdrop-filter:
+    blur(3px);
+}
+
+
+/* =========================================================
+   USER PROFILE
+========================================================= */
+
+.sidebar-user {
+  padding:
+    7px 4px 12px;
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 12px;
+}
+
+
+.sidebar-avatar {
+  width: 44px;
+  height: 44px;
+
+  flex: 0 0 auto;
+
+  display: grid;
+
+  place-items: center;
+
+  border-radius: 50%;
+
+  border:
+    1px solid rgba(225, 184, 93, 0.68);
+
+  background:
+    linear-gradient(
+      145deg,
+      #e0be7d,
+      #c89b4e
+    );
+
+  box-shadow:
+    0 6px 20px rgba(0, 0, 0, 0.18);
+
+  font-weight: 700;
+
+  color: #512022;
+}
+
+
+.sidebar-user-info {
+  min-width: 0;
+
+  display: flex;
+
+  flex-direction: column;
+}
+
+
+.sidebar-user-info strong {
+  overflow: hidden;
+
+  text-overflow: ellipsis;
+
+  white-space: nowrap;
+
+  font-size: 0.77rem;
+
+  color: #ffffff;
+}
+
+
+.sidebar-user-info span {
+  margin-top: 2px;
+
+  font-size: 0.64rem;
+
+  color: #d0a95f;
+}
+
+
+/* =========================================================
+   SIGN OUT
+========================================================= */
+
+.logout-button {
+  width: 100%;
+
+  min-height: 46px;
+
+  margin-top: 2px;
+
+  padding:
+    0 14px;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  gap: 10px;
+
+  border:
+    1px solid rgba(211, 165, 79, 0.45);
+
+  border-radius: 9px;
+
+  color: #d8ad63;
+
+  background:
+    rgba(25, 12, 10, 0.42);
+
+  font-size: 0.74rem;
+
+  font-weight: 700;
+
+  cursor: pointer;
+
+  transition:
+    background 0.22s ease,
+    color 0.22s ease,
+    border-color 0.22s ease,
+    transform 0.22s ease;
+}
+
+
+.logout-button:hover {
+  color: #21100e;
+
+  background: #d7bc83;
+
+  border-color: #d7bc83;
+
+  transform:
+    translateY(-1px);
+}
+
+
+.logout-button svg {
+  width: 18px;
+  height: 18px;
+
+  fill: none;
+
+  stroke: currentColor;
+
+  stroke-width: 1.7;
+
+  stroke-linecap: round;
+
+  stroke-linejoin: round;
+}
+
+
+/* =========================================================
+   ADMIN ONLY
+========================================================= */
+
+.admin-only.hidden {
+  display: none !important;
+}
+
+
+/* =========================================================
+   MOBILE SIDEBAR OVERLAY
+========================================================= */
+
+.sidebar-overlay {
+  display: none;
+
+  position: fixed;
+
+  inset: 0;
+
+  z-index: 900;
+
+  background:
+    rgba(20, 14, 12, 0.68);
+
+  backdrop-filter:
+    blur(2px);
+
+  pointer-events: none;
+}
+
+
+.sidebar-overlay.show {
+  display: block;
+
+  pointer-events: auto;
+}
+
+
+/* =========================================================
+   RESPONSIVE SIDEBAR
+========================================================= */
+
+@media (max-width: 900px) {
+
+  .sidebar {
+    transform:
+      translateX(-100%);
+
+    transition:
+      transform 0.3s ease;
+
+    box-shadow:
+      14px 0 45px rgba(0, 0, 0, 0.30);
+  }
+
+
+  .sidebar.open {
+    transform:
+      translateX(0);
+  }
+
+}
+
+
+@media (max-width: 650px) {
+
+  .sidebar {
+    width:
+      min(86vw, 300px);
+
+    padding:
+      22px 17px 18px;
+  }
+
+
+  .sidebar-brand {
+    min-height: 75px;
+
+    padding-bottom: 20px;
+  }
+
+
+  .sidebar-logo {
+    width: 48px;
+    height: 48px;
+
+    font-size: 1.5rem;
+  }
+
+
+  .sidebar-brand-text strong {
+    font-size: 1rem;
+  }
+
+
+  .sidebar-brand-text span {
+    font-size: 0.54rem;
+  }
+
+
+  .sidebar-nav {
+    padding-top: 22px;
+  }
+
+
+  .nav-item {
+    min-height: 50px;
+  }
+
+}
+/* =========================================================
+   FIX MAIN CONTENT POSITION
+   Prevent fixed sidebar from covering page content
+========================================================= */
+
+.page-layout {
+  min-height: 100vh;
+}
+
+
+/* ARTIFACTS / CATEGORIES / REPORTS / USERS / ACTIVITY */
+
+.main-content {
+  width: calc(100% - var(--sidebar-width)) !important;
+
+  min-width: 0;
+
+  min-height: 100vh;
+
+  margin-left: var(--sidebar-width) !important;
+}
+
+
+/* DASHBOARD */
+
+.dashboard-main {
+  width: calc(100% - var(--sidebar-width));
+
+  min-width: 0;
+
+  margin-left: var(--sidebar-width);
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 900px) {
+
+  .main-content,
+  .dashboard-main {
+    width: 100% !important;
+
+    margin-left: 0 !important;
+  }
+
+}

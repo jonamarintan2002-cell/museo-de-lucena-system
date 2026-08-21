@@ -209,3 +209,217 @@ button {
   }
 
 }
+
+
+/* =========================================================
+   GLOBAL MUSEO PAGE LOADER
+   Shared by all protected system pages
+========================================================= */
+
+.page-loader {
+  position: fixed !important;
+
+  inset: 0 !important;
+
+  z-index: 99999 !important;
+
+  display: flex;
+
+  flex-direction: column;
+
+  align-items: center;
+
+  justify-content: center;
+
+  gap: 17px;
+
+  overflow: hidden;
+
+  color: #fff;
+
+  background:
+    linear-gradient(
+      rgba(24, 13, 11, 0.76),
+      rgba(24, 13, 11, 0.88)
+    ),
+    url("../images/bgformuseo.jpg")
+    center center / cover
+    no-repeat !important;
+
+  pointer-events: auto;
+
+  transition:
+    opacity 0.45s ease,
+    visibility 0.45s ease;
+}
+
+
+/* =========================================================
+   CINEMATIC DARK OVERLAY
+========================================================= */
+
+.page-loader::before {
+  content: "";
+
+  position: absolute;
+
+  inset: 0;
+
+  z-index: 0;
+
+  background:
+    radial-gradient(
+      circle at center,
+      rgba(109, 41, 43, 0.04) 0%,
+      rgba(25, 13, 11, 0.20) 55%,
+      rgba(14, 8, 7, 0.48) 100%
+    );
+
+  pointer-events: none;
+}
+
+
+/* =========================================================
+   HIDE LOADER
+========================================================= */
+
+.page-loader.hide {
+  opacity: 0 !important;
+
+  visibility: hidden !important;
+
+  pointer-events: none !important;
+}
+
+
+/* =========================================================
+   LOADER LOGO
+========================================================= */
+
+.page-loader .loader-logo {
+  width: 72px !important;
+  height: 72px !important;
+
+  position: relative;
+
+  z-index: 2;
+
+  display: grid;
+
+  place-items: center;
+
+  border-radius: 50%;
+
+  border:
+    1px solid rgba(215, 188, 131, 0.65) !important;
+
+  background:
+    rgba(65, 31, 27, 0.55) !important;
+
+  backdrop-filter: blur(8px);
+
+  box-shadow:
+    0 12px 40px rgba(0, 0, 0, 0.25);
+
+  font-family:
+    "Playfair Display",
+    Georgia,
+    serif;
+
+  font-size: 2.1rem !important;
+
+  font-weight: 600;
+
+  color: #e2c98f !important;
+}
+
+
+/* =========================================================
+   LOADER SPINNER
+   Supports both loader-spinner and spinner
+========================================================= */
+
+.page-loader .loader-spinner,
+.page-loader .spinner {
+  width: 28px !important;
+  height: 28px !important;
+
+  position: relative;
+
+  z-index: 2;
+
+  border:
+    2px solid rgba(255, 255, 255, 0.17) !important;
+
+  border-top-color:
+    #d7bc83 !important;
+
+  border-right-color:
+    rgba(215, 188, 131, 0.52) !important;
+
+  border-radius: 50% !important;
+
+  background: transparent !important;
+
+  animation:
+    museoGlobalSpin 0.8s linear infinite !important;
+
+  box-shadow:
+    0 0 14px rgba(215, 188, 131, 0.08);
+}
+
+
+/* =========================================================
+   LOADER TEXT
+========================================================= */
+
+.page-loader > span {
+  position: relative;
+
+  z-index: 2;
+
+  font-size: 0.69rem !important;
+
+  font-weight: 500;
+
+  letter-spacing: 0.09em;
+
+  color:
+    rgba(255, 255, 255, 0.74) !important;
+
+  text-shadow:
+    0 2px 8px rgba(0, 0, 0, 0.45);
+}
+
+
+/* =========================================================
+   LOADER ANIMATION
+========================================================= */
+
+@keyframes museoGlobalSpin {
+
+  to {
+    transform: rotate(360deg);
+  }
+
+}
+
+
+/* =========================================================
+   LOADER MOBILE
+========================================================= */
+
+@media (max-width: 650px) {
+
+  .page-loader .loader-logo {
+    width: 64px !important;
+    height: 64px !important;
+
+    font-size: 1.8rem !important;
+  }
+
+  .page-loader > span {
+    font-size: 0.64rem !important;
+  }
+
+}
