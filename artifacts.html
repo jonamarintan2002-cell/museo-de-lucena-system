@@ -66,7 +66,10 @@
   >
 
   <!-- SHARED SIDEBAR -->
-    <link rel="stylesheet" href="assets/css/sidebar.css">
+  <link
+    rel="stylesheet"
+    href="assets/css/sidebar.css"
+  >
 
 </head>
 
@@ -86,9 +89,7 @@
     >
 
 
-      <!-- =================================================
-           BRAND
-      ================================================== -->
+      <!-- BRAND -->
 
       <div class="sidebar-brand">
 
@@ -119,9 +120,11 @@
 
       <nav class="sidebar-nav">
 
+
         <p class="nav-label">
           Workspace
         </p>
+
 
 
         <!-- DASHBOARD -->
@@ -1172,8 +1175,8 @@
 
 
               <p>
-                Artifact image upload is temporarily unavailable.
-                Records may still be saved without an image.
+                Upload a clear photograph of the artifact.
+                JPG, PNG, and WEBP files are accepted.
               </p>
 
             </div>
@@ -1195,18 +1198,17 @@
               <div class="image-placeholder">
 
                 <span>
-                  i
+                  +
                 </span>
 
 
                 <strong>
-                  Image upload temporarily unavailable
+                  No image selected
                 </strong>
 
 
                 <small>
-                  You may continue saving this artifact
-                  record without a photograph.
+                  Choose a clear photograph of the artifact.
                 </small>
 
               </div>
@@ -1220,15 +1222,10 @@
             <div class="image-controls">
 
               <label
+                for="artifactImage"
                 class="choose-image"
-                aria-disabled="true"
-                style="
-                  opacity: 0.55;
-                  cursor: not-allowed;
-                  pointer-events: none;
-                "
               >
-                Image Upload Unavailable
+                Choose Image
               </label>
 
 
@@ -1237,7 +1234,6 @@
                 id="artifactImage"
                 accept="image/jpeg,image/png,image/webp"
                 hidden
-                disabled
               >
 
 
@@ -1247,10 +1243,15 @@
                 id="removeSelectedImage"
                 disabled
               >
-                Clear Selection
+                Remove Image
               </button>
 
             </div>
+
+
+            <small class="image-upload-note">
+              Maximum file size: 5 MB.
+            </small>
 
           </div>
 
