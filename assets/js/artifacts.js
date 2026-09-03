@@ -1,13 +1,13 @@
 // =========================================================
 // MUSEO DE LUCENA
 // ARTIFACT RECORD MANAGEMENT
-// FIRESTORE + FIREBASE STORAGE VERSION
+// FIRESTORE + COMPRESSED IMAGE VERSION
+// NO FIREBASE STORAGE REQUIRED
 // =========================================================
 
 import {
   auth,
-  db,
-  storage
+  db
 } from "./firebase-config.js";
 
 
@@ -30,27 +30,32 @@ import {
 } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
 
 
-import {
-  ref as storageRef,
-  uploadBytes,
-  getDownloadURL,
-  deleteObject
-} from "https://www.gstatic.com/firebasejs/10.14.1/firebase-storage.js";
-
-
 // =========================================================
-// CONSTANTS
+// IMAGE SETTINGS
 // =========================================================
 
+// Maximum original file selected by user
 const MAX_IMAGE_SIZE =
   5 * 1024 * 1024;
 
 
+// Accepted image formats
 const ALLOWED_IMAGE_TYPES = [
   "image/jpeg",
   "image/png",
   "image/webp"
 ];
+
+
+// Maximum image dimension after compression
+const MAX_IMAGE_DIMENSION =
+  1100;
+
+
+// Target Data URL size.
+// Keeps Firestore documents much smaller.
+const TARGET_DATA_URL_LENGTH =
+  180000;
 
 
 // =========================================================
@@ -64,22 +69,25 @@ let artifacts = [];
 let categories = [];
 
 
-// STORED IMAGE
+// Existing saved Firestore image
+let existingImageData = "";
 
+
+// Backward compatibility with old Storage records
 let existingImageUrl = "";
 
 let existingImagePath = "";
 
 
-// NEW SELECTED IMAGE
-
-let selectedImageFile = null;
-
-let selectedPreviewUrl = "";
+// Newly selected compressed image
+let selectedImageData = "";
 
 
-// USED WHEN REMOVING / REPLACING EXISTING IMAGE
+// Image processing status
+let imageProcessing = false;
 
+
+// Existing image removed / replaced
 let imageMarkedForRemoval = false;
 
 
@@ -446,7 +454,7 @@ const viewUpdatedBy =
 
 
 // =========================================================
-// AUTH PROFILE
+// GET USER PROFILE
 // =========================================================
 
 async function getUserProfile(uid) {
@@ -789,7 +797,7 @@ function updateSummary() {
 
 
 // =========================================================
-// SEARCH AND FILTER
+// FILTERING
 // =========================================================
 
 function applyFilters() {
@@ -920,13 +928,21 @@ resetFilters?.addEventListener(
   "click",
   () => {
 
-    artifactSearch.value = "";
+    if (artifactSearch) {
+      artifactSearch.value = "";
+    }
 
-    categoryFilter.value = "";
+    if (categoryFilter) {
+      categoryFilter.value = "";
+    }
 
-    conditionFilter.value = "";
+    if (conditionFilter) {
+      conditionFilter.value = "";
+    }
 
-    statusFilter.value = "";
+    if (statusFilter) {
+      statusFilter.value = "";
+    }
 
     applyFilters();
 
@@ -935,7 +951,24 @@ resetFilters?.addEventListener(
 
 
 // =========================================================
-// RENDER TABLE
+// GET ARTIFACT IMAGE SOURCE
+// =========================================================
+
+function getArtifactImageSource(
+  artifact
+) {
+
+  return (
+    artifact.imageData ||
+    artifact.imageUrl ||
+    ""
+  );
+
+}
+
+
+// =========================================================
+// RENDER ARTIFACT TABLE
 // =========================================================
 
 function renderArtifacts(list) {
@@ -994,239 +1027,243 @@ function renderArtifacts(list) {
 
 
   artifactTableBody.innerHTML =
-    list
-      .map(
-        artifact => {
+    list.map(
+      artifact => {
 
-          const name =
-            escapeHTML(
-              artifact.name ||
-              artifact.artifactName ||
-              "Untitled Artifact"
-            );
-
-
-          const accession =
-            escapeHTML(
-              artifact.accessionNumber ||
-              "—"
-            );
+        const name =
+          escapeHTML(
+            artifact.name ||
+            artifact.artifactName ||
+            "Untitled Artifact"
+          );
 
 
-          const category =
-            escapeHTML(
-              artifact.category ||
-              artifact.categoryName ||
-              "Uncategorized"
-            );
+        const accession =
+          escapeHTML(
+            artifact.accessionNumber ||
+            "—"
+          );
 
 
-          const conditionValue =
-            artifact.condition ||
-            "Not specified";
+        const category =
+          escapeHTML(
+            artifact.category ||
+            artifact.categoryName ||
+            "Uncategorized"
+          );
 
 
-          const status =
-            artifact.status ||
-            "Active";
+        const conditionValue =
+          artifact.condition ||
+          "Not specified";
 
 
-          const date =
-            artifact.dateAcquired ||
-            "—";
+        const status =
+          artifact.status ||
+          "Active";
 
 
-          const originText =
-            escapeHTML(
-              artifact.origin ||
-              "Origin not specified"
-            );
+        const date =
+          artifact.dateAcquired ||
+          "—";
 
 
-          const firstLetter =
-            String(
-              artifact.name ||
-              artifact.artifactName ||
-              "A"
-            )
-              .charAt(0)
-              .toUpperCase();
+        const originText =
+          escapeHTML(
+            artifact.origin ||
+            "Origin not specified"
+          );
 
 
-          const image =
-            artifact.imageUrl
-              ? `
-                <img
-                  src="${escapeAttribute(
-                    artifact.imageUrl
-                  )}"
-                  alt="${escapeAttribute(
-                    artifact.name ||
-                    artifact.artifactName ||
-                    "Artifact"
-                  )}"
-                  loading="lazy"
-                >
-              `
-              : escapeHTML(
-                  firstLetter
-                );
+        const firstLetter =
+          String(
+            artifact.name ||
+            artifact.artifactName ||
+            "A"
+          )
+            .charAt(0)
+            .toUpperCase();
 
 
-          const deleteButton =
-            currentProfile?.role ===
-            "admin"
-              ? `
+        const imageSource =
+          getArtifactImageSource(
+            artifact
+          );
+
+
+        const image =
+          imageSource
+            ? `
+              <img
+                src="${escapeAttribute(
+                  imageSource
+                )}"
+                alt="${escapeAttribute(
+                  artifact.name ||
+                  artifact.artifactName ||
+                  "Artifact"
+                )}"
+                loading="lazy"
+              >
+            `
+            : escapeHTML(
+                firstLetter
+              );
+
+
+        const deleteButton =
+          currentProfile?.role ===
+          "admin"
+            ? `
+              <button
+                type="button"
+                class="table-action delete-button"
+                data-action="delete"
+                data-id="${artifact.id}"
+              >
+                Delete
+              </button>
+            `
+            : "";
+
+
+        const archiveText =
+          status === "Archived"
+            ? "Restore"
+            : "Archive";
+
+
+        return `
+          <tr>
+
+            <td>
+
+              <div class="artifact-cell">
+
+                <div class="artifact-thumb">
+                  ${image}
+                </div>
+
+                <div class="artifact-cell-info">
+
+                  <strong>
+                    ${name}
+                  </strong>
+
+                  <span>
+                    ${originText}
+                  </span>
+
+                </div>
+
+              </div>
+
+            </td>
+
+
+            <td>
+              ${accession}
+            </td>
+
+
+            <td>
+              ${category}
+            </td>
+
+
+            <td>
+
+              <span class="
+                condition-badge
+                ${getConditionClass(
+                  conditionValue
+                )}
+              ">
+                ${escapeHTML(
+                  conditionValue
+                )}
+              </span>
+
+            </td>
+
+
+            <td>
+
+              <span class="
+                status-badge
+                ${
+                  status === "Archived"
+                    ? "status-archived"
+                    : "status-active"
+                }
+              ">
+                ${escapeHTML(
+                  status
+                )}
+              </span>
+
+            </td>
+
+
+            <td>
+              ${escapeHTML(
+                date
+              )}
+            </td>
+
+
+            <td>
+
+              <div class="action-group">
+
                 <button
                   type="button"
-                  class="table-action delete-button"
-                  data-action="delete"
+                  class="table-action view-button"
+                  data-action="view"
                   data-id="${artifact.id}"
                 >
-                  Delete
+                  View
                 </button>
-              `
-              : "";
 
 
-          const archiveText =
-            status === "Archived"
-              ? "Restore"
-              : "Archive";
+                <button
+                  type="button"
+                  class="table-action edit-button"
+                  data-action="edit"
+                  data-id="${artifact.id}"
+                >
+                  Edit
+                </button>
 
 
-          return `
-            <tr>
-
-              <td>
-
-                <div class="artifact-cell">
-
-                  <div class="artifact-thumb">
-                    ${image}
-                  </div>
-
-                  <div class="artifact-cell-info">
-
-                    <strong>
-                      ${name}
-                    </strong>
-
-                    <span>
-                      ${originText}
-                    </span>
-
-                  </div>
-
-                </div>
-
-              </td>
+                <button
+                  type="button"
+                  class="table-action archive-button"
+                  data-action="archive"
+                  data-id="${artifact.id}"
+                >
+                  ${archiveText}
+                </button>
 
 
-              <td>
-                ${accession}
-              </td>
+                ${deleteButton}
 
+              </div>
 
-              <td>
-                ${category}
-              </td>
+            </td>
 
+          </tr>
+        `;
 
-              <td>
-
-                <span class="
-                  condition-badge
-                  ${getConditionClass(
-                    conditionValue
-                  )}
-                ">
-                  ${escapeHTML(
-                    conditionValue
-                  )}
-                </span>
-
-              </td>
-
-
-              <td>
-
-                <span class="
-                  status-badge
-                  ${
-                    status ===
-                    "Archived"
-                      ? "status-archived"
-                      : "status-active"
-                  }
-                ">
-                  ${escapeHTML(
-                    status
-                  )}
-                </span>
-
-              </td>
-
-
-              <td>
-                ${escapeHTML(
-                  date
-                )}
-              </td>
-
-
-              <td>
-
-                <div class="action-group">
-
-                  <button
-                    type="button"
-                    class="table-action view-button"
-                    data-action="view"
-                    data-id="${artifact.id}"
-                  >
-                    View
-                  </button>
-
-
-                  <button
-                    type="button"
-                    class="table-action edit-button"
-                    data-action="edit"
-                    data-id="${artifact.id}"
-                  >
-                    Edit
-                  </button>
-
-
-                  <button
-                    type="button"
-                    class="table-action archive-button"
-                    data-action="archive"
-                    data-id="${artifact.id}"
-                  >
-                    ${archiveText}
-                  </button>
-
-
-                  ${deleteButton}
-
-                </div>
-
-              </td>
-
-            </tr>
-          `;
-
-        }
-      )
-      .join("");
+      }
+    )
+    .join("");
 
 }
 
 
 // =========================================================
-// CONDITION BADGE
+// CONDITION CLASS
 // =========================================================
 
 function getConditionClass(
@@ -1240,22 +1277,15 @@ function getConditionClass(
   ) {
 
     case "good":
-
       return "condition-good";
 
-
     case "fair":
-
       return "condition-fair";
 
-
     case "poor":
-
       return "condition-poor";
 
-
     default:
-
       return "condition-fair";
 
   }
@@ -1312,7 +1342,7 @@ openAddArtifact?.addEventListener(
 
 
 // =========================================================
-// RESET FORM
+// RESET ARTIFACT FORM
 // =========================================================
 
 function resetArtifactForm() {
@@ -1328,6 +1358,10 @@ function resetArtifactForm() {
   }
 
 
+  existingImageData =
+    "";
+
+
   existingImageUrl =
     "";
 
@@ -1336,15 +1370,16 @@ function resetArtifactForm() {
     "";
 
 
-  selectedImageFile =
-    null;
+  selectedImageData =
+    "";
 
 
   imageMarkedForRemoval =
     false;
 
 
-  clearSelectedPreviewUrl();
+  imageProcessing =
+    false;
 
 
   if (artifactStatus) {
@@ -1378,7 +1413,7 @@ function resetArtifactForm() {
 
 
 // =========================================================
-// IMAGE PLACEHOLDER
+// SHOW NO IMAGE PLACEHOLDER
 // =========================================================
 
 function showNoImageSelected() {
@@ -1412,11 +1447,45 @@ function showNoImageSelected() {
 
 
 // =========================================================
-// RENDER IMAGE PREVIEW
+// SHOW PROCESSING IMAGE
+// =========================================================
+
+function showImageProcessing() {
+
+  if (!imagePreview) {
+
+    return;
+
+  }
+
+
+  imagePreview.innerHTML = `
+    <div class="image-placeholder">
+
+      <span>
+        …
+      </span>
+
+      <strong>
+        Optimizing image
+      </strong>
+
+      <small>
+        Please wait a moment.
+      </small>
+
+    </div>
+  `;
+
+}
+
+
+// =========================================================
+// SHOW IMAGE PREVIEW
 // =========================================================
 
 function showImagePreview(
-  imageUrl,
+  imageSource,
   altText = "Artifact image preview"
 ) {
 
@@ -1438,15 +1507,11 @@ function showImagePreview(
 
 
   image.src =
-    imageUrl;
+    imageSource;
 
 
   image.alt =
     altText;
-
-
-  image.loading =
-    "lazy";
 
 
   imagePreview.appendChild(
@@ -1457,28 +1522,7 @@ function showImagePreview(
 
 
 // =========================================================
-// CLEAR OBJECT URL
-// =========================================================
-
-function clearSelectedPreviewUrl() {
-
-  if (selectedPreviewUrl) {
-
-    URL.revokeObjectURL(
-      selectedPreviewUrl
-    );
-
-
-    selectedPreviewUrl =
-      "";
-
-  }
-
-}
-
-
-// =========================================================
-// REMOVE IMAGE BUTTON STATE
+// REMOVE BUTTON STATE
 // =========================================================
 
 function updateRemoveImageButton() {
@@ -1490,11 +1534,16 @@ function updateRemoveImageButton() {
   }
 
 
+  const existingSource =
+    existingImageData ||
+    existingImageUrl;
+
+
   const hasImage =
     Boolean(
-      selectedImageFile ||
+      selectedImageData ||
       (
-        existingImageUrl &&
+        existingSource &&
         !imageMarkedForRemoval
       )
     );
@@ -1507,12 +1556,306 @@ function updateRemoveImageButton() {
 
 
 // =========================================================
+// READ FILE AS DATA URL
+// =========================================================
+
+function readFileAsDataURL(
+  file
+) {
+
+  return new Promise(
+    (resolve, reject) => {
+
+      const reader =
+        new FileReader();
+
+
+      reader.onload =
+        () => {
+
+          resolve(
+            reader.result
+          );
+
+        };
+
+
+      reader.onerror =
+        () => {
+
+          reject(
+            new Error(
+              "Unable to read image file."
+            )
+          );
+
+        };
+
+
+      reader.readAsDataURL(
+        file
+      );
+
+    }
+  );
+
+}
+
+
+// =========================================================
+// LOAD IMAGE ELEMENT
+// =========================================================
+
+function loadImage(
+  source
+) {
+
+  return new Promise(
+    (resolve, reject) => {
+
+      const image =
+        new Image();
+
+
+      image.onload =
+        () => resolve(
+          image
+        );
+
+
+      image.onerror =
+        () => reject(
+          new Error(
+            "Unable to process the selected image."
+          )
+        );
+
+
+      image.src =
+        source;
+
+    }
+  );
+
+}
+
+
+// =========================================================
+// COMPRESS IMAGE
+// =========================================================
+
+async function compressImage(
+  file
+) {
+
+  const originalDataUrl =
+    await readFileAsDataURL(
+      file
+    );
+
+
+  const image =
+    await loadImage(
+      originalDataUrl
+    );
+
+
+  let width =
+    image.naturalWidth ||
+    image.width;
+
+
+  let height =
+    image.naturalHeight ||
+    image.height;
+
+
+  // Resize large images
+
+  if (
+    width >
+      MAX_IMAGE_DIMENSION ||
+    height >
+      MAX_IMAGE_DIMENSION
+  ) {
+
+    const scale =
+      Math.min(
+        MAX_IMAGE_DIMENSION /
+          width,
+
+        MAX_IMAGE_DIMENSION /
+          height
+      );
+
+
+    width =
+      Math.round(
+        width * scale
+      );
+
+
+    height =
+      Math.round(
+        height * scale
+      );
+
+  }
+
+
+  let quality =
+    0.78;
+
+
+  let compressedDataUrl =
+    "";
+
+
+  // Try multiple rounds until image
+  // reaches a reasonable size.
+
+  for (
+    let attempt = 0;
+    attempt < 10;
+    attempt++
+  ) {
+
+    const canvas =
+      document.createElement(
+        "canvas"
+      );
+
+
+    canvas.width =
+      width;
+
+
+    canvas.height =
+      height;
+
+
+    const context =
+      canvas.getContext(
+        "2d"
+      );
+
+
+    if (!context) {
+
+      throw new Error(
+        "IMAGE_PROCESSING_FAILED"
+      );
+
+    }
+
+
+    // White background prevents
+    // transparent PNG from becoming black
+    // after conversion to JPEG.
+
+    context.fillStyle =
+      "#ffffff";
+
+
+    context.fillRect(
+      0,
+      0,
+      width,
+      height
+    );
+
+
+    context.drawImage(
+      image,
+      0,
+      0,
+      width,
+      height
+    );
+
+
+    compressedDataUrl =
+      canvas.toDataURL(
+        "image/jpeg",
+        quality
+      );
+
+
+    if (
+      compressedDataUrl.length <=
+      TARGET_DATA_URL_LENGTH
+    ) {
+
+      break;
+
+    }
+
+
+    // First lower quality.
+
+    if (
+      quality >
+      0.48
+    ) {
+
+      quality -=
+        0.08;
+
+    }
+
+    // If still large,
+    // reduce dimensions.
+
+    else {
+
+      width =
+        Math.max(
+          500,
+          Math.round(
+            width * 0.85
+          )
+        );
+
+
+      height =
+        Math.max(
+          500,
+          Math.round(
+            height * 0.85
+          )
+        );
+
+    }
+
+  }
+
+
+  // Final safety limit
+
+  if (
+    compressedDataUrl.length >
+    500000
+  ) {
+
+    throw new Error(
+      "IMAGE_TOO_LARGE_AFTER_COMPRESSION"
+    );
+
+  }
+
+
+  return compressedDataUrl;
+
+}
+
+
+// =========================================================
 // IMAGE SELECTION
 // =========================================================
 
 artifactImage?.addEventListener(
   "change",
-  () => {
+  async () => {
 
     clearFormMessage();
 
@@ -1528,9 +1871,7 @@ artifactImage?.addEventListener(
     }
 
 
-    // =====================================================
-    // FILE TYPE VALIDATION
-    // =====================================================
+    // FILE TYPE
 
     if (
       !ALLOWED_IMAGE_TYPES.includes(
@@ -1542,43 +1883,20 @@ artifactImage?.addEventListener(
         "";
 
 
-      selectedImageFile =
-        null;
-
-
       showFormMessage(
         "Please select a JPG, PNG, or WEBP image.",
         "error"
       );
 
 
-      if (
-        existingImageUrl &&
-        !imageMarkedForRemoval
-      ) {
-
-        showImagePreview(
-          existingImageUrl,
-          "Existing artifact image"
-        );
-
-      } else {
-
-        showNoImageSelected();
-
-      }
-
-
-      updateRemoveImageButton();
+      restoreCurrentImagePreview();
 
       return;
 
     }
 
 
-    // =====================================================
-    // FILE SIZE VALIDATION
-    // =====================================================
+    // ORIGINAL FILE SIZE
 
     if (
       file.size >
@@ -1589,82 +1907,163 @@ artifactImage?.addEventListener(
         "";
 
 
-      selectedImageFile =
-        null;
-
-
       showFormMessage(
         "The selected image is larger than 5 MB. Please choose a smaller image.",
         "error"
       );
 
 
-      if (
-        existingImageUrl &&
-        !imageMarkedForRemoval
-      ) {
-
-        showImagePreview(
-          existingImageUrl,
-          "Existing artifact image"
-        );
-
-      } else {
-
-        showNoImageSelected();
-
-      }
-
-
-      updateRemoveImageButton();
+      restoreCurrentImagePreview();
 
       return;
 
     }
 
 
-    clearSelectedPreviewUrl();
+    try {
+
+      imageProcessing =
+        true;
 
 
-    selectedImageFile =
-      file;
+      artifactImage.disabled =
+        true;
 
 
-    selectedPreviewUrl =
-      URL.createObjectURL(
-        file
+      showImageProcessing();
+
+
+      const compressed =
+        await compressImage(
+          file
+        );
+
+
+      selectedImageData =
+        compressed;
+
+
+      imageMarkedForRemoval =
+        Boolean(
+          existingImageData ||
+          existingImageUrl
+        );
+
+
+      showImagePreview(
+        selectedImageData,
+        file.name
       );
 
 
-    // If the artifact already has an image,
-    // saving the new one means the old image
-    // will be replaced.
+      updateRemoveImageButton();
 
-    if (
-      existingImageUrl ||
-      existingImagePath
-    ) {
 
-      imageMarkedForRemoval =
-        true;
+      clearFormMessage();
+
+
+    } catch (error) {
+
+      console.error(
+        "IMAGE PROCESSING ERROR:",
+        error
+      );
+
+
+      selectedImageData =
+        "";
+
+
+      artifactImage.value =
+        "";
+
+
+      let message =
+        "Unable to process the selected image.";
+
+
+      if (
+        error.message ===
+        "IMAGE_TOO_LARGE_AFTER_COMPRESSION"
+      ) {
+
+        message =
+          "The image is still too large after optimization. Please choose a smaller image.";
+
+      }
+
+
+      showFormMessage(
+        message,
+        "error"
+      );
+
+
+      restoreCurrentImagePreview();
+
+
+    } finally {
+
+      imageProcessing =
+        false;
+
+
+      artifactImage.disabled =
+        false;
 
     }
-
-
-    showImagePreview(
-      selectedPreviewUrl,
-      file.name
-    );
-
-
-    updateRemoveImageButton();
 
   }
 );
 
 
 // =========================================================
-// REMOVE SELECTED / EXISTING IMAGE
+// RESTORE CURRENT IMAGE PREVIEW
+// =========================================================
+
+function restoreCurrentImagePreview() {
+
+  if (selectedImageData) {
+
+    showImagePreview(
+      selectedImageData
+    );
+
+
+  } else if (
+    existingImageData &&
+    !imageMarkedForRemoval
+  ) {
+
+    showImagePreview(
+      existingImageData
+    );
+
+
+  } else if (
+    existingImageUrl &&
+    !imageMarkedForRemoval
+  ) {
+
+    showImagePreview(
+      existingImageUrl
+    );
+
+
+  } else {
+
+    showNoImageSelected();
+
+  }
+
+
+  updateRemoveImageButton();
+
+}
+
+
+// =========================================================
+// REMOVE IMAGE
 // =========================================================
 
 removeSelectedImage?.addEventListener(
@@ -1674,11 +2073,8 @@ removeSelectedImage?.addEventListener(
     clearFormMessage();
 
 
-    clearSelectedPreviewUrl();
-
-
-    selectedImageFile =
-      null;
+    selectedImageData =
+      "";
 
 
     if (artifactImage) {
@@ -1690,8 +2086,8 @@ removeSelectedImage?.addEventListener(
 
 
     if (
-      existingImageUrl ||
-      existingImagePath
+      existingImageData ||
+      existingImageUrl
     ) {
 
       imageMarkedForRemoval =
@@ -1707,198 +2103,6 @@ removeSelectedImage?.addEventListener(
 
   }
 );
-
-
-// =========================================================
-// SANITIZE FILE NAME
-// =========================================================
-
-function sanitizeFileName(
-  fileName
-) {
-
-  const extensionIndex =
-    fileName.lastIndexOf(
-      "."
-    );
-
-
-  const extension =
-    extensionIndex >= 0
-      ? fileName
-          .slice(
-            extensionIndex
-          )
-          .toLowerCase()
-      : "";
-
-
-  const baseName =
-    extensionIndex >= 0
-      ? fileName.slice(
-          0,
-          extensionIndex
-        )
-      : fileName;
-
-
-  const cleanedBase =
-    baseName
-      .trim()
-      .toLowerCase()
-      .replace(
-        /[^a-z0-9-_]+/g,
-        "-"
-      )
-      .replace(
-        /-+/g,
-        "-"
-      )
-      .replace(
-        /^-|-$|^_+|_+$/g,
-        ""
-      )
-      .slice(
-        0,
-        60
-      ) ||
-    "artifact-image";
-
-
-  return (
-    cleanedBase +
-    extension
-  );
-
-}
-
-
-// =========================================================
-// UPLOAD ARTIFACT IMAGE
-// =========================================================
-
-async function uploadArtifactImage(
-  file,
-  documentId
-) {
-
-  if (!file) {
-
-    return {
-      imageUrl: "",
-      imagePath: ""
-    };
-
-  }
-
-
-  const safeFileName =
-    sanitizeFileName(
-      file.name
-    );
-
-
-  const uniqueFileName =
-    `${Date.now()}-${safeFileName}`;
-
-
-  const imagePath =
-    `artifact-images/${documentId}/${uniqueFileName}`;
-
-
-  const imageReference =
-    storageRef(
-      storage,
-      imagePath
-    );
-
-
-  const metadata = {
-
-    contentType:
-      file.type,
-
-    customMetadata: {
-
-      artifactId:
-        documentId,
-
-      uploadedBy:
-        auth.currentUser?.uid ||
-        ""
-
-    }
-
-  };
-
-
-  await uploadBytes(
-    imageReference,
-    file,
-    metadata
-  );
-
-
-  const imageUrl =
-    await getDownloadURL(
-      imageReference
-    );
-
-
-  return {
-    imageUrl,
-    imagePath
-  };
-
-}
-
-
-// =========================================================
-// SAFE DELETE STORAGE IMAGE
-// =========================================================
-
-async function safelyDeleteStorageImage(
-  imagePath
-) {
-
-  if (!imagePath) {
-
-    return;
-
-  }
-
-
-  try {
-
-    await deleteObject(
-      storageRef(
-        storage,
-        imagePath
-      )
-    );
-
-  } catch (error) {
-
-    // Object already missing = okay.
-
-    if (
-      error.code ===
-      "storage/object-not-found"
-    ) {
-
-      return;
-
-    }
-
-
-    console.error(
-      "Unable to delete Storage image:",
-      error
-    );
-
-  }
-
-}
 
 
 // =========================================================
@@ -2113,6 +2317,15 @@ function openEditArtifact(
     "";
 
 
+  // Firestore image
+
+  existingImageData =
+    artifact.imageData ||
+    "";
+
+
+  // Legacy Firebase Storage image
+
   existingImageUrl =
     artifact.imageUrl ||
     "";
@@ -2123,41 +2336,15 @@ function openEditArtifact(
     "";
 
 
+  selectedImageData =
+    "";
+
+
   imageMarkedForRemoval =
     false;
 
 
-  selectedImageFile =
-    null;
-
-
-  if (artifactImage) {
-
-    artifactImage.value =
-      "";
-
-  }
-
-
-  if (
-    existingImageUrl
-  ) {
-
-    showImagePreview(
-      existingImageUrl,
-      artifact.name ||
-      artifact.artifactName ||
-      "Existing artifact image"
-    );
-
-  } else {
-
-    showNoImageSelected();
-
-  }
-
-
-  updateRemoveImageButton();
+  restoreCurrentImagePreview();
 
 
   artifactModalTitle.textContent =
@@ -2189,6 +2376,21 @@ artifactForm?.addEventListener(
     clearFormMessage();
 
 
+    // Do not save while image
+    // is still being compressed.
+
+    if (imageProcessing) {
+
+      showFormMessage(
+        "Please wait while the image is being optimized.",
+        "error"
+      );
+
+      return;
+
+    }
+
+
     const accession =
       accessionNumber.value
         .trim();
@@ -2212,9 +2414,7 @@ artifactForm?.addEventListener(
         .trim();
 
 
-    // =====================================================
     // REQUIRED FIELDS
-    // =====================================================
 
     if (
       !accession ||
@@ -2234,9 +2434,7 @@ artifactForm?.addEventListener(
     }
 
 
-    // =====================================================
     // DUPLICATE ACCESSION NUMBER
-    // =====================================================
 
     const duplicate =
       artifacts.find(
@@ -2265,9 +2463,7 @@ artifactForm?.addEventListener(
     }
 
 
-    // =====================================================
     // CATEGORY VALIDATION
-    // =====================================================
 
     const selectedCategory =
       categories.find(
@@ -2294,13 +2490,7 @@ artifactForm?.addEventListener(
 
 
     saveArtifact.textContent =
-      selectedImageFile
-        ? "Uploading image..."
-        : "Saving...";
-
-
-    let newlyUploadedImagePath =
-      "";
+      "Saving...";
 
 
     try {
@@ -2324,80 +2514,64 @@ artifactForm?.addEventListener(
             );
 
 
-      const documentId =
-        artifactReference.id;
+      // ===================================================
+      // DETERMINE FINAL IMAGE
+      // ===================================================
+
+      let finalImageData =
+        existingImageData;
 
 
-      // Remember the old file.
-      // It will only be deleted AFTER
-      // Firestore saves successfully.
-
-      const previousImagePath =
-        existingImagePath;
-
-
-      let finalImageUrl =
+      let finalLegacyImageUrl =
         existingImageUrl;
 
 
-      let finalImagePath =
+      let finalLegacyImagePath =
         existingImagePath;
 
 
-      // ===================================================
-      // UPLOAD NEW IMAGE
-      // ===================================================
+      // NEW IMAGE SELECTED
 
-      if (selectedImageFile) {
+      if (selectedImageData) {
 
-        saveArtifact.textContent =
-          "Uploading image...";
+        finalImageData =
+          selectedImageData;
 
 
-        const uploadedImage =
-          await uploadArtifactImage(
-            selectedImageFile,
-            documentId
-          );
+        // Remove old Storage reference
+        // from the record.
+
+        finalLegacyImageUrl =
+          "";
 
 
-        finalImageUrl =
-          uploadedImage.imageUrl;
-
-
-        finalImagePath =
-          uploadedImage.imagePath;
-
-
-        newlyUploadedImagePath =
-          uploadedImage.imagePath;
-
-
-        saveArtifact.textContent =
-          "Saving record...";
+        finalLegacyImagePath =
+          "";
 
       }
 
-      // ===================================================
-      // REMOVE EXISTING IMAGE
-      // ===================================================
+      // IMAGE REMOVED
 
       else if (
         imageMarkedForRemoval
       ) {
 
-        finalImageUrl =
+        finalImageData =
           "";
 
 
-        finalImagePath =
+        finalLegacyImageUrl =
+          "";
+
+
+        finalLegacyImagePath =
           "";
 
       }
 
 
       // ===================================================
-      // FIRESTORE PAYLOAD
+      // PAYLOAD
       // ===================================================
 
       const payload = {
@@ -2447,11 +2621,19 @@ artifactForm?.addEventListener(
           remarks.value
             .trim(),
 
+        // COMPRESSED IMAGE STORED
+        // DIRECTLY IN FIRESTORE
+
+        imageData:
+          finalImageData,
+
+        // Backward compatibility
+
         imageUrl:
-          finalImageUrl,
+          finalLegacyImageUrl,
 
         imagePath:
-          finalImagePath,
+          finalLegacyImagePath,
 
         updatedAt:
           serverTimestamp(),
@@ -2467,7 +2649,7 @@ artifactForm?.addEventListener(
 
 
       // ===================================================
-      // UPDATE EXISTING ARTIFACT
+      // UPDATE
       // ===================================================
 
       if (editingId) {
@@ -2491,8 +2673,9 @@ artifactForm?.addEventListener(
 
       }
 
+
       // ===================================================
-      // CREATE NEW ARTIFACT
+      // CREATE
       // ===================================================
 
       else {
@@ -2500,6 +2683,7 @@ artifactForm?.addEventListener(
         await setDoc(
           artifactReference,
           {
+
             ...payload,
 
             createdAt:
@@ -2511,6 +2695,7 @@ artifactForm?.addEventListener(
             createdByName:
               currentProfile.fullName ||
               "Museo User"
+
           }
         );
 
@@ -2529,41 +2714,6 @@ artifactForm?.addEventListener(
       }
 
 
-      // ===================================================
-      // DELETE OLD IMAGE AFTER SUCCESSFUL FIRESTORE SAVE
-      // ===================================================
-
-      const replacedOrRemovedOldImage =
-        Boolean(
-          previousImagePath &&
-          (
-            imageMarkedForRemoval ||
-            (
-              finalImagePath &&
-              finalImagePath !==
-                previousImagePath
-            )
-          )
-        );
-
-
-      if (
-        replacedOrRemovedOldImage &&
-        previousImagePath !==
-          finalImagePath
-      ) {
-
-        await safelyDeleteStorageImage(
-          previousImagePath
-        );
-
-      }
-
-
-      newlyUploadedImagePath =
-        "";
-
-
       await loadArtifacts();
 
 
@@ -2573,7 +2723,7 @@ artifactForm?.addEventListener(
           closeArtifactFormModal();
 
         },
-        700
+        500
       );
 
 
@@ -2585,28 +2735,9 @@ artifactForm?.addEventListener(
       );
 
 
-      // If a NEW Storage image was uploaded
-      // but Firestore saving failed,
-      // remove the orphan image.
-
-      if (
-        newlyUploadedImagePath
-      ) {
-
-        await safelyDeleteStorageImage(
-          newlyUploadedImagePath
-        );
-
-      }
-
-
       let message =
         "Unable to save the artifact record. Please try again.";
 
-
-      // ===================================================
-      // FIRESTORE ERRORS
-      // ===================================================
 
       if (
         error.code ===
@@ -2614,7 +2745,7 @@ artifactForm?.addEventListener(
       ) {
 
         message =
-          "Permission denied. Please check your Firebase security rules and account role.";
+          "Permission denied by Firestore. Please check your Firestore security rules.";
 
       }
 
@@ -2630,50 +2761,17 @@ artifactForm?.addEventListener(
       }
 
 
-      // ===================================================
-      // STORAGE ERRORS
-      // ===================================================
-
       if (
-        error.code ===
-        "storage/unauthorized"
+        String(
+          error.message || ""
+        ).toLowerCase()
+          .includes(
+            "maximum"
+          )
       ) {
 
         message =
-          "Image upload was denied by Firebase Storage. Please check your Storage security rules and Firebase Storage setup.";
-
-      }
-
-
-      if (
-        error.code ===
-        "storage/canceled"
-      ) {
-
-        message =
-          "The image upload was canceled.";
-
-      }
-
-
-      if (
-        error.code ===
-        "storage/retry-limit-exceeded"
-      ) {
-
-        message =
-          "The image upload timed out. Please check your internet connection and try again.";
-
-      }
-
-
-      if (
-        error.code ===
-        "storage/unknown"
-      ) {
-
-        message =
-          "Firebase Storage encountered an error while uploading the image.";
+          "The record is too large. Please select a smaller artifact image.";
 
       }
 
@@ -2748,6 +2846,7 @@ async function toggleArchive(
         artifact.id
       ),
       {
+
         status:
           newStatus,
 
@@ -2760,6 +2859,7 @@ async function toggleArchive(
         updatedByName:
           currentProfile.fullName ||
           "Museo User"
+
       }
     );
 
@@ -2768,6 +2868,7 @@ async function toggleArchive(
       currentlyArchived
         ? "Restored artifact"
         : "Archived artifact",
+
       `${artifact.accessionNumber || ""} - ${artifact.name || ""}`
     );
 
@@ -2829,8 +2930,6 @@ async function permanentlyDeleteArtifact(
 
   try {
 
-    // Delete Firestore record first.
-
     await deleteDoc(
       doc(
         db,
@@ -2840,22 +2939,9 @@ async function permanentlyDeleteArtifact(
     );
 
 
-    // Then remove its stored image.
-    // Storage failure will not restore the Firestore record.
-
-    if (
-      artifact.imagePath
-    ) {
-
-      await safelyDeleteStorageImage(
-        artifact.imagePath
-      );
-
-    }
-
-
     await logActivity(
       "Deleted artifact",
+
       `${artifact.accessionNumber || ""} - ${artifact.name || ""}`
     );
 
@@ -2970,18 +3056,25 @@ function openViewArtifact(
 
   setText(
     viewUpdatedBy,
+
     artifact.updatedByName ||
     artifact.createdByName
   );
 
 
+  const imageSource =
+    getArtifactImageSource(
+      artifact
+    );
+
+
   if (
-    artifact.imageUrl &&
+    imageSource &&
     viewArtifactImage
   ) {
 
     viewArtifactImage.src =
-      artifact.imageUrl;
+      imageSource;
 
 
     viewArtifactImage.alt =
@@ -3127,6 +3220,7 @@ async function logActivity(
         "activity_logs"
       ),
       {
+
         action,
 
         description,
@@ -3143,14 +3237,12 @@ async function logActivity(
 
         timestamp:
           serverTimestamp()
+
       }
     );
 
 
   } catch (error) {
-
-    // Activity log failure should not
-    // prevent artifact operations.
 
     console.error(
       "Activity log error:",
@@ -3442,10 +3534,6 @@ onAuthStateChanged(
         currentProfile
       );
 
-
-      // ===================================================
-      // LOAD PAGE DATA
-      // ===================================================
 
       await Promise.all([
         loadCategories(),
