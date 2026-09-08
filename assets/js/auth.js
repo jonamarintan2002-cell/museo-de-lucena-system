@@ -2,6 +2,7 @@
 // MUSEO DE LUCENA
 // AUTHENTICATION
 // assets/js/auth.js
+// ADMIN + STAFF + CLIENT
 // =========================================================
 
 import {
@@ -27,9 +28,8 @@ import {
 // STATE
 // =========================================================
 
-// Important:
 // Prevent the auth listener from signing out the user
-// while an actual login attempt is being processed.
+// while an intentional login is being processed.
 
 let isLoggingIn = false;
 
@@ -41,28 +41,51 @@ let initialSessionChecked = false;
 // =========================================================
 
 const loginForm =
-  document.getElementById("loginForm");
+  document.getElementById(
+    "loginForm"
+  );
+
 
 const emailInput =
-  document.getElementById("email");
+  document.getElementById(
+    "email"
+  );
+
 
 const passwordInput =
-  document.getElementById("password");
+  document.getElementById(
+    "password"
+  );
+
 
 const loginButton =
-  document.getElementById("loginButton");
+  document.getElementById(
+    "loginButton"
+  );
+
 
 const loginButtonText =
-  document.getElementById("loginButtonText");
+  document.getElementById(
+    "loginButtonText"
+  );
+
 
 const loginSpinner =
-  document.getElementById("loginSpinner");
+  document.getElementById(
+    "loginSpinner"
+  );
+
 
 const loginMessage =
-  document.getElementById("loginMessage");
+  document.getElementById(
+    "loginMessage"
+  );
+
 
 const togglePassword =
-  document.getElementById("togglePassword");
+  document.getElementById(
+    "togglePassword"
+  );
 
 
 // =========================================================
@@ -89,6 +112,10 @@ function showMessage(
 }
 
 
+// =========================================================
+// CLEAR MESSAGE
+// =========================================================
+
 function clearMessage() {
 
   if (!loginMessage) {
@@ -107,7 +134,7 @@ function clearMessage() {
 
 
 // =========================================================
-// LOADING
+// LOADING STATE
 // =========================================================
 
 function setLoading(
@@ -241,6 +268,61 @@ async function getUserProfile(
 
 
 // =========================================================
+// NORMALIZE ROLE
+// =========================================================
+
+function normalizeRole(
+  role
+) {
+
+  return String(
+    role || ""
+  )
+    .trim()
+    .toLowerCase();
+
+}
+
+
+// =========================================================
+// GET ROLE HOME PAGE
+// =========================================================
+
+function getRoleHomePage(
+  role
+) {
+
+  switch (
+    normalizeRole(
+      role
+    )
+  ) {
+
+    case "admin":
+
+      return "dashboard.html";
+
+
+    case "staff":
+
+      return "dashboard.html";
+
+
+    case "client":
+
+      return "client-dashboard.html";
+
+
+    default:
+
+      return null;
+
+  }
+
+}
+
+
+// =========================================================
 // LOGIN
 // =========================================================
 
@@ -249,6 +331,7 @@ loginForm?.addEventListener(
   async event => {
 
     event.preventDefault();
+
 
     clearMessage();
 
@@ -282,7 +365,7 @@ loginForm?.addEventListener(
     }
 
 
-    // Mark that the user intentionally clicked Sign In.
+    // User intentionally clicked Sign In.
 
     isLoggingIn =
       true;
@@ -308,7 +391,7 @@ loginForm?.addEventListener(
 
 
       // ===================================================
-      // FIRESTORE USER PROFILE
+      // FIRESTORE PROFILE
       // ===================================================
 
       const profile =
@@ -318,12 +401,29 @@ loginForm?.addEventListener(
 
 
       // ===================================================
+      // NORMALIZED ROLE
+      // ===================================================
+
+      const role =
+        normalizeRole(
+          profile.role
+        );
+
+
+      // ===================================================
       // ACCOUNT STATUS
       // ===================================================
 
+      const status =
+        String(
+          profile.status || ""
+        )
+          .trim()
+          .toLowerCase();
+
+
       if (
-        profile.status !==
-        "active"
+        status !== "active"
       ) {
 
         await signOut(
@@ -344,15 +444,40 @@ loginForm?.addEventListener(
 
       const allowedRoles = [
         "admin",
-        "staff"
+        "staff",
+        "client"
       ];
 
 
       if (
         !allowedRoles.includes(
-          profile.role
+          role
         )
       ) {
+
+        await signOut(
+          auth
+        );
+
+
+        throw new Error(
+          "ROLE_NOT_ALLOWED"
+        );
+
+      }
+
+
+      // ===================================================
+      // ROLE-BASED DESTINATION
+      // ===================================================
+
+      const destination =
+        getRoleHomePage(
+          role
+        );
+
+
+      if (!destination) {
 
         await signOut(
           auth
@@ -370,23 +495,35 @@ loginForm?.addEventListener(
       // LOGIN SUCCESS
       // ===================================================
 
+      let successMessage =
+        "Login successful. Redirecting...";
+
+
+      if (
+        role === "client"
+      ) {
+
+        successMessage =
+          "Client login successful. Opening client portal...";
+
+      }
+
+
       showMessage(
-        "Login successful. Redirecting...",
+        successMessage,
         "success"
       );
 
 
-      // Redirect only AFTER:
-      // 1. Email/password authentication
-      // 2. Firestore profile check
-      // 3. Account status check
-      // 4. Role validation
+      // ===================================================
+      // REDIRECT
+      // ===================================================
 
       setTimeout(
         () => {
 
           window.location.replace(
-            "dashboard.html"
+            destination
           );
 
         },
@@ -409,7 +546,7 @@ loginForm?.addEventListener(
 
 
       let message =
-        "Your account is inactive. Please contact the system administrator.";
+        "Unable to sign in. Please check your account credentials.";
 
 
       // ===================================================
@@ -503,7 +640,7 @@ loginForm?.addEventListener(
       ) {
 
         message =
-          "This account is not authorized to access the Museo de Lucena system.";
+          "This account role is not authorized to access the Museo de Lucena system.";
 
       }
 
@@ -527,22 +664,21 @@ loginForm?.addEventListener(
 // LOGIN PAGE SESSION HANDLING
 // =========================================================
 //
-// IMPORTANT:
-// The login page should NEVER automatically redirect
-// because of a previously remembered Firebase session.
+// The login page does not automatically redirect
+// an old remembered Firebase session.
 //
-// If the browser still has an old session when login.html
-// opens, sign it out first.
+// If login.html opens while a previous Firebase session
+// still exists, it is cleared first.
 //
-// The user must intentionally click "Sign In" before the
-// system can redirect to dashboard.html.
+// The user must intentionally click Sign In.
 // =========================================================
 
 onAuthStateChanged(
   auth,
   async user => {
 
-    // Ignore auth changes caused by an intentional login.
+    // Ignore Firebase auth changes caused by
+    // the current intentional login attempt.
 
     if (isLoggingIn) {
 
@@ -551,7 +687,7 @@ onAuthStateChanged(
     }
 
 
-    // Only perform initial cleanup once.
+    // Perform initial cleanup once only.
 
     if (initialSessionChecked) {
 
@@ -564,7 +700,7 @@ onAuthStateChanged(
       true;
 
 
-    // Previous Firebase session detected.
+    // Previous session detected.
 
     if (user) {
 

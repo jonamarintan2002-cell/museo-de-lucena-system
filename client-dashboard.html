@@ -1,0 +1,791 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <title>Client Portal | Museo de Lucena</title>
+
+
+  <!-- =====================================================
+       FAVICON
+  ====================================================== -->
+
+  <link
+    rel="icon"
+    type="image/png"
+    href="assets/images/museo-logo.png?v=3"
+  >
+
+
+  <link
+    rel="shortcut icon"
+    type="image/png"
+    href="assets/images/museo-logo.png?v=3"
+  >
+
+
+  <!-- =====================================================
+       GOOGLE FONTS
+  ====================================================== -->
+
+  <link
+    rel="preconnect"
+    href="https://fonts.googleapis.com"
+  >
+
+
+  <link
+    rel="preconnect"
+    href="https://fonts.gstatic.com"
+    crossorigin
+  >
+
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap"
+    rel="stylesheet"
+  >
+
+
+  <!-- =====================================================
+       STYLESHEETS
+  ====================================================== -->
+
+  <link
+    rel="stylesheet"
+    href="assets/css/global.css"
+  >
+
+
+  <link
+    rel="stylesheet"
+    href="assets/css/client-dashboard.css"
+  >
+
+
+  <link
+    rel="stylesheet"
+    href="assets/css/sidebar.css"
+  >
+
+</head>
+
+
+<body>
+
+
+  <div class="client-layout">
+
+
+    <!-- =====================================================
+         CLIENT SIDEBAR
+    ====================================================== -->
+
+    <aside
+      class="sidebar"
+      id="sidebar"
+    >
+
+
+      <!-- =================================================
+           BRAND
+      ================================================== -->
+
+      <div class="sidebar-brand">
+
+
+        <div class="sidebar-logo">
+          M
+        </div>
+
+
+        <div class="sidebar-brand-text">
+
+          <strong>
+            Museo de Lucena
+          </strong>
+
+          <span>
+            Client Portal
+          </span>
+
+        </div>
+
+      </div>
+
+
+
+      <!-- =================================================
+           CLIENT NAVIGATION
+      ================================================== -->
+
+      <nav class="sidebar-nav">
+
+
+        <p class="nav-label">
+          Client Access
+        </p>
+
+
+
+        <!-- CLIENT DASHBOARD -->
+
+        <a
+          href="client-dashboard.html"
+          class="nav-item active"
+          aria-current="page"
+        >
+
+          <svg viewBox="0 0 24 24">
+
+            <path
+              d="M4 4h6v6H4zM14 4h6v6h-6zM4 14h6v6H4zM14 14h6v6h-6z"
+            />
+
+          </svg>
+
+          <span>
+            Dashboard
+          </span>
+
+        </a>
+
+
+
+        <!-- BROWSE ARTIFACTS -->
+
+        <a
+          href="client-artifacts.html"
+          class="nav-item"
+        >
+
+          <svg viewBox="0 0 24 24">
+
+            <path
+              d="M5 4h14v16H5zM8 8h8M8 12h8M8 16h5"
+            />
+
+          </svg>
+
+          <span>
+            Browse Artifacts
+          </span>
+
+        </a>
+
+      </nav>
+
+
+
+      <!-- =================================================
+           CLIENT USER PROFILE
+      ================================================== -->
+
+      <div class="sidebar-footer">
+
+
+        <div class="sidebar-user">
+
+
+          <div
+            class="sidebar-avatar"
+            id="clientSidebarAvatar"
+          >
+            C
+          </div>
+
+
+          <div class="sidebar-user-info">
+
+            <strong id="clientSidebarName">
+              Loading...
+            </strong>
+
+            <span id="clientSidebarRole">
+              Client
+            </span>
+
+          </div>
+
+        </div>
+
+
+
+        <button
+          type="button"
+          class="logout-button"
+          id="clientLogoutButton"
+        >
+
+          <svg viewBox="0 0 24 24">
+
+            <path
+              d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4M10 17l5-5-5-5M15 12H3"
+            />
+
+          </svg>
+
+          <span>
+            Sign Out
+          </span>
+
+        </button>
+
+      </div>
+
+    </aside>
+
+
+
+    <!-- =====================================================
+         MAIN CONTENT
+    ====================================================== -->
+
+    <main class="client-main">
+
+
+      <!-- =================================================
+           TOPBAR
+      ================================================== -->
+
+      <header class="client-topbar">
+
+
+        <div class="topbar-left">
+
+
+          <button
+            type="button"
+            class="menu-button"
+            id="menuButton"
+            aria-label="Open sidebar"
+          >
+
+            <span></span>
+            <span></span>
+            <span></span>
+
+          </button>
+
+
+
+          <div>
+
+            <span class="page-label">
+              Museo de Lucena
+            </span>
+
+            <h1>
+              Client Dashboard
+            </h1>
+
+          </div>
+
+        </div>
+
+
+
+        <div class="client-topbar-profile">
+
+
+          <div
+            class="client-topbar-avatar"
+            id="clientTopbarAvatar"
+          >
+            C
+          </div>
+
+
+          <div>
+
+            <strong id="clientTopbarName">
+              Loading...
+            </strong>
+
+            <span>
+              Client
+            </span>
+
+          </div>
+
+        </div>
+
+      </header>
+
+
+
+      <!-- =================================================
+           DASHBOARD CONTENT
+      ================================================== -->
+
+      <div class="client-content">
+
+
+        <!-- =================================================
+             WELCOME SECTION
+        ================================================== -->
+
+        <section class="client-welcome">
+
+
+          <div class="welcome-content">
+
+            <span class="welcome-label">
+              Digital Museum Collection
+            </span>
+
+
+            <h2>
+
+              Welcome,
+
+              <span id="clientWelcomeName">
+                Client
+              </span>.
+
+            </h2>
+
+
+            <p>
+              Explore the documented artifact collection of
+              Museo de Lucena and view available historical
+              information through the digital records system.
+            </p>
+
+          </div>
+
+
+
+          <a
+            href="client-artifacts.html"
+            class="browse-button"
+          >
+
+            <svg viewBox="0 0 24 24">
+
+              <circle
+                cx="11"
+                cy="11"
+                r="6"
+              />
+
+              <path
+                d="M16 16l5 5"
+              />
+
+            </svg>
+
+            Browse Collection
+
+          </a>
+
+        </section>
+
+
+
+        <!-- =================================================
+             STATISTICS
+        ================================================== -->
+
+        <section class="client-stats">
+
+
+          <!-- TOTAL ARTIFACTS -->
+
+          <article class="client-stat-card">
+
+
+            <div class="stat-icon">
+
+              <svg viewBox="0 0 24 24">
+
+                <path
+                  d="M5 4h14v16H5zM8 8h8M8 12h8M8 16h5"
+                />
+
+              </svg>
+
+            </div>
+
+
+            <div>
+
+              <strong id="clientTotalArtifacts">
+                0
+              </strong>
+
+              <span>
+                Artifact Records
+              </span>
+
+            </div>
+
+          </article>
+
+
+
+          <!-- CATEGORIES -->
+
+          <article class="client-stat-card">
+
+
+            <div class="stat-icon">
+
+              <svg viewBox="0 0 24 24">
+
+                <path
+                  d="M4 6h7l2 2h7v10H4z"
+                />
+
+              </svg>
+
+            </div>
+
+
+            <div>
+
+              <strong id="clientTotalCategories">
+                0
+              </strong>
+
+              <span>
+                Categories
+              </span>
+
+            </div>
+
+          </article>
+
+
+
+          <!-- GOOD CONDITION -->
+
+          <article class="client-stat-card">
+
+
+            <div class="stat-icon">
+
+              <svg viewBox="0 0 24 24">
+
+                <path
+                  d="M20 6L9 17l-5-5"
+                />
+
+              </svg>
+
+            </div>
+
+
+            <div>
+
+              <strong id="clientGoodCondition">
+                0
+              </strong>
+
+              <span>
+                Good Condition
+              </span>
+
+            </div>
+
+          </article>
+
+        </section>
+
+
+
+        <!-- =================================================
+             CONTENT GRID
+        ================================================== -->
+
+        <section class="client-grid">
+
+
+          <!-- =================================================
+               RECENT ARTIFACTS
+          ================================================== -->
+
+          <article class="client-card recent-client-artifacts">
+
+
+            <div class="client-card-header">
+
+              <div>
+
+                <span class="card-label">
+                  Collection
+                </span>
+
+                <h3>
+                  Recently Added Artifacts
+                </h3>
+
+              </div>
+
+
+              <a
+                href="client-artifacts.html"
+                class="view-all-link"
+              >
+                View All
+              </a>
+
+            </div>
+
+
+
+            <div
+              class="client-artifact-list"
+              id="clientRecentArtifacts"
+            >
+
+
+              <div class="client-empty-state">
+
+                <div class="empty-symbol">
+                  M
+                </div>
+
+
+                <strong>
+                  Loading collection...
+                </strong>
+
+
+                <p>
+                  Recent artifacts will appear here.
+                </p>
+
+              </div>
+
+            </div>
+
+          </article>
+
+
+
+          <!-- =================================================
+               ABOUT CLIENT ACCESS
+          ================================================== -->
+
+          <article class="client-card access-card">
+
+
+            <div class="client-card-header">
+
+              <div>
+
+                <span class="card-label">
+                  Access
+                </span>
+
+                <h3>
+                  Client Portal
+                </h3>
+
+              </div>
+
+            </div>
+
+
+
+            <div class="access-information">
+
+
+              <div class="access-item">
+
+                <div class="access-icon">
+
+                  <svg viewBox="0 0 24 24">
+
+                    <circle
+                      cx="11"
+                      cy="11"
+                      r="6"
+                    />
+
+                    <path
+                      d="M16 16l5 5"
+                    />
+
+                  </svg>
+
+                </div>
+
+
+                <div>
+
+                  <strong>
+                    Search Records
+                  </strong>
+
+                  <p>
+                    Search available artifact information
+                    using the digital collection.
+                  </p>
+
+                </div>
+
+              </div>
+
+
+
+              <div class="access-item">
+
+                <div class="access-icon">
+
+                  <svg viewBox="0 0 24 24">
+
+                    <path
+                      d="M2 12s4-6 10-6 10 6 10 6-4 6-10 6S2 12 2 12z"
+                    />
+
+                    <circle
+                      cx="12"
+                      cy="12"
+                      r="2"
+                    />
+
+                  </svg>
+
+                </div>
+
+
+                <div>
+
+                  <strong>
+                    View Artifact Details
+                  </strong>
+
+                  <p>
+                    Read descriptions, historical background,
+                    provenance, and other available records.
+                  </p>
+
+                </div>
+
+              </div>
+
+
+
+              <div class="access-item">
+
+                <div class="access-icon">
+
+                  <svg viewBox="0 0 24 24">
+
+                    <path
+                      d="M12 3L4 7v5c0 5 3 8 8 9 5-1 8-4 8-9V7z"
+                    />
+
+                    <path
+                      d="M9 12l2 2 4-4"
+                    />
+
+                  </svg>
+
+                </div>
+
+
+                <div>
+
+                  <strong>
+                    View-Only Access
+                  </strong>
+
+                  <p>
+                    Client accounts cannot modify,
+                    archive, or delete museum records.
+                  </p>
+
+                </div>
+
+              </div>
+
+            </div>
+
+          </article>
+
+        </section>
+
+
+
+        <!-- =================================================
+             FOOTER
+        ================================================== -->
+
+        <footer class="client-footer">
+
+          <span>
+            Museo de Lucena Artifact Records System
+          </span>
+
+          <span>
+            Client Access Portal
+          </span>
+
+        </footer>
+
+      </div>
+
+    </main>
+
+  </div>
+
+
+
+  <!-- =====================================================
+       MOBILE SIDEBAR OVERLAY
+  ====================================================== -->
+
+  <div
+    class="sidebar-overlay"
+    id="sidebarOverlay"
+  ></div>
+
+
+
+  <!-- =====================================================
+       PAGE LOADER
+  ====================================================== -->
+
+  <div
+    class="page-loader"
+    id="pageLoader"
+  >
+
+    <div class="loader-logo">
+      M
+    </div>
+
+
+    <div class="spinner"></div>
+
+
+    <span>
+      Loading client portal...
+    </span>
+
+  </div>
+
+
+
+  <!-- =====================================================
+       JAVASCRIPT
+  ====================================================== -->
+
+  <script
+    type="module"
+    src="assets/js/client-dashboard.js"
+  ></script>
+
+</body>
+
+</html>
