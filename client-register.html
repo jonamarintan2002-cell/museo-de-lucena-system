@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <title>Client Registration | Museo de Lucena</title>
+
+
+  <!-- =====================================================
+       FAVICON
+  ====================================================== -->
+
+  <link
+    rel="icon"
+    type="image/png"
+    href="assets/images/museo-logo.png?v=3"
+  >
+
+
+  <link
+    rel="shortcut icon"
+    type="image/png"
+    href="assets/images/museo-logo.png?v=3"
+  >
+
+
+  <!-- =====================================================
+       GOOGLE FONTS
+  ====================================================== -->
+
+  <link
+    rel="preconnect"
+    href="https://fonts.googleapis.com"
+  >
+
+
+  <link
+    rel="preconnect"
+    href="https://fonts.gstatic.com"
+    crossorigin
+  >
+
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap"
+    rel="stylesheet"
+  >
+
+
+  <!-- =====================================================
+       STYLESHEETS
+  ====================================================== -->
+
+  <link
+    rel="stylesheet"
+    href="assets/css/global.css"
+  >
+
+
+  <link
+    rel="stylesheet"
+    href="assets/css/client-register.css"
+  >
+
+</head>
+
+
+<body class="client-register-page">
+
+
+  <!-- =====================================================
+       PAGE
+  ====================================================== -->
+
+  <main class="register-shell">
+
+
+    <!-- ===================================================
+         LEFT VISUAL PANEL
+    ==================================================== -->
+
+    <section class="register-visual">
+
+
+      <div class="register-visual-overlay"></div>
+
+
+      <div class="register-brand">
+
+
+        <div class="register-logo">
+          M
+        </div>
+
+
+        <div>
+
+          <strong>
+            Museo de Lucena
+          </strong>
+
+          <span>
+            Artifact Records System
+          </span>
+
+        </div>
+
+      </div>
+
+
+
+      <div class="register-visual-content">
+
+
+        <span class="register-eyebrow">
+          Digital Heritage Access
+        </span>
+
+
+        <h1>
+          Explore and appreciate
+          Lucena's cultural heritage.
+        </h1>
+
+
+        <p>
+          Create a client account to browse available
+          artifact records, photographs, descriptions,
+          historical information, and provenance documented
+          by Museo de Lucena.
+        </p>
+
+
+        <div class="register-access-note">
+
+          <span class="note-icon">
+            ✓
+          </span>
+
+
+          <div>
+
+            <strong>
+              View-only client access
+            </strong>
+
+            <p>
+              Client accounts cannot modify, archive,
+              or delete official museum records.
+            </p>
+
+          </div>
+
+        </div>
+
+      </div>
+
+
+
+      <div class="register-visual-footer">
+        Museo de Lucena · Lucena City
+      </div>
+
+    </section>
+
+
+
+    <!-- ===================================================
+         REGISTRATION PANEL
+    ==================================================== -->
+
+    <section class="register-panel">
+
+
+      <div class="register-card">
+
+
+        <!-- =================================================
+             HEADING
+        ================================================== -->
+
+        <div class="register-heading">
+
+
+          <span class="register-label">
+            Client Portal
+          </span>
+
+
+          <h2>
+            Create your account.
+          </h2>
+
+
+          <p>
+            Fill in your information to register as a
+            Museo de Lucena client.
+          </p>
+
+        </div>
+
+
+
+        <!-- =================================================
+             REGISTRATION FORM
+        ================================================== -->
+
+        <form
+          id="clientRegisterForm"
+          novalidate
+        >
+
+
+          <!-- FULL NAME -->
+
+          <div class="form-group">
+
+            <label for="fullName">
+              Full Name
+              <span>*</span>
+            </label>
+
+
+            <input
+              type="text"
+              id="fullName"
+              name="fullName"
+              placeholder="Enter your complete name"
+              autocomplete="name"
+              maxlength="120"
+              required
+            >
+
+          </div>
+
+
+
+          <!-- EMAIL -->
+
+          <div class="form-group">
+
+            <label for="email">
+              Email Address
+              <span>*</span>
+            </label>
+
+
+            <input
+              type="email"
+              id="email"
+              name="email"
+              placeholder="example@email.com"
+              autocomplete="email"
+              maxlength="150"
+              required
+            >
+
+          </div>
+
+
+
+          <!-- CONTACT NUMBER -->
+
+          <div class="form-group">
+
+            <label for="contactNumber">
+              Contact Number
+            </label>
+
+
+            <input
+              type="tel"
+              id="contactNumber"
+              name="contactNumber"
+              placeholder="e.g. 0917 123 4567"
+              autocomplete="tel"
+              maxlength="30"
+            >
+
+          </div>
+
+
+
+          <!-- ADDRESS -->
+
+          <div class="form-group">
+
+            <label for="address">
+              Address
+            </label>
+
+
+            <textarea
+              id="address"
+              name="address"
+              rows="3"
+              maxlength="300"
+              placeholder="Enter your current address"
+              autocomplete="street-address"
+            ></textarea>
+
+          </div>
+
+
+
+          <!-- PASSWORD ROW -->
+
+          <div class="password-grid">
+
+
+            <!-- PASSWORD -->
+
+            <div class="form-group">
+
+              <label for="password">
+                Password
+                <span>*</span>
+              </label>
+
+
+              <div class="password-field">
+
+                <input
+                  type="password"
+                  id="password"
+                  name="password"
+                  placeholder="Create password"
+                  autocomplete="new-password"
+                  minlength="8"
+                  maxlength="100"
+                  required
+                >
+
+
+                <button
+                  type="button"
+                  class="password-toggle"
+                  id="togglePassword"
+                  aria-label="Show password"
+                >
+                  Show
+                </button>
+
+              </div>
+
+            </div>
+
+
+
+            <!-- CONFIRM PASSWORD -->
+
+            <div class="form-group">
+
+              <label for="confirmPassword">
+                Confirm Password
+                <span>*</span>
+              </label>
+
+
+              <div class="password-field">
+
+                <input
+                  type="password"
+                  id="confirmPassword"
+                  name="confirmPassword"
+                  placeholder="Repeat password"
+                  autocomplete="new-password"
+                  minlength="8"
+                  maxlength="100"
+                  required
+                >
+
+
+                <button
+                  type="button"
+                  class="password-toggle"
+                  id="toggleConfirmPassword"
+                  aria-label="Show confirm password"
+                >
+                  Show
+                </button>
+
+              </div>
+
+            </div>
+
+          </div>
+
+
+
+          <!-- PASSWORD GUIDE -->
+
+          <div class="password-guide">
+
+            <span>
+              Password must contain at least 8 characters.
+            </span>
+
+          </div>
+
+
+
+          <!-- =================================================
+               MESSAGE
+          ================================================== -->
+
+          <div
+            class="register-message"
+            id="registerMessage"
+            aria-live="polite"
+          ></div>
+
+
+
+          <!-- =================================================
+               REGISTER BUTTON
+          ================================================== -->
+
+          <button
+            type="submit"
+            class="register-button"
+            id="registerButton"
+          >
+
+            <span id="registerButtonText">
+              Create Client Account
+            </span>
+
+
+            <span
+              class="register-spinner"
+              id="registerSpinner"
+              aria-hidden="true"
+            ></span>
+
+          </button>
+
+        </form>
+
+
+
+        <!-- =================================================
+             LOGIN LINK
+        ================================================== -->
+
+        <div class="login-link">
+
+          <span>
+            Already have an account?
+          </span>
+
+
+          <a href="login.html">
+            Sign In
+          </a>
+
+        </div>
+
+
+
+        <!-- =================================================
+             SECURITY NOTE
+        ================================================== -->
+
+        <div class="client-security-note">
+
+          <span class="security-icon">
+            i
+          </span>
+
+
+          <p>
+            Newly registered accounts are automatically
+            assigned as Client accounts and receive
+            view-only access to the museum collection.
+          </p>
+
+        </div>
+
+      </div>
+
+    </section>
+
+  </main>
+
+
+
+  <!-- =====================================================
+       JAVASCRIPT
+  ====================================================== -->
+
+  <script
+    type="module"
+    src="assets/js/client-register.js"
+  ></script>
+
+</body>
+
+</html>
