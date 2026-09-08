@@ -2,6 +2,7 @@
 // MUSEO DE LUCENA
 // USER MANAGEMENT
 // assets/js/users.js
+// ADMIN + STAFF + CLIENT / EVALUATOR
 // =========================================================
 
 
@@ -18,8 +19,6 @@ import {
 
 // =========================================================
 // FIREBASE APP
-// Secondary Firebase app is used when creating staff
-// accounts so the current Administrator stays signed in.
 // =========================================================
 
 import {
@@ -47,6 +46,7 @@ import {
 import {
   collection,
   addDoc,
+  deleteDoc,
   doc,
   getDoc,
   getDocs,
@@ -57,7 +57,7 @@ import {
 
 
 // =========================================================
-// SECONDARY AUTH INSTANCE
+// SECONDARY AUTH
 // =========================================================
 
 const secondaryAppName =
@@ -135,7 +135,7 @@ const logoutButton =
 
 
 // =========================================================
-// USER DISPLAY
+// CURRENT USER DISPLAY
 // =========================================================
 
 const sidebarUserName =
@@ -213,7 +213,7 @@ const resetUserFilters =
 
 
 // =========================================================
-// USER TABLE
+// TABLE
 // =========================================================
 
 const usersTableBody =
@@ -309,10 +309,12 @@ const userFormMessage =
 
 
 // =========================================================
-// GET CURRENT USER PROFILE
+// GET PROFILE
 // =========================================================
 
-async function getUserProfile(uid) {
+async function getUserProfile(
+  uid
+) {
 
   const reference =
     doc(
@@ -423,40 +425,37 @@ async function loadUsers() {
     users.sort(
       (a, b) => {
 
+        const priority = {
+          admin: 0,
+          staff: 1,
+          client: 2
+        };
+
+
         const roleA =
-          String(
-            a.role || ""
-          );
+          priority[
+            String(
+              a.role || ""
+            ).toLowerCase()
+          ] ?? 99;
 
 
         const roleB =
-          String(
-            b.role || ""
-          );
+          priority[
+            String(
+              b.role || ""
+            ).toLowerCase()
+          ] ?? 99;
 
-
-        // Administrators first
 
         if (
           roleA !== roleB
         ) {
 
-          if (
-            roleA === "admin"
-          ) {
-
-            return -1;
-
-          }
-
-
-          if (
-            roleB === "admin"
-          ) {
-
-            return 1;
-
-          }
+          return (
+            roleA -
+            roleB
+          );
 
         }
 
@@ -522,7 +521,7 @@ async function loadUsers() {
 
 
 // =========================================================
-// LOADING STATE
+// LOADING
 // =========================================================
 
 function showUsersLoading() {
@@ -546,7 +545,7 @@ function showUsersLoading() {
           </strong>
 
           <p>
-            Retrieving authorized system profiles.
+            Retrieving system profiles.
           </p>
 
         </div>
@@ -628,7 +627,7 @@ function updateSummary() {
 
 
 // =========================================================
-// FILTER USERS
+// FILTER
 // =========================================================
 
 function applyFilters() {
@@ -734,26 +733,17 @@ resetUserFilters?.addEventListener(
   () => {
 
     if (userSearch) {
-
-      userSearch.value =
-        "";
-
+      userSearch.value = "";
     }
 
 
     if (roleFilter) {
-
-      roleFilter.value =
-        "";
-
+      roleFilter.value = "";
     }
 
 
     if (userStatusFilter) {
-
-      userStatusFilter.value =
-        "";
-
+      userStatusFilter.value = "";
     }
 
 
@@ -764,10 +754,74 @@ resetUserFilters?.addEventListener(
 
 
 // =========================================================
+// ROLE DISPLAY
+// =========================================================
+
+function getRoleDisplay(
+  role
+) {
+
+  switch (
+    String(
+      role || ""
+    ).toLowerCase()
+  ) {
+
+    case "admin":
+
+      return {
+        label:
+          "Administrator",
+
+        className:
+          "admin"
+      };
+
+
+    case "staff":
+
+      return {
+        label:
+          "Museum Staff",
+
+        className:
+          "staff"
+      };
+
+
+    case "client":
+
+      return {
+        label:
+          "Evaluator",
+
+        className:
+          "client"
+      };
+
+
+    default:
+
+      return {
+        label:
+          "Unknown",
+
+        className:
+          "staff"
+      };
+
+  }
+
+}
+
+
+// =========================================================
 // RENDER USERS
 // =========================================================
 
-function renderUsers(list) {
+function renderUsers(
+  list
+) {
 
   if (!usersTableBody) {
 
@@ -838,18 +892,10 @@ function renderUsers(list) {
             );
 
 
-          const role =
-            user.role ===
-            "admin"
-              ? "Administrator"
-              : "Museum Staff";
-
-
-          const roleClass =
-            user.role ===
-            "admin"
-              ? "admin"
-              : "staff";
+          const roleInfo =
+            getRoleDisplay(
+              user.role
+            );
 
 
           const status =
@@ -881,58 +927,97 @@ function renderUsers(list) {
               .toUpperCase();
 
 
+          const isCurrentAccount =
+            user.id ===
+            auth.currentUser?.uid;
+
+
           let actions =
             "";
 
 
-          // Only Staff accounts can be enabled/disabled
-          // from this page.
+          // =================================================
+          // CURRENT ADMIN
+          // =================================================
 
           if (
-            user.role === "staff"
+            isCurrentAccount
           ) {
 
-            if (
-              user.status ===
-              "inactive"
-            ) {
-
-              actions = `
-                <button
-                  type="button"
-                  class="user-action activate"
-                  data-action="activate"
-                  data-id="${user.id}"
-                >
-                  Activate
-                </button>
-              `;
-
-            }
-
-            else {
-
-              actions = `
-                <button
-                  type="button"
-                  class="user-action deactivate"
-                  data-action="deactivate"
-                  data-id="${user.id}"
-                >
-                  Deactivate
-                </button>
-              `;
-
-            }
+            actions = `
+              <span
+                title="You cannot modify your currently signed-in administrator account."
+              >
+                —
+              </span>
+            `;
 
           }
 
-          else {
+
+          // =================================================
+          // OTHER ADMINISTRATORS
+          // =================================================
+
+          else if (
+            user.role ===
+            "admin"
+          ) {
 
             actions = `
-              <span>
+              <span
+                title="Administrator accounts cannot be deleted from this page."
+              >
                 —
               </span>
+            `;
+
+          }
+
+
+          // =================================================
+          // STAFF / CLIENT
+          // =================================================
+
+          else {
+
+            const statusButton =
+              user.status ===
+              "inactive"
+                ? `
+                  <button
+                    type="button"
+                    class="user-action activate"
+                    data-action="activate"
+                    data-id="${user.id}"
+                  >
+                    Activate
+                  </button>
+                `
+                : `
+                  <button
+                    type="button"
+                    class="user-action deactivate"
+                    data-action="deactivate"
+                    data-id="${user.id}"
+                  >
+                    Deactivate
+                  </button>
+                `;
+
+
+            actions = `
+              ${statusButton}
+
+              <button
+                type="button"
+                class="user-action delete"
+                data-action="delete"
+                data-id="${user.id}"
+                title="Permanently delete this system profile"
+              >
+                Delete
+              </button>
             `;
 
           }
@@ -960,10 +1045,12 @@ function renderUsers(list) {
 
                     <span>
                       ${
-                        user.id ===
-                        auth.currentUser?.uid
+                        isCurrentAccount
                           ? "Current account"
-                          : "System user"
+                          : user.role ===
+                            "client"
+                            ? "Registered evaluator"
+                            : "System user"
                       }
                     </span>
 
@@ -984,10 +1071,12 @@ function renderUsers(list) {
                 <span
                   class="
                     role-badge
-                    ${roleClass}
+                    ${roleInfo.className}
                   "
                 >
-                  ${role}
+                  ${escapeHTML(
+                    roleInfo.label
+                  )}
                 </span>
 
               </td>
@@ -1033,7 +1122,7 @@ function renderUsers(list) {
 
 
 // =========================================================
-// OPEN ADD STAFF MODAL
+// OPEN ADD STAFF
 // =========================================================
 
 openAddUser?.addEventListener(
@@ -1072,7 +1161,7 @@ openAddUser?.addEventListener(
 
 
 // =========================================================
-// CLOSE USER MODAL
+// CLOSE MODAL
 // =========================================================
 
 function closeModal() {
@@ -1117,7 +1206,7 @@ userModal?.addEventListener(
 
 
 // =========================================================
-// ESC KEY
+// ESC
 // =========================================================
 
 document.addEventListener(
@@ -1125,7 +1214,8 @@ document.addEventListener(
   event => {
 
     if (
-      event.key === "Escape" &&
+      event.key ===
+        "Escape" &&
       userModal?.classList.contains(
         "show"
       )
@@ -1191,12 +1281,9 @@ userForm?.addEventListener(
 
     event.preventDefault();
 
+
     clearFormMessage();
 
-
-    // =====================================================
-    // ADMIN ONLY
-    // =====================================================
 
     if (
       currentProfile?.role !==
@@ -1208,14 +1295,11 @@ userForm?.addEventListener(
         "error"
       );
 
+
       return;
 
     }
 
-
-    // =====================================================
-    // FORM VALUES
-    // =====================================================
 
     const fullName =
       userFullName.value
@@ -1237,10 +1321,6 @@ userForm?.addEventListener(
       "active";
 
 
-    // =====================================================
-    // VALIDATION
-    // =====================================================
-
     if (
       !fullName ||
       !email ||
@@ -1252,13 +1332,15 @@ userForm?.addEventListener(
         "error"
       );
 
+
       return;
 
     }
 
 
     if (
-      password.length < 8
+      password.length <
+      8
     ) {
 
       showFormMessage(
@@ -1266,22 +1348,21 @@ userForm?.addEventListener(
         "error"
       );
 
+
       userPassword.focus();
+
 
       return;
 
     }
 
 
-    // =====================================================
-    // CHECK EMAIL IN FIRESTORE
-    // =====================================================
-
     const duplicate =
       users.find(
         user =>
           String(
-            user.email || ""
+            user.email ||
+            ""
           )
             .trim()
             .toLowerCase() ===
@@ -1296,6 +1377,7 @@ userForm?.addEventListener(
         "error"
       );
 
+
       return;
 
     }
@@ -1309,20 +1391,7 @@ userForm?.addEventListener(
       "Creating Account...";
 
 
-    let createdAuthUser =
-      null;
-
-
     try {
-
-      // ===================================================
-      // CREATE AUTH USER USING SECONDARY AUTH
-      //
-      // IMPORTANT:
-      // This does NOT replace the current Administrator
-      // session because secondaryAuth is a separate
-      // Firebase Auth instance.
-      // ===================================================
 
       const credential =
         await createUserWithEmailAndPassword(
@@ -1332,17 +1401,9 @@ userForm?.addEventListener(
         );
 
 
-      createdAuthUser =
-        credential.user;
-
-
       const newUid =
         credential.user.uid;
 
-
-      // ===================================================
-      // CREATE FIRESTORE PROFILE
-      // ===================================================
 
       await setDoc(
         doc(
@@ -1351,6 +1412,7 @@ userForm?.addEventListener(
           newUid
         ),
         {
+
           fullName,
 
           email,
@@ -1369,13 +1431,10 @@ userForm?.addEventListener(
           createdByName:
             currentProfile.fullName ||
             "Museo Administrator"
+
         }
       );
 
-
-      // ===================================================
-      // SIGN OUT SECONDARY ACCOUNT ONLY
-      // ===================================================
 
       try {
 
@@ -1386,27 +1445,17 @@ userForm?.addEventListener(
       } catch (_) {}
 
 
-      // ===================================================
-      // ACTIVITY LOG
-      // ===================================================
-
       await logActivity(
         "Created staff account",
         `${fullName} - ${email}`
       );
 
 
-      // ===================================================
-      // SUCCESS MESSAGE
-      // ===================================================
-
       showFormMessage(
         "Staff account created successfully.",
         "success"
       );
 
-
-      // Refresh table
 
       await loadUsers();
 
@@ -1428,8 +1477,6 @@ userForm?.addEventListener(
         error
       );
 
-
-      // Always try to clear secondary auth
 
       try {
 
@@ -1483,7 +1530,7 @@ userForm?.addEventListener(
         case "permission-denied":
 
           message =
-            "Firestore denied the user profile creation. Please check your security rules.";
+            "Firestore denied the user profile creation.";
 
           break;
 
@@ -1512,7 +1559,8 @@ userForm?.addEventListener(
 
 
 // =========================================================
-// ACTIVATE / DEACTIVATE USER
+// USER ACTIONS
+// ACTIVATE / DEACTIVATE / DELETE
 // =========================================================
 
 usersTableBody?.addEventListener(
@@ -1565,16 +1613,135 @@ usersTableBody?.addEventListener(
     }
 
 
-    // Only Staff profiles may be changed here.
+    // =====================================================
+    // NEVER MODIFY CURRENT ADMIN
+    // =====================================================
 
     if (
-      selectedUser.role !==
-      "staff"
+      selectedUser.id ===
+      auth.currentUser?.uid
     ) {
 
       alert(
-        "Administrator accounts cannot be changed from this page."
+        "You cannot modify or delete the administrator account you are currently using."
       );
+
+
+      return;
+
+    }
+
+
+    // =====================================================
+    // PROTECT ADMIN ACCOUNTS
+    // =====================================================
+
+    if (
+      selectedUser.role ===
+      "admin"
+    ) {
+
+      alert(
+        "Administrator accounts cannot be changed or deleted from this page."
+      );
+
+
+      return;
+
+    }
+
+
+    // =====================================================
+    // DELETE PROFILE
+    // =====================================================
+
+    if (
+      action ===
+      "delete"
+    ) {
+
+      const confirmed =
+        confirm(
+          `Permanently delete "${selectedUser.fullName}" from User Management?\n\nThis will remove the system profile and revoke access to the Museo de Lucena system.\n\nThis action cannot be undone.`
+        );
+
+
+      if (!confirmed) {
+
+        return;
+
+      }
+
+
+      button.disabled =
+        true;
+
+
+      try {
+
+        await deleteDoc(
+          doc(
+            db,
+            "users",
+            selectedUser.id
+          )
+        );
+
+
+        await logActivity(
+          selectedUser.role ===
+            "client"
+            ? "Deleted evaluator profile"
+            : "Deleted staff profile",
+
+          `${selectedUser.fullName} - ${selectedUser.email}`
+        );
+
+
+        await loadUsers();
+
+
+      } catch (error) {
+
+        console.error(
+          "Delete user profile error:",
+          error
+        );
+
+
+        if (
+          error.code ===
+          "permission-denied"
+        ) {
+
+          alert(
+            "Firestore denied the deletion. Please check the User Management security rules."
+          );
+
+        } else {
+
+          alert(
+            "Unable to delete this system profile."
+          );
+
+        }
+
+      }
+
+
+      return;
+
+    }
+
+
+    // =====================================================
+    // ACTIVATE / DEACTIVATE
+    // =====================================================
+
+    if (
+      action !== "activate" &&
+      action !== "deactivate"
+    ) {
 
       return;
 
@@ -1621,6 +1788,7 @@ usersTableBody?.addEventListener(
           selectedUser.id
         ),
         {
+
           status:
             newStatus,
 
@@ -1633,14 +1801,27 @@ usersTableBody?.addEventListener(
           updatedByName:
             currentProfile.fullName ||
             "Museo Administrator"
+
         }
       );
 
 
       await logActivity(
-        newStatus === "active"
-          ? "Activated staff account"
-          : "Deactivated staff account",
+        newStatus ===
+          "active"
+          ? (
+              selectedUser.role ===
+                "client"
+                ? "Activated evaluator account"
+                : "Activated staff account"
+            )
+          : (
+              selectedUser.role ===
+                "client"
+                ? "Deactivated evaluator account"
+                : "Deactivated staff account"
+            ),
+
         `${selectedUser.fullName} - ${selectedUser.email}`
       );
 
@@ -1657,7 +1838,7 @@ usersTableBody?.addEventListener(
 
 
       alert(
-        "Unable to update the staff account status."
+        "Unable to update this account status."
       );
 
 
@@ -1699,6 +1880,7 @@ async function logActivity(
         "activity_logs"
       ),
       {
+
         action,
 
         description,
@@ -1715,6 +1897,7 @@ async function logActivity(
 
         timestamp:
           serverTimestamp()
+
       }
     );
 
@@ -1758,7 +1941,7 @@ function showFormMessage(
 
 
 // =========================================================
-// CLEAR MESSAGE
+// CLEAR FORM MESSAGE
 // =========================================================
 
 function clearFormMessage() {
@@ -1846,6 +2029,7 @@ function formatTimestamp(
   return new Intl.DateTimeFormat(
     "en-PH",
     {
+
       month:
         "short",
 
@@ -1854,6 +2038,7 @@ function formatTimestamp(
 
       year:
         "numeric"
+
     }
   ).format(
     date
@@ -1878,7 +2063,7 @@ function escapeHTML(
 
   div.textContent =
     String(
-      value
+      value ?? ""
     );
 
 
@@ -1923,9 +2108,6 @@ sidebarOverlay?.addEventListener(
 
   }
 );
-
-
-
 
 
 // =========================================================
@@ -2001,10 +2183,6 @@ onAuthStateChanged(
   auth,
   async user => {
 
-    // =====================================================
-    // NO LOGIN
-    // =====================================================
-
     if (!user) {
 
       window.location.replace(
@@ -2019,19 +2197,11 @@ onAuthStateChanged(
 
     try {
 
-      // ===================================================
-      // GET PROFILE
-      // ===================================================
-
       currentProfile =
         await getUserProfile(
           user.uid
         );
 
-
-      // ===================================================
-      // ACTIVE ACCOUNT REQUIRED
-      // ===================================================
 
       if (
         currentProfile.status !==
@@ -2053,10 +2223,6 @@ onAuthStateChanged(
       }
 
 
-      // ===================================================
-      // ADMIN ROLE REQUIRED
-      // ===================================================
-
       if (
         currentProfile.role !==
         "admin"
@@ -2077,28 +2243,15 @@ onAuthStateChanged(
       }
 
 
-      // ===================================================
-      // SHOW CURRENT ADMIN
-      // ===================================================
-
       displayCurrentUser(
         currentProfile
       );
 
 
-      // ===================================================
-      // SHOW PAGE IMMEDIATELY
-      //
-      // We do not wait for the users collection before
-      // removing the full-screen loader.
-      // ===================================================
+      // Show page before fetching all profiles.
 
       hidePageLoader();
 
-
-      // ===================================================
-      // LOAD USERS
-      // ===================================================
 
       try {
 

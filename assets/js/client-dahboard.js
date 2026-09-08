@@ -1,6 +1,6 @@
 // =========================================================
 // MUSEO DE LUCENA
-// CLIENT DASHBOARD
+// CLIENT / EVALUATOR DASHBOARD
 // assets/js/client-dashboard.js
 // =========================================================
 
@@ -25,6 +25,15 @@ import {
 
 
 // =========================================================
+// SETTINGS
+// =========================================================
+
+const FIREBASE_TIMEOUT = 10000;
+
+const LOADER_SAFETY_TIMEOUT = 12000;
+
+
+// =========================================================
 // GLOBAL DATA
 // =========================================================
 
@@ -33,6 +42,8 @@ let currentProfile = null;
 let artifacts = [];
 
 let categories = [];
+
+let pageFinishedLoading = false;
 
 
 // =========================================================
@@ -142,6 +153,133 @@ const clientRecentArtifacts =
 
 
 // =========================================================
+// TIMEOUT HELPER
+// =========================================================
+
+function withTimeout(
+  promise,
+  milliseconds = FIREBASE_TIMEOUT,
+  label = "Firebase request"
+) {
+
+  return Promise.race([
+
+    promise,
+
+    new Promise(
+      (_, reject) => {
+
+        setTimeout(
+          () => {
+
+            reject(
+              new Error(
+                `TIMEOUT_${label}`
+              )
+            );
+
+          },
+          milliseconds
+        );
+
+      }
+    )
+
+  ]);
+
+}
+
+
+// =========================================================
+// HIDE PAGE LOADER
+// =========================================================
+
+function hidePageLoader() {
+
+  if (
+    pageFinishedLoading
+  ) {
+
+    return;
+
+  }
+
+
+  pageFinishedLoading =
+    true;
+
+
+  if (!pageLoader) {
+
+    return;
+
+  }
+
+
+  pageLoader.classList.add(
+    "hide"
+  );
+
+
+  // Extra fallback in case the CSS transition
+  // does not fully remove the loader.
+
+  setTimeout(
+    () => {
+
+      if (pageLoader) {
+
+        pageLoader.style.display =
+          "none";
+
+      }
+
+    },
+    550
+  );
+
+}
+
+
+// =========================================================
+// LOADER SAFETY FALLBACK
+// =========================================================
+//
+// Even when a Firebase request hangs,
+// the loader will not remain forever.
+// =========================================================
+
+const loaderSafetyTimer =
+  setTimeout(
+    () => {
+
+      if (
+        pageFinishedLoading
+      ) {
+
+        return;
+
+      }
+
+
+      console.warn(
+        "Client dashboard loading exceeded the safety timeout."
+      );
+
+
+      hidePageLoader();
+
+
+      showLoadError(
+        "The portal took too long to load. Please check your connection and refresh the page."
+      );
+
+    },
+    LOADER_SAFETY_TIMEOUT
+  );
+
+
+// =========================================================
 // GET USER PROFILE
 // =========================================================
 
@@ -158,8 +296,12 @@ async function getUserProfile(
 
 
   const snapshot =
-    await getDoc(
-      reference
+    await withTimeout(
+      getDoc(
+        reference
+      ),
+      FIREBASE_TIMEOUT,
+      "USER_PROFILE"
     );
 
 
@@ -215,7 +357,7 @@ function normalizeStatus(
 
 
 // =========================================================
-// DISPLAY CLIENT PROFILE
+// DISPLAY CLIENT / EVALUATOR PROFILE
 // =========================================================
 
 function displayClientProfile(
@@ -225,14 +367,14 @@ function displayClientProfile(
   const name =
     profile.fullName ||
     profile.name ||
-    "Client";
+    "Evaluator";
 
 
   const firstName =
     name
       .trim()
       .split(/\s+/)[0] ||
-    "Client";
+    "Evaluator";
 
 
   const initial =
@@ -240,7 +382,7 @@ function displayClientProfile(
       .trim()
       .charAt(0)
       .toUpperCase() ||
-    "C";
+    "E";
 
 
   if (clientSidebarName) {
@@ -254,7 +396,7 @@ function displayClientProfile(
   if (clientSidebarRole) {
 
     clientSidebarRole.textContent =
-      "Client";
+      "Evaluator";
 
   }
 
@@ -300,11 +442,19 @@ function displayClientProfile(
 async function loadCategories() {
 
   const snapshot =
-    await getDocs(
-      collection(
-        db,
-        "categories"
-      )
+    await withTimeout(
+
+      getDocs(
+        collection(
+          db,
+          "categories"
+        )
+      ),
+
+      FIREBASE_TIMEOUT,
+
+      "CATEGORIES"
+
     );
 
 
@@ -326,11 +476,19 @@ async function loadCategories() {
 async function loadArtifacts() {
 
   const snapshot =
-    await getDocs(
-      collection(
-        db,
-        "artifacts"
-      )
+    await withTimeout(
+
+      getDocs(
+        collection(
+          db,
+          "artifacts"
+        )
+      ),
+
+      FIREBASE_TIMEOUT,
+
+      "ARTIFACTS"
+
     );
 
 
@@ -343,20 +501,24 @@ async function loadArtifacts() {
     );
 
 
-  // Client only sees ACTIVE artifact records.
+  // =======================================================
+  // EVALUATORS ONLY SEE ACTIVE ARTIFACTS
+  // =======================================================
 
   artifacts =
     artifacts.filter(
       artifact =>
-        String(
+        normalizeStatus(
           artifact.status ||
           "Active"
-        )
-          .trim()
-          .toLowerCase() ===
+        ) ===
         "active"
     );
 
+
+  // =======================================================
+  // NEWEST FIRST
+  // =======================================================
 
   artifacts.sort(
     (a, b) =>
@@ -372,7 +534,7 @@ async function loadArtifacts() {
 
 
 // =========================================================
-// UPDATE DASHBOARD STATISTICS
+// UPDATE STATISTICS
 // =========================================================
 
 function updateStatistics() {
@@ -425,7 +587,7 @@ function updateStatistics() {
 
 
 // =========================================================
-// GET ARTIFACT IMAGE
+// GET ARTIFACT IMAGE SOURCE
 // =========================================================
 
 function getArtifactImageSource(
@@ -461,6 +623,10 @@ function renderRecentArtifacts() {
     );
 
 
+  // =======================================================
+  // EMPTY COLLECTION
+  // =======================================================
+
   if (!recent.length) {
 
     clientRecentArtifacts.innerHTML = `
@@ -487,108 +653,114 @@ function renderRecentArtifacts() {
   }
 
 
+  // =======================================================
+  // ARTIFACT LIST
+  // =======================================================
+
   clientRecentArtifacts.innerHTML =
-    recent.map(
-      artifact => {
+    recent
+      .map(
+        artifact => {
 
-        const name =
-          escapeHTML(
+          const artifactName =
             artifact.name ||
             artifact.artifactName ||
-            "Untitled Artifact"
-          );
+            "Untitled Artifact";
 
 
-        const category =
-          escapeHTML(
-            artifact.category ||
-            artifact.categoryName ||
-            "Uncategorized"
-          );
+          const name =
+            escapeHTML(
+              artifactName
+            );
 
 
-        const accession =
-          escapeHTML(
-            artifact.accessionNumber ||
-            "No accession number"
-          );
+          const category =
+            escapeHTML(
+              artifact.category ||
+              artifact.categoryName ||
+              "Uncategorized"
+            );
 
 
-        const condition =
-          escapeHTML(
-            artifact.condition ||
-            "Not specified"
-          );
+          const accession =
+            escapeHTML(
+              artifact.accessionNumber ||
+              "No accession number"
+            );
 
 
-        const firstLetter =
-          String(
-            artifact.name ||
-            artifact.artifactName ||
-            "A"
-          )
-            .trim()
-            .charAt(0)
-            .toUpperCase();
+          const condition =
+            escapeHTML(
+              artifact.condition ||
+              "Not specified"
+            );
 
 
-        const imageSource =
-          getArtifactImageSource(
-            artifact
-          );
+          const firstLetter =
+            String(
+              artifactName
+            )
+              .trim()
+              .charAt(0)
+              .toUpperCase() ||
+            "A";
 
 
-        const thumbnail =
-          imageSource
-            ? `
-              <img
-                src="${escapeAttribute(
-                  imageSource
-                )}"
-                alt="${escapeAttribute(
-                  artifact.name ||
-                  artifact.artifactName ||
-                  "Artifact"
-                )}"
-                loading="lazy"
-              >
-            `
-            : escapeHTML(
-                firstLetter
-              );
+          const imageSource =
+            getArtifactImageSource(
+              artifact
+            );
 
 
-        return `
-          <div class="client-artifact-row">
+          const thumbnail =
+            imageSource
+              ? `
+                <img
+                  src="${escapeAttribute(
+                    imageSource
+                  )}"
+                  alt="${escapeAttribute(
+                    artifactName
+                  )}"
+                  loading="lazy"
+                >
+              `
+              : escapeHTML(
+                  firstLetter
+                );
 
-            <div class="client-artifact-thumb">
-              ${thumbnail}
-            </div>
+
+          return `
+            <div class="client-artifact-row">
+
+              <div class="client-artifact-thumb">
+                ${thumbnail}
+              </div>
 
 
-            <div class="client-artifact-info">
+              <div class="client-artifact-info">
 
-              <strong>
-                ${name}
-              </strong>
+                <strong>
+                  ${name}
+                </strong>
 
-              <span>
-                ${accession} · ${category}
+                <span>
+                  ${accession} · ${category}
+                </span>
+
+              </div>
+
+
+              <span class="client-artifact-badge">
+                ${condition}
               </span>
 
             </div>
+          `;
 
-
-            <span class="client-artifact-badge">
-              ${condition}
-            </span>
-
-          </div>
-        `;
-
-      }
-    )
-    .join("");
+        }
+      )
+      .join("");
 
 }
 
@@ -599,10 +771,67 @@ function renderRecentArtifacts() {
 
 async function loadDashboardData() {
 
-  await Promise.all([
-    loadCategories(),
-    loadArtifacts()
-  ]);
+  // Use Promise.allSettled so one failed request
+  // does not freeze the entire dashboard.
+
+  const results =
+    await Promise.allSettled([
+      loadCategories(),
+      loadArtifacts()
+    ]);
+
+
+  const categoryResult =
+    results[0];
+
+
+  const artifactResult =
+    results[1];
+
+
+  // =======================================================
+  // CATEGORY ERROR
+  // =======================================================
+
+  if (
+    categoryResult.status ===
+    "rejected"
+  ) {
+
+    console.error(
+      "Category loading failed:",
+      categoryResult.reason
+    );
+
+
+    categories =
+      [];
+
+  }
+
+
+  // =======================================================
+  // ARTIFACT ERROR
+  // =======================================================
+
+  if (
+    artifactResult.status ===
+    "rejected"
+  ) {
+
+    console.error(
+      "Artifact loading failed:",
+      artifactResult.reason
+    );
+
+
+    artifacts =
+      [];
+
+
+    throw artifactResult.reason;
+
+  }
 
 
   updateStatistics();
@@ -635,7 +864,9 @@ function showLoadError(
         </strong>
 
         <p>
-          ${escapeHTML(message)}
+          ${escapeHTML(
+            message
+          )}
         </p>
 
       </div>
@@ -807,8 +1038,9 @@ sidebarOverlay?.addEventListener(
 );
 
 
-// Close sidebar after selecting a navigation link
-// on mobile.
+// =========================================================
+// MOBILE SIDEBAR
+// =========================================================
 
 document
   .querySelectorAll(
@@ -880,7 +1112,7 @@ clientLogoutButton?.addEventListener(
     } catch (error) {
 
       console.error(
-        "Client logout error:",
+        "Evaluator logout error:",
         error
       );
 
@@ -899,19 +1131,47 @@ clientLogoutButton?.addEventListener(
 // AUTH GUARD
 // =========================================================
 
+let authCallbackStarted =
+  false;
+
+
 onAuthStateChanged(
   auth,
   async user => {
 
+    // Prevent accidental duplicate initialization.
+
+    if (
+      authCallbackStarted
+    ) {
+
+      return;
+
+    }
+
+
+    authCallbackStarted =
+      true;
+
+
     // =====================================================
-    // NOT LOGGED IN
+    // NO AUTHENTICATED USER
     // =====================================================
 
     if (!user) {
 
+      clearTimeout(
+        loaderSafetyTimer
+      );
+
+
+      hidePageLoader();
+
+
       window.location.replace(
         "login.html"
       );
+
 
       return;
 
@@ -943,16 +1203,25 @@ onAuthStateChanged(
 
 
       // ===================================================
-      // ACCOUNT STATUS
+      // INACTIVE ACCOUNT
       // ===================================================
 
       if (
-        status !== "active"
+        status !==
+        "active"
       ) {
 
         await signOut(
           auth
         );
+
+
+        clearTimeout(
+          loaderSafetyTimer
+        );
+
+
+        hidePageLoader();
 
 
         window.location.replace(
@@ -966,13 +1235,21 @@ onAuthStateChanged(
 
 
       // ===================================================
-      // ADMIN / STAFF SHOULD USE ADMIN DASHBOARD
+      // ADMIN / STAFF
       // ===================================================
 
       if (
         role === "admin" ||
         role === "staff"
       ) {
+
+        clearTimeout(
+          loaderSafetyTimer
+        );
+
+
+        hidePageLoader();
+
 
         window.location.replace(
           "dashboard.html"
@@ -985,7 +1262,7 @@ onAuthStateChanged(
 
 
       // ===================================================
-      // CLIENT ONLY
+      // CLIENT / EVALUATOR ONLY
       // ===================================================
 
       if (
@@ -995,6 +1272,14 @@ onAuthStateChanged(
         await signOut(
           auth
         );
+
+
+        clearTimeout(
+          loaderSafetyTimer
+        );
+
+
+        hidePageLoader();
 
 
         window.location.replace(
@@ -1008,7 +1293,7 @@ onAuthStateChanged(
 
 
       // ===================================================
-      // DISPLAY CLIENT
+      // DISPLAY PROFILE
       // ===================================================
 
       displayClientProfile(
@@ -1017,7 +1302,7 @@ onAuthStateChanged(
 
 
       // ===================================================
-      // LOAD COLLECTION
+      // LOAD DASHBOARD
       // ===================================================
 
       try {
@@ -1039,32 +1324,34 @@ onAuthStateChanged(
         ) {
 
           showLoadError(
-            "Your client account does not yet have permission to view artifact records."
+            "Your evaluator account does not have permission to view artifact records."
           );
 
-        } else {
+        }
+
+        else if (
+          String(
+            error.message || ""
+          ).startsWith(
+            "TIMEOUT_"
+          )
+        ) {
 
           showLoadError(
-            "Please check your connection and refresh the page."
+            "The museum collection took too long to load. Please refresh the page or check your internet connection."
+          );
+
+        }
+
+        else {
+
+          showLoadError(
+            "Unable to load the museum collection. Please refresh the page."
           );
 
         }
 
       }
-
-
-      // ===================================================
-      // HIDE LOADER
-      // ===================================================
-
-      if (pageLoader) {
-
-        pageLoader.classList.add(
-          "hide"
-        );
-
-      }
-
 
     } catch (error) {
 
@@ -1074,27 +1361,62 @@ onAuthStateChanged(
       );
 
 
-      if (pageLoader) {
+      if (
+        error.message ===
+        "PROFILE_NOT_FOUND"
+      ) {
 
-        pageLoader.classList.add(
-          "hide"
+        showLoadError(
+          "No evaluator profile was found for this account."
         );
 
       }
 
+      else if (
+        error.code ===
+        "permission-denied"
+      ) {
 
-      try {
-
-        await signOut(
-          auth
+        showLoadError(
+          "Firestore denied access to your evaluator profile."
         );
 
-      } catch (_) {}
+      }
 
+      else if (
+        String(
+          error.message || ""
+        ).startsWith(
+          "TIMEOUT_"
+        )
+      ) {
 
-      window.location.replace(
-        "login.html"
+        showLoadError(
+          "Firebase took too long to respond. Please check your internet connection and refresh the page."
+        );
+
+      }
+
+      else {
+
+        showLoadError(
+          "Unable to initialize the evaluator portal."
+        );
+
+      }
+
+    } finally {
+
+      // ===================================================
+      // GUARANTEED LOADER CLEANUP
+      // ===================================================
+
+      clearTimeout(
+        loaderSafetyTimer
       );
+
+
+      hidePageLoader();
 
     }
 

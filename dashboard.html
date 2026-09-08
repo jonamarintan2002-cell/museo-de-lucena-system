@@ -61,6 +61,55 @@
 <!-- SHARED SIDEBAR -->
 <link rel="stylesheet" href="assets/css/sidebar.css">
 
+  <style>
+    .dashboard-refresh-button {
+      min-height: 42px;
+      padding: 0 15px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      border: 1px solid rgba(109, 41, 43, 0.14);
+      border-radius: 10px;
+      background: #ffffff;
+      color: #6d292b;
+      font-family: "DM Sans", sans-serif;
+      font-size: 0.68rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background .2s ease, color .2s ease, transform .2s ease, box-shadow .2s ease, opacity .2s ease;
+    }
+    .dashboard-refresh-button:hover:not(:disabled) {
+      background: #6d292b;
+      color: #ffffff;
+      transform: translateY(-1px);
+      box-shadow: 0 8px 18px rgba(109, 41, 43, 0.13);
+    }
+    .dashboard-refresh-button:disabled {
+      opacity: .65;
+      cursor: wait;
+    }
+    .dashboard-refresh-button svg {
+      width: 16px;
+      height: 16px;
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 1.8;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+    .dashboard-refresh-button.refreshing svg {
+      animation: dashboardRefreshSpin .8s linear infinite;
+    }
+    @keyframes dashboardRefreshSpin {
+      to { transform: rotate(360deg); }
+    }
+    @media (max-width: 700px) {
+      .dashboard-refresh-button span { display: none; }
+      .dashboard-refresh-button { width: 42px; padding: 0; }
+    }
+  </style>
+
 </head>
 
 
@@ -386,6 +435,29 @@
             </span>
 
           </div>
+
+
+          <button
+            type="button"
+            class="dashboard-refresh-button"
+            id="refreshDashboardButton"
+            title="Refresh dashboard"
+            aria-label="Refresh dashboard"
+          >
+
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+
+              <path
+                d="M20 6v5h-5M4 18v-5h5M6.2 9a7 7 0 0 1 11.4-2.6L20 9M4 15l2.4 2.6A7 7 0 0 0 17.8 15"
+              />
+
+            </svg>
+
+            <span id="refreshDashboardText">
+              Refresh
+            </span>
+
+          </button>
 
 
           <div class="topbar-profile">
@@ -874,232 +946,7 @@
 
 
 
-        <!-- =================================================
-             BOTTOM GRID
-        ================================================== -->
-
-        <section class="bottom-grid">
-
-
-          <!-- QUICK ACTIONS -->
-
-          <article class="dashboard-card">
-
-            <div class="card-header">
-
-              <div>
-
-                <span class="card-kicker">
-                  Shortcuts
-                </span>
-
-                <h3>
-                  Quick Actions
-                </h3>
-
-              </div>
-
-            </div>
-
-
-            <div class="quick-actions">
-
-
-              <button
-                type="button"
-                class="quick-action"
-                id="quickAddArtifact"
-              >
-
-                <div class="quick-icon">
-                  +
-                </div>
-
-
-                <div>
-
-                  <strong>
-                    Add Artifact
-                  </strong>
-
-                  <span>
-                    Create a new artifact record
-                  </span>
-
-                </div>
-
-              </button>
-
-
-
-              <button
-                type="button"
-                class="quick-action"
-                id="quickSearch"
-              >
-
-                <div class="quick-icon">
-
-                  <svg viewBox="0 0 24 24">
-
-                    <circle
-                      cx="11"
-                      cy="11"
-                      r="6"
-                    />
-
-                    <path
-                      d="M16 16l5 5"
-                    />
-
-                  </svg>
-
-                </div>
-
-
-                <div>
-
-                  <strong>
-                    Search Records
-                  </strong>
-
-                  <span>
-                    Find stored artifact information
-                  </span>
-
-                </div>
-
-              </button>
-
-
-
-              <button
-                type="button"
-                class="quick-action"
-                id="quickReports"
-              >
-
-                <div class="quick-icon">
-
-                  <svg viewBox="0 0 24 24">
-
-                    <path
-                      d="M5 19V9M10 19V5M15 19v-7M20 19V3"
-                    />
-
-                  </svg>
-
-                </div>
-
-
-                <div>
-
-                  <strong>
-                    Generate Report
-                  </strong>
-
-                  <span>
-                    Prepare artifact documentation
-                  </span>
-
-                </div>
-
-              </button>
-
-
-
-              <button
-                type="button"
-                class="quick-action admin-only"
-                id="quickUsers"
-              >
-
-                <div class="quick-icon">
-
-                  <svg viewBox="0 0 24 24">
-
-                    <circle
-                      cx="9"
-                      cy="8"
-                      r="4"
-                    />
-
-                    <path
-                      d="M3 21v-2a6 6 0 0 1 12 0v2M19 8v6M16 11h6"
-                    />
-
-                  </svg>
-
-                </div>
-
-
-                <div>
-
-                  <strong>
-                    Manage Users
-                  </strong>
-
-                  <span>
-                    Administrator account controls
-                  </span>
-
-                </div>
-
-              </button>
-
-            </div>
-
-          </article>
-
-
-
-          <!-- RECENT ACTIVITY -->
-
-          <article
-            class="dashboard-card admin-only"
-            id="activityCard"
-          >
-
-            <div class="card-header">
-
-              <div>
-
-                <span class="card-kicker">
-                  System
-                </span>
-
-                <h3>
-                  Recent Activity
-                </h3>
-
-              </div>
-
-            </div>
-
-
-            <div
-              class="activity-list"
-              id="activityList"
-            >
-
-              <div class="empty-state compact">
-
-                <strong>
-                  No recent activity
-                </strong>
-
-                <p>
-                  System activities will appear here.
-                </p>
-
-              </div>
-
-            </div>
-
-          </article>
-
-        </section>
-
+ 
 
 
         <!-- =================================================
@@ -1155,6 +1002,27 @@
 
   </div>
 
+
+
+  <!-- REFRESH DASHBOARD -->
+
+  <script>
+    const refreshDashboardButton = document.getElementById("refreshDashboardButton");
+    const refreshDashboardText = document.getElementById("refreshDashboardText");
+
+    refreshDashboardButton?.addEventListener("click", () => {
+      refreshDashboardButton.disabled = true;
+      refreshDashboardButton.classList.add("refreshing");
+
+      if (refreshDashboardText) {
+        refreshDashboardText.textContent = "Refreshing...";
+      }
+
+      setTimeout(() => {
+        window.location.reload();
+      }, 250);
+    });
+  </script>
 
 
   <!-- DASHBOARD JAVASCRIPT -->

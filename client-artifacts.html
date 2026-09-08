@@ -1,0 +1,1041 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <meta
+    name="description"
+    content="Browse and evaluate the artifact collection of Museo de Lucena."
+  >
+
+  <title>Artifact Collection | Museo de Lucena</title>
+
+
+  <!-- =====================================================
+       FAVICON
+  ====================================================== -->
+
+  <link
+    rel="icon"
+    type="image/png"
+    href="assets/images/museo-logo.png?v=3"
+  >
+
+
+  <!-- =====================================================
+       GOOGLE FONTS
+  ====================================================== -->
+
+  <link
+    rel="preconnect"
+    href="https://fonts.googleapis.com"
+  >
+
+  <link
+    rel="preconnect"
+    href="https://fonts.gstatic.com"
+    crossorigin
+  >
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap"
+    rel="stylesheet"
+  >
+
+
+  <!-- =====================================================
+       STYLES
+  ====================================================== -->
+
+  <link
+    rel="stylesheet"
+    href="assets/css/global.css"
+  >
+
+  <link
+    rel="stylesheet"
+    href="assets/css/client-artifacts.css"
+  >
+
+  <link
+    rel="stylesheet"
+    href="assets/css/sidebar.css"
+  >
+
+</head>
+
+
+<body>
+
+
+  <div class="client-layout">
+
+
+    <!-- =====================================================
+         CLIENT SIDEBAR
+    ====================================================== -->
+
+    <aside
+      class="sidebar"
+      id="sidebar"
+    >
+
+
+      <!-- BRAND -->
+
+      <div class="sidebar-brand">
+
+
+        <div class="sidebar-logo">
+          M
+        </div>
+
+
+        <div class="sidebar-brand-text">
+
+          <strong>
+            Museo de Lucena
+          </strong>
+
+          <span>
+            Evaluator Portal
+          </span>
+
+        </div>
+
+      </div>
+
+
+
+      <!-- NAVIGATION -->
+
+      <nav class="sidebar-nav">
+
+
+        <p class="nav-label">
+          Client Access
+        </p>
+
+
+        <a
+          href="client-dashboard.html"
+          class="nav-item"
+        >
+
+          <svg viewBox="0 0 24 24">
+
+            <path
+              d="M4 4h6v6H4zM14 4h6v6h-6zM4 14h6v6H4zM14 14h6v6h-6z"
+            />
+
+          </svg>
+
+          <span>
+            Dashboard
+          </span>
+
+        </a>
+
+
+        <a
+          href="client-artifacts.html"
+          class="nav-item active"
+          aria-current="page"
+        >
+
+          <svg viewBox="0 0 24 24">
+
+            <path
+              d="M5 4h14v16H5zM8 8h8M8 12h8M8 16h5"
+            />
+
+          </svg>
+
+          <span>
+            Artifact Collection
+          </span>
+
+        </a>
+
+      </nav>
+
+
+
+      <!-- USER -->
+
+      <div class="sidebar-footer">
+
+
+        <div class="sidebar-user">
+
+
+          <div
+            class="sidebar-avatar"
+            id="clientSidebarAvatar"
+          >
+            C
+          </div>
+
+
+          <div class="sidebar-user-info">
+
+            <strong id="clientSidebarName">
+              Loading...
+            </strong>
+
+            <span>
+              Evaluator
+            </span>
+
+          </div>
+
+        </div>
+
+
+        <button
+          type="button"
+          class="logout-button"
+          id="clientLogoutButton"
+        >
+          Sign Out
+        </button>
+
+      </div>
+
+    </aside>
+
+
+
+    <!-- =====================================================
+         MAIN
+    ====================================================== -->
+
+    <main class="client-artifacts-main">
+
+
+      <!-- =================================================
+           TOPBAR
+      ================================================== -->
+
+      <header class="client-artifacts-topbar">
+
+
+        <div class="topbar-left">
+
+
+          <button
+            type="button"
+            class="menu-button"
+            id="menuButton"
+            aria-label="Open sidebar"
+          >
+
+            <span></span>
+            <span></span>
+            <span></span>
+
+          </button>
+
+
+          <div>
+
+            <span class="page-label">
+              Digital Museum Collection
+            </span>
+
+            <h1>
+              Artifact Collection
+            </h1>
+
+          </div>
+
+        </div>
+
+
+        <div class="topbar-profile">
+
+
+          <div
+            class="topbar-avatar"
+            id="clientTopbarAvatar"
+          >
+            C
+          </div>
+
+
+          <div>
+
+            <strong id="clientTopbarName">
+              Loading...
+            </strong>
+
+            <span>
+              Evaluator
+            </span>
+
+          </div>
+
+        </div>
+
+      </header>
+
+
+
+      <!-- =================================================
+           CONTENT
+      ================================================== -->
+
+      <div class="client-artifacts-content">
+
+
+        <!-- =================================================
+             HERO
+        ================================================== -->
+
+        <section class="collection-hero">
+
+
+          <div class="collection-hero-content">
+
+
+            <span class="collection-kicker">
+              Museo de Lucena
+            </span>
+
+
+            <h2>
+              Explore and evaluate
+              <span>
+                Lucena's cultural heritage.
+              </span>
+            </h2>
+
+
+            <p>
+              Browse available artifact records, learn about their
+              historical significance, and submit your evaluation
+              of each documented artifact.
+            </p>
+
+          </div>
+
+
+          <div class="collection-hero-stat">
+
+
+            <strong id="visibleArtifactCount">
+              0
+            </strong>
+
+
+            <span>
+              Available Artifacts
+            </span>
+
+          </div>
+
+        </section>
+
+
+
+        <!-- =================================================
+             SEARCH / FILTER
+        ================================================== -->
+
+        <section class="collection-toolbar">
+
+
+          <!-- SEARCH -->
+
+          <div class="collection-search">
+
+            <svg viewBox="0 0 24 24">
+
+              <circle
+                cx="11"
+                cy="11"
+                r="6"
+              ></circle>
+
+              <path
+                d="M16 16l5 5"
+              ></path>
+
+            </svg>
+
+
+            <input
+              type="search"
+              id="clientArtifactSearch"
+              placeholder="Search artifact name, accession number, origin..."
+              autocomplete="off"
+            >
+
+          </div>
+
+
+          <!-- CATEGORY FILTER -->
+
+          <select
+            id="clientCategoryFilter"
+            class="collection-filter"
+          >
+
+            <option value="">
+              All Categories
+            </option>
+
+          </select>
+
+
+          <!-- CONDITION FILTER -->
+
+          <select
+            id="clientConditionFilter"
+            class="collection-filter"
+          >
+
+            <option value="">
+              All Conditions
+            </option>
+
+            <option value="Good">
+              Good
+            </option>
+
+            <option value="Fair">
+              Fair
+            </option>
+
+            <option value="Poor">
+              Poor
+            </option>
+
+          </select>
+
+
+          <button
+            type="button"
+            class="collection-reset"
+            id="resetClientFilters"
+          >
+            Reset
+          </button>
+
+        </section>
+
+
+
+        <!-- =================================================
+             CATEGORY QUICK FILTERS
+        ================================================== -->
+
+        <section class="category-browser">
+
+
+          <div class="section-header">
+
+
+            <div>
+
+              <span>
+                Browse
+              </span>
+
+              <h3>
+                Categories
+              </h3>
+
+            </div>
+
+          </div>
+
+
+          <div
+            class="category-chips"
+            id="clientCategoryChips"
+          >
+
+            <button
+              type="button"
+              class="category-chip active"
+              data-category=""
+            >
+              All
+            </button>
+
+          </div>
+
+        </section>
+
+
+
+        <!-- =================================================
+             ARTIFACT GALLERY
+        ================================================== -->
+
+        <section class="artifact-gallery-section">
+
+
+          <div class="section-header">
+
+
+            <div>
+
+              <span>
+                Collection
+              </span>
+
+              <h3>
+                Available Artifacts
+              </h3>
+
+            </div>
+
+
+            <span
+              class="gallery-result-count"
+              id="clientResultCount"
+            >
+              0 artifacts
+            </span>
+
+          </div>
+
+
+
+          <div
+            class="artifact-gallery"
+            id="clientArtifactGallery"
+          >
+
+
+            <div class="client-gallery-empty">
+
+              <div class="empty-mark">
+                M
+              </div>
+
+
+              <h3>
+                Loading collection...
+              </h3>
+
+
+              <p>
+                Please wait while the artifact records are being loaded.
+              </p>
+
+            </div>
+
+          </div>
+
+        </section>
+
+
+
+        <!-- =================================================
+             FOOTER
+        ================================================== -->
+
+        <footer class="client-collection-footer">
+
+          <span>
+            Museo de Lucena Artifact Records System
+          </span>
+
+          <span>
+            Online Evaluator Portal
+          </span>
+
+        </footer>
+
+      </div>
+
+    </main>
+
+  </div>
+
+
+
+  <!-- =====================================================
+       ARTIFACT DETAILS + EVALUATION MODAL
+  ====================================================== -->
+
+  <div
+    class="artifact-view-overlay"
+    id="clientArtifactModal"
+  >
+
+
+    <div class="artifact-view-modal">
+
+
+      <!-- =================================================
+           MODAL HEADER
+      ================================================== -->
+
+      <div class="artifact-view-header">
+
+
+        <div>
+
+          <span class="artifact-modal-label">
+            Museo de Lucena Collection
+          </span>
+
+
+          <h2 id="modalArtifactName">
+            Artifact
+          </h2>
+
+
+          <p id="modalAccessionNumber">
+            —
+          </p>
+
+        </div>
+
+
+        <button
+          type="button"
+          class="modal-close-button"
+          id="closeClientArtifactModal"
+          aria-label="Close artifact details"
+        >
+          ×
+        </button>
+
+      </div>
+
+
+
+      <!-- =================================================
+           ARTIFACT OVERVIEW
+      ================================================== -->
+
+      <div class="artifact-overview">
+
+
+        <!-- IMAGE -->
+
+        <div class="artifact-large-image">
+
+
+          <img
+            id="modalArtifactImage"
+            alt="Artifact image"
+          >
+
+
+          <div
+            class="artifact-image-placeholder"
+            id="modalImagePlaceholder"
+          >
+            M
+          </div>
+
+        </div>
+
+
+
+        <!-- INFO -->
+
+        <div class="artifact-summary">
+
+
+          <div class="summary-item">
+
+            <span>
+              Category
+            </span>
+
+            <strong id="modalCategory">
+              —
+            </strong>
+
+          </div>
+
+
+          <div class="summary-item">
+
+            <span>
+              Condition
+            </span>
+
+            <strong id="modalCondition">
+              —
+            </strong>
+
+          </div>
+
+
+          <div class="summary-item">
+
+            <span>
+              Origin / Provenance
+            </span>
+
+            <strong id="modalOrigin">
+              —
+            </strong>
+
+          </div>
+
+
+          <div class="summary-item">
+
+            <span>
+              Date Acquired
+            </span>
+
+            <strong id="modalDateAcquired">
+              —
+            </strong>
+
+          </div>
+
+
+          <div class="summary-item">
+
+            <span>
+              Current Location
+            </span>
+
+            <strong id="modalCurrentLocation">
+              —
+            </strong>
+
+          </div>
+
+        </div>
+
+      </div>
+
+
+
+      <!-- =================================================
+           DESCRIPTION
+      ================================================== -->
+
+      <section class="artifact-information-section">
+
+        <span class="artifact-section-label">
+          Description
+        </span>
+
+
+        <p id="modalDescription">
+          —
+        </p>
+
+      </section>
+
+
+
+      <!-- =================================================
+           HISTORICAL BACKGROUND
+      ================================================== -->
+
+      <section class="artifact-information-section">
+
+        <span class="artifact-section-label">
+          Historical Background
+        </span>
+
+
+        <p id="modalHistoricalBackground">
+          —
+        </p>
+
+      </section>
+
+
+
+      <!-- =================================================
+           REMARKS
+      ================================================== -->
+
+      <section class="artifact-information-section">
+
+        <span class="artifact-section-label">
+          Additional Information
+        </span>
+
+
+        <p id="modalRemarks">
+          —
+        </p>
+
+      </section>
+
+
+
+      <!-- =================================================
+           EVALUATION AREA
+      ================================================== -->
+
+      <section class="evaluation-section">
+
+
+        <div class="evaluation-heading">
+
+
+          <span class="evaluation-kicker">
+            Artifact Evaluation
+          </span>
+
+
+          <h3>
+            Evaluate this artifact
+          </h3>
+
+
+          <p>
+            Share your assessment of the artifact and the
+            information presented in its digital record.
+          </p>
+
+        </div>
+
+
+
+        <!-- EXISTING EVALUATION -->
+
+        <div
+          class="existing-evaluation"
+          id="existingEvaluation"
+          hidden
+        >
+
+          <span>
+            Your current evaluation
+          </span>
+
+
+          <strong id="existingEvaluationRating">
+            —
+          </strong>
+
+
+          <p id="existingEvaluationComment">
+            —
+          </p>
+
+        </div>
+
+
+
+        <!-- FORM -->
+
+        <form id="artifactEvaluationForm">
+
+
+          <input
+            type="hidden"
+            id="evaluationArtifactId"
+          >
+
+
+
+          <!-- RATING -->
+
+          <div class="evaluation-form-group">
+
+
+            <label>
+              Overall Rating
+              <span>*</span>
+            </label>
+
+
+            <div
+              class="star-rating"
+              id="starRating"
+              role="radiogroup"
+              aria-label="Artifact rating"
+            >
+
+
+              <button
+                type="button"
+                class="star-button"
+                data-rating="1"
+                aria-label="1 star"
+              >
+                ★
+              </button>
+
+
+              <button
+                type="button"
+                class="star-button"
+                data-rating="2"
+                aria-label="2 stars"
+              >
+                ★
+              </button>
+
+
+              <button
+                type="button"
+                class="star-button"
+                data-rating="3"
+                aria-label="3 stars"
+              >
+                ★
+              </button>
+
+
+              <button
+                type="button"
+                class="star-button"
+                data-rating="4"
+                aria-label="4 stars"
+              >
+                ★
+              </button>
+
+
+              <button
+                type="button"
+                class="star-button"
+                data-rating="5"
+                aria-label="5 stars"
+              >
+                ★
+              </button>
+
+            </div>
+
+
+            <input
+              type="hidden"
+              id="evaluationRating"
+              value=""
+            >
+
+
+            <small id="ratingText">
+              Select a rating from 1 to 5.
+            </small>
+
+          </div>
+
+
+
+          <!-- COMMENT -->
+
+          <div class="evaluation-form-group">
+
+            <label for="evaluationComment">
+              Feedback / Comment
+            </label>
+
+
+            <textarea
+              id="evaluationComment"
+              rows="5"
+              maxlength="1000"
+              placeholder="Share your feedback or observations about this artifact..."
+            ></textarea>
+
+          </div>
+
+
+
+          <!-- MESSAGE -->
+
+          <div
+            class="evaluation-message"
+            id="evaluationMessage"
+            aria-live="polite"
+          ></div>
+
+
+
+          <!-- ACTION -->
+
+          <button
+            type="submit"
+            class="submit-evaluation-button"
+            id="submitEvaluationButton"
+          >
+
+            <span id="submitEvaluationText">
+              Submit Evaluation
+            </span>
+
+
+            <span
+              class="evaluation-spinner"
+              id="evaluationSpinner"
+            ></span>
+
+          </button>
+
+        </form>
+
+      </section>
+
+    </div>
+
+  </div>
+
+
+
+  <!-- =====================================================
+       SIDEBAR OVERLAY
+  ====================================================== -->
+
+  <div
+    class="sidebar-overlay"
+    id="sidebarOverlay"
+  ></div>
+
+
+
+  <!-- =====================================================
+       PAGE LOADER
+  ====================================================== -->
+
+  <div
+    class="page-loader"
+    id="pageLoader"
+  >
+
+    <div class="loader-logo">
+      M
+    </div>
+
+
+    <div class="spinner"></div>
+
+
+    <span>
+      Loading artifact collection...
+    </span>
+
+  </div>
+
+
+
+  <!-- =====================================================
+       JAVASCRIPT
+  ====================================================== -->
+
+  <script
+    type="module"
+    src="assets/js/client-artifacts.js"
+  ></script>
+
+</body>
+
+</html>

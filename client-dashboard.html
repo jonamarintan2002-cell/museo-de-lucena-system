@@ -777,14 +777,130 @@
 
 
 
-  <!-- =====================================================
-       JAVASCRIPT
-  ====================================================== -->
+<!-- =====================================================
+     CLIENT DASHBOARD JAVASCRIPT
+====================================================== -->
 
-  <script
-    type="module"
-    src="assets/js/client-dashboard.js"
-  ></script>
+<script>
+
+  // =====================================================
+  // EMERGENCY LOADER FALLBACK
+  // =====================================================
+  //
+  // Kahit hindi mag-load ang Firebase module,
+  // hindi mananatiling naka-cover ang buong page.
+  // =====================================================
+
+  window.hideClientLoader = function () {
+
+    const loader =
+      document.getElementById("pageLoader");
+
+
+    if (!loader) {
+      return;
+    }
+
+
+    loader.classList.add("hide");
+
+
+    setTimeout(() => {
+
+      loader.style.display =
+        "none";
+
+    }, 500);
+
+  };
+
+
+  // Maximum 8 seconds only.
+
+  window.clientLoaderFallback =
+    setTimeout(() => {
+
+      console.warn(
+        "Client dashboard loader fallback activated."
+      );
+
+
+      window.hideClientLoader();
+
+    }, 8000);
+
+</script>
+
+
+<script type="module">
+
+  // =====================================================
+  // LOAD CLIENT DASHBOARD MODULE
+  // =====================================================
+  //
+  // Dynamic import lets us catch module/import errors.
+  // Version query also prevents an old cached JS file
+  // from being reused by the browser.
+  // =====================================================
+
+  import(
+    "./assets/js/client-dashboard.js?v=20260908-2"
+  )
+    .then(() => {
+
+      console.log(
+        "client-dashboard.js loaded successfully."
+      );
+
+    })
+    .catch(error => {
+
+      console.error(
+        "CLIENT DASHBOARD MODULE FAILED TO LOAD:",
+        error
+      );
+
+
+      clearTimeout(
+        window.clientLoaderFallback
+      );
+
+
+      window.hideClientLoader();
+
+
+      const recent =
+        document.getElementById(
+          "clientRecentArtifacts"
+        );
+
+
+      if (recent) {
+
+        recent.innerHTML = `
+          <div class="client-empty-state">
+
+            <div class="empty-symbol">
+              !
+            </div>
+
+            <strong>
+              Client portal could not start
+            </strong>
+
+            <p>
+              A JavaScript module failed to load.
+              Please open the browser Console for the exact error.
+            </p>
+
+          </div>
+        `;
+
+      }
+
+    });
+
+</script>
 
 </body>
 
