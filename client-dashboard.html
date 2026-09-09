@@ -10,7 +10,12 @@
     content="width=device-width, initial-scale=1.0"
   >
 
-  <title>Client Portal | Museo de Lucena</title>
+  <meta
+    name="description"
+    content="Museo de Lucena Evaluator Portal for browsing and evaluating artifact records."
+  >
+
+  <title>Evaluator Dashboard | Museo de Lucena</title>
 
 
   <!-- =====================================================
@@ -22,7 +27,6 @@
     type="image/png"
     href="assets/images/museo-logo.png?v=3"
   >
-
 
   <link
     rel="shortcut icon"
@@ -40,13 +44,11 @@
     href="https://fonts.googleapis.com"
   >
 
-
   <link
     rel="preconnect"
     href="https://fonts.gstatic.com"
     crossorigin
   >
-
 
   <link
     href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap"
@@ -63,12 +65,10 @@
     href="assets/css/global.css"
   >
 
-
   <link
     rel="stylesheet"
     href="assets/css/client-dashboard.css"
   >
-
 
   <link
     rel="stylesheet"
@@ -85,7 +85,7 @@
 
 
     <!-- =====================================================
-         CLIENT SIDEBAR
+         EVALUATOR SIDEBAR
     ====================================================== -->
 
     <aside
@@ -113,7 +113,7 @@
           </strong>
 
           <span>
-            Client Portal
+            Evaluator Portal
           </span>
 
         </div>
@@ -123,19 +123,19 @@
 
 
       <!-- =================================================
-           CLIENT NAVIGATION
+           NAVIGATION
       ================================================== -->
 
       <nav class="sidebar-nav">
 
 
         <p class="nav-label">
-          Client Access
+          Evaluator Access
         </p>
 
 
 
-        <!-- CLIENT DASHBOARD -->
+        <!-- DASHBOARD -->
 
         <a
           href="client-dashboard.html"
@@ -159,7 +159,7 @@
 
 
 
-        <!-- BROWSE ARTIFACTS -->
+        <!-- ARTIFACT COLLECTION -->
 
         <a
           href="client-artifacts.html"
@@ -175,7 +175,7 @@
           </svg>
 
           <span>
-            Browse Artifacts
+            Artifact Collection
           </span>
 
         </a>
@@ -185,7 +185,7 @@
 
 
       <!-- =================================================
-           CLIENT USER PROFILE
+           EVALUATOR PROFILE
       ================================================== -->
 
       <div class="sidebar-footer">
@@ -198,18 +198,18 @@
             class="sidebar-avatar"
             id="clientSidebarAvatar"
           >
-            C
+            E
           </div>
 
 
           <div class="sidebar-user-info">
 
             <strong id="clientSidebarName">
-              Loading...
+              Evaluator
             </strong>
 
             <span id="clientSidebarRole">
-              Client
+              Evaluator
             </span>
 
           </div>
@@ -283,7 +283,7 @@
             </span>
 
             <h1>
-              Client Dashboard
+              Evaluator Dashboard
             </h1>
 
           </div>
@@ -299,18 +299,18 @@
             class="client-topbar-avatar"
             id="clientTopbarAvatar"
           >
-            C
+            E
           </div>
 
 
           <div>
 
             <strong id="clientTopbarName">
-              Loading...
+              Evaluator
             </strong>
 
             <span>
-              Client
+              Evaluator
             </span>
 
           </div>
@@ -347,16 +347,17 @@
               Welcome,
 
               <span id="clientWelcomeName">
-                Client
+                Evaluator
               </span>.
 
             </h2>
 
 
             <p>
-              Explore the documented artifact collection of
-              Museo de Lucena and view available historical
-              information through the digital records system.
+              Explore Museo de Lucena's documented artifact
+              collection, learn about their historical and cultural
+              significance, and provide your evaluation through
+              the online artifact records system.
             </p>
 
           </div>
@@ -422,7 +423,7 @@
               </strong>
 
               <span>
-                Artifact Records
+                Available Artifacts
               </span>
 
             </div>
@@ -555,12 +556,12 @@
 
 
                 <strong>
-                  Loading collection...
+                  Preparing collection...
                 </strong>
 
 
                 <p>
-                  Recent artifacts will appear here.
+                  Available artifact records will appear here shortly.
                 </p>
 
               </div>
@@ -572,7 +573,7 @@
 
 
           <!-- =================================================
-               ABOUT CLIENT ACCESS
+               ABOUT EVALUATOR ACCESS
           ================================================== -->
 
           <article class="client-card access-card">
@@ -587,7 +588,7 @@
                 </span>
 
                 <h3>
-                  Client Portal
+                  Evaluator Portal
                 </h3>
 
               </div>
@@ -598,6 +599,8 @@
 
             <div class="access-information">
 
+
+              <!-- SEARCH -->
 
               <div class="access-item">
 
@@ -623,12 +626,12 @@
                 <div>
 
                   <strong>
-                    Search Records
+                    Search Artifact Records
                   </strong>
 
                   <p>
-                    Search available artifact information
-                    using the digital collection.
+                    Search and browse available artifact
+                    information through the digital collection.
                   </p>
 
                 </div>
@@ -636,6 +639,8 @@
               </div>
 
 
+
+              <!-- VIEW DETAILS -->
 
               <div class="access-item">
 
@@ -665,8 +670,9 @@
                   </strong>
 
                   <p>
-                    Read descriptions, historical background,
-                    provenance, and other available records.
+                    Read artifact descriptions, historical
+                    background, provenance, category,
+                    condition, and other available information.
                   </p>
 
                 </div>
@@ -674,6 +680,43 @@
               </div>
 
 
+
+              <!-- EVALUATE -->
+
+              <div class="access-item">
+
+                <div class="access-icon">
+
+                  <svg viewBox="0 0 24 24">
+
+                    <path
+                      d="M12 3l2.2 4.5 5 .7-3.6 3.5.9 5-4.5-2.4-4.5 2.4.9-5-3.6-3.5 5-.7L12 3z"
+                    />
+
+                  </svg>
+
+                </div>
+
+
+                <div>
+
+                  <strong>
+                    Evaluate Artifacts
+                  </strong>
+
+                  <p>
+                    Provide a rating and feedback for
+                    available artifact records through the
+                    Artifact Collection page.
+                  </p>
+
+                </div>
+
+              </div>
+
+
+
+              <!-- PROTECTED -->
 
               <div class="access-item">
 
@@ -697,12 +740,13 @@
                 <div>
 
                   <strong>
-                    View-Only Access
+                    Protected Museum Records
                   </strong>
 
                   <p>
-                    Client accounts cannot modify,
-                    archive, or delete museum records.
+                    Evaluators may browse and evaluate
+                    artifacts but cannot modify, archive,
+                    or delete official museum records.
                   </p>
 
                 </div>
@@ -728,7 +772,7 @@
           </span>
 
           <span>
-            Client Access Portal
+            Online Evaluator Portal
           </span>
 
         </footer>
@@ -753,154 +797,13 @@
 
 
   <!-- =====================================================
-       PAGE LOADER
+       CLIENT DASHBOARD JAVASCRIPT
   ====================================================== -->
 
-  <div
-    class="page-loader"
-    id="pageLoader"
-  >
-
-    <div class="loader-logo">
-      M
-    </div>
-
-
-    <div class="spinner"></div>
-
-
-    <span>
-      Loading client portal...
-    </span>
-
-  </div>
-
-
-
-<!-- =====================================================
-     CLIENT DASHBOARD JAVASCRIPT
-====================================================== -->
-
-<script>
-
-  // =====================================================
-  // EMERGENCY LOADER FALLBACK
-  // =====================================================
-  //
-  // Kahit hindi mag-load ang Firebase module,
-  // hindi mananatiling naka-cover ang buong page.
-  // =====================================================
-
-  window.hideClientLoader = function () {
-
-    const loader =
-      document.getElementById("pageLoader");
-
-
-    if (!loader) {
-      return;
-    }
-
-
-    loader.classList.add("hide");
-
-
-    setTimeout(() => {
-
-      loader.style.display =
-        "none";
-
-    }, 500);
-
-  };
-
-
-  // Maximum 8 seconds only.
-
-  window.clientLoaderFallback =
-    setTimeout(() => {
-
-      console.warn(
-        "Client dashboard loader fallback activated."
-      );
-
-
-      window.hideClientLoader();
-
-    }, 8000);
-
-</script>
-
-
-<script type="module">
-
-  // =====================================================
-  // LOAD CLIENT DASHBOARD MODULE
-  // =====================================================
-  //
-  // Dynamic import lets us catch module/import errors.
-  // Version query also prevents an old cached JS file
-  // from being reused by the browser.
-  // =====================================================
-
-  import(
-    "./assets/js/client-dashboard.js?v=20260908-2"
-  )
-    .then(() => {
-
-      console.log(
-        "client-dashboard.js loaded successfully."
-      );
-
-    })
-    .catch(error => {
-
-      console.error(
-        "CLIENT DASHBOARD MODULE FAILED TO LOAD:",
-        error
-      );
-
-
-      clearTimeout(
-        window.clientLoaderFallback
-      );
-
-
-      window.hideClientLoader();
-
-
-      const recent =
-        document.getElementById(
-          "clientRecentArtifacts"
-        );
-
-
-      if (recent) {
-
-        recent.innerHTML = `
-          <div class="client-empty-state">
-
-            <div class="empty-symbol">
-              !
-            </div>
-
-            <strong>
-              Client portal could not start
-            </strong>
-
-            <p>
-              A JavaScript module failed to load.
-              Please open the browser Console for the exact error.
-            </p>
-
-          </div>
-        `;
-
-      }
-
-    });
-
-</script>
+  <script
+    type="module"
+    src="assets/js/client-dashboard.js?v=4"
+  ></script>
 
 </body>
 
