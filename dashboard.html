@@ -13,7 +13,10 @@
   <title>Dashboard | Museo de Lucena</title>
 
 
-  <!-- FAVICON -->
+  <!-- =====================================================
+       FAVICON
+  ====================================================== -->
+
   <link
     rel="icon"
     type="image/png"
@@ -27,7 +30,10 @@
   >
 
 
-  <!-- GOOGLE FONTS -->
+  <!-- =====================================================
+       GOOGLE FONTS
+  ====================================================== -->
+
   <link
     rel="preconnect"
     href="https://fonts.googleapis.com"
@@ -45,75 +51,159 @@
   >
 
 
-  <!-- GLOBAL CSS -->
+  <!-- =====================================================
+       GLOBAL CSS
+  ====================================================== -->
+
   <link
     rel="stylesheet"
     href="assets/css/global.css"
   >
 
 
-  <!-- DASHBOARD CSS -->
+  <!-- =====================================================
+       DASHBOARD CSS
+  ====================================================== -->
+
   <link
     rel="stylesheet"
     href="assets/css/dashboard.css"
   >
 
-<!-- SHARED SIDEBAR -->
-<link rel="stylesheet" href="assets/css/sidebar.css">
+
+  <!-- =====================================================
+       SHARED SIDEBAR
+  ====================================================== -->
+
+  <link
+    rel="stylesheet"
+    href="assets/css/sidebar.css"
+  >
+
+
+  <!-- =====================================================
+       REFRESH BUTTON STYLE
+  ====================================================== -->
 
   <style>
+
     .dashboard-refresh-button {
       min-height: 42px;
       padding: 0 15px;
+
       display: inline-flex;
       align-items: center;
       justify-content: center;
+
       gap: 8px;
-      border: 1px solid rgba(109, 41, 43, 0.14);
+
+      border:
+        1px solid rgba(109, 41, 43, 0.14);
+
       border-radius: 10px;
+
       background: #ffffff;
+
       color: #6d292b;
-      font-family: "DM Sans", sans-serif;
+
+      font-family:
+        "DM Sans",
+        sans-serif;
+
       font-size: 0.68rem;
+
       font-weight: 700;
+
       cursor: pointer;
-      transition: background .2s ease, color .2s ease, transform .2s ease, box-shadow .2s ease, opacity .2s ease;
+
+      transition:
+        background .2s ease,
+        color .2s ease,
+        transform .2s ease,
+        box-shadow .2s ease,
+        opacity .2s ease;
     }
+
+
     .dashboard-refresh-button:hover:not(:disabled) {
       background: #6d292b;
+
       color: #ffffff;
-      transform: translateY(-1px);
-      box-shadow: 0 8px 18px rgba(109, 41, 43, 0.13);
+
+      transform:
+        translateY(-1px);
+
+      box-shadow:
+        0 8px 18px
+        rgba(109, 41, 43, 0.13);
     }
+
+
     .dashboard-refresh-button:disabled {
       opacity: .65;
+
       cursor: wait;
     }
+
+
     .dashboard-refresh-button svg {
       width: 16px;
       height: 16px;
+
       fill: none;
-      stroke: currentColor;
+
+      stroke:
+        currentColor;
+
       stroke-width: 1.8;
+
       stroke-linecap: round;
+
       stroke-linejoin: round;
     }
+
+
     .dashboard-refresh-button.refreshing svg {
-      animation: dashboardRefreshSpin .8s linear infinite;
+      animation:
+        dashboardRefreshSpin
+        .8s
+        linear
+        infinite;
     }
+
+
     @keyframes dashboardRefreshSpin {
-      to { transform: rotate(360deg); }
+
+      to {
+        transform:
+          rotate(360deg);
+      }
+
     }
+
+
     @media (max-width: 700px) {
-      .dashboard-refresh-button span { display: none; }
-      .dashboard-refresh-button { width: 42px; padding: 0; }
+
+      .dashboard-refresh-button span {
+        display: none;
+      }
+
+
+      .dashboard-refresh-button {
+        width: 42px;
+
+        padding: 0;
+      }
+
     }
+
   </style>
 
 </head>
 
 
 <body>
+
 
   <div class="dashboard-layout">
 
@@ -133,6 +223,7 @@
       ================================================== -->
 
       <div class="sidebar-brand">
+
 
         <div class="sidebar-logo">
           M
@@ -168,7 +259,9 @@
 
 
 
-        <!-- DASHBOARD -->
+        <!-- =================================================
+             DASHBOARD
+        ================================================== -->
 
         <a
           href="dashboard.html"
@@ -192,7 +285,9 @@
 
 
 
-        <!-- ARTIFACT RECORDS -->
+        <!-- =================================================
+             ARTIFACT RECORDS
+        ================================================== -->
 
         <a
           href="artifacts.html"
@@ -216,7 +311,9 @@
 
 
 
-        <!-- CATEGORIES -->
+        <!-- =================================================
+             CATEGORIES
+        ================================================== -->
 
         <a
           href="categories.html"
@@ -240,7 +337,9 @@
 
 
 
-        <!-- REPORTS -->
+        <!-- =================================================
+             REPORTS
+        ================================================== -->
 
         <a
           href="reports.html"
@@ -265,6 +364,32 @@
 
 
         <!-- =================================================
+             EVALUATIONS
+        ================================================== -->
+
+        <a
+          href="evaluations.html"
+          class="nav-item admin-only"
+          id="evaluationsNav"
+        >
+
+          <svg viewBox="0 0 24 24">
+
+            <path
+              d="M12 3l2.2 4.5 5 .7-3.6 3.5.9 5-4.5-2.4-4.5 2.4.9-5-3.6-3.5 5-.7L12 3z"
+            />
+
+          </svg>
+
+          <span>
+            Evaluations
+          </span>
+
+        </a>
+
+
+
+        <!-- =================================================
              ADMINISTRATION
         ================================================== -->
 
@@ -274,7 +399,9 @@
 
 
 
-        <!-- USER MANAGEMENT -->
+        <!-- =================================================
+             USER MANAGEMENT
+        ================================================== -->
 
         <a
           href="users.html"
@@ -298,7 +425,9 @@
 
 
 
-        <!-- ACTIVITY LOGS -->
+        <!-- =================================================
+             ACTIVITY LOGS
+        ================================================== -->
 
         <a
           href="activity.html"
@@ -330,7 +459,9 @@
 
       <div class="sidebar-footer">
 
+
         <div class="sidebar-user">
+
 
           <div
             class="sidebar-avatar"
@@ -353,6 +484,7 @@
           </div>
 
         </div>
+
 
 
         <button
@@ -394,7 +526,9 @@
 
       <header class="dashboard-topbar">
 
+
         <div class="topbar-left">
+
 
           <button
             type="button"
@@ -428,6 +562,9 @@
 
         <div class="topbar-right">
 
+
+          <!-- CURRENT DATE -->
+
           <div class="date-card">
 
             <span id="currentDate">
@@ -437,6 +574,9 @@
           </div>
 
 
+
+          <!-- REFRESH -->
+
           <button
             type="button"
             class="dashboard-refresh-button"
@@ -445,7 +585,10 @@
             aria-label="Refresh dashboard"
           >
 
-            <svg viewBox="0 0 24 24" aria-hidden="true">
+            <svg
+              viewBox="0 0 24 24"
+              aria-hidden="true"
+            >
 
               <path
                 d="M20 6v5h-5M4 18v-5h5M6.2 9a7 7 0 0 1 11.4-2.6L20 9M4 15l2.4 2.6A7 7 0 0 0 17.8 15"
@@ -460,7 +603,11 @@
           </button>
 
 
+
+          <!-- PROFILE -->
+
           <div class="topbar-profile">
+
 
             <div
               class="topbar-avatar"
@@ -498,10 +645,11 @@
 
 
         <!-- =================================================
-             WELCOME
+             WELCOME SECTION
         ================================================== -->
 
         <section class="welcome-section">
+
 
           <div>
 
@@ -529,6 +677,7 @@
           </div>
 
 
+
           <button
             type="button"
             class="primary-action"
@@ -554,11 +703,15 @@
         <section class="stats-grid">
 
 
-          <!-- TOTAL ARTIFACTS -->
+          <!-- =================================================
+               TOTAL ARTIFACTS
+          ================================================== -->
 
           <article class="stat-card">
 
+
             <div class="stat-top">
+
 
               <div class="stat-icon">
 
@@ -601,11 +754,15 @@
 
 
 
-          <!-- CATEGORIES -->
+          <!-- =================================================
+               CATEGORIES
+          ================================================== -->
 
           <article class="stat-card">
 
+
             <div class="stat-top">
+
 
               <div class="stat-icon">
 
@@ -648,11 +805,15 @@
 
 
 
-          <!-- GOOD CONDITION -->
+          <!-- =================================================
+               GOOD CONDITION
+          ================================================== -->
 
           <article class="stat-card">
 
+
             <div class="stat-top">
+
 
               <div class="stat-icon success">
 
@@ -695,11 +856,15 @@
 
 
 
-          <!-- NEEDS ATTENTION -->
+          <!-- =================================================
+               NEEDS ATTENTION
+          ================================================== -->
 
           <article class="stat-card">
 
+
             <div class="stat-top">
+
 
               <div class="stat-icon warning">
 
@@ -751,11 +916,15 @@
         <section class="dashboard-grid">
 
 
-          <!-- RECENT ARTIFACTS -->
+          <!-- =================================================
+               RECENT ARTIFACTS
+          ================================================== -->
 
           <article class="dashboard-card recent-artifacts-card">
 
+
             <div class="card-header">
+
 
               <div>
 
@@ -781,12 +950,15 @@
             </div>
 
 
+
             <div
               class="artifact-list"
               id="recentArtifacts"
             >
 
+
               <div class="empty-state">
+
 
                 <div class="empty-icon">
 
@@ -805,6 +977,7 @@
                   No artifact records yet
                 </strong>
 
+
                 <p>
                   Added artifacts will appear here.
                 </p>
@@ -817,11 +990,15 @@
 
 
 
-          <!-- CONDITION OVERVIEW -->
+          <!-- =================================================
+               CONDITION OVERVIEW
+          ================================================== -->
 
           <article class="dashboard-card condition-card">
 
+
             <div class="card-header">
+
 
               <div>
 
@@ -838,10 +1015,14 @@
             </div>
 
 
+
             <div class="condition-content">
 
 
+              <!-- GOOD -->
+
               <div class="condition-item">
+
 
                 <div class="condition-heading">
 
@@ -869,7 +1050,10 @@
 
 
 
+              <!-- FAIR -->
+
               <div class="condition-item">
+
 
                 <div class="condition-heading">
 
@@ -897,7 +1081,10 @@
 
 
 
+              <!-- POOR -->
+
               <div class="condition-item">
+
 
                 <div class="condition-heading">
 
@@ -926,7 +1113,9 @@
             </div>
 
 
+
             <div class="condition-note">
+
 
               <div class="condition-note-icon">
                 i
@@ -946,19 +1135,18 @@
 
 
 
- 
-
-
         <!-- =================================================
              FOOTER
         ================================================== -->
 
         <footer class="dashboard-footer">
 
+
           <p>
             Web-Based Information and Filing System for Artifact
             Records of Museo de Lucena
           </p>
+
 
           <span>
             Authorized institutional use
@@ -974,7 +1162,9 @@
 
 
 
-  <!-- MOBILE OVERLAY -->
+  <!-- =====================================================
+       MOBILE OVERLAY
+  ====================================================== -->
 
   <div
     class="sidebar-overlay"
@@ -983,18 +1173,23 @@
 
 
 
-  <!-- LOADING SCREEN -->
+  <!-- =====================================================
+       LOADING SCREEN
+  ====================================================== -->
 
   <div
     class="page-loader"
     id="pageLoader"
   >
 
+
     <div class="loader-logo">
       M
     </div>
 
+
     <div class="loader-spinner"></div>
+
 
     <span>
       Loading Museo de Lucena...
@@ -1004,28 +1199,64 @@
 
 
 
-  <!-- REFRESH DASHBOARD -->
+  <!-- =====================================================
+       REFRESH DASHBOARD
+  ====================================================== -->
 
   <script>
-    const refreshDashboardButton = document.getElementById("refreshDashboardButton");
-    const refreshDashboardText = document.getElementById("refreshDashboardText");
 
-    refreshDashboardButton?.addEventListener("click", () => {
-      refreshDashboardButton.disabled = true;
-      refreshDashboardButton.classList.add("refreshing");
+    const refreshDashboardButton =
+      document.getElementById(
+        "refreshDashboardButton"
+      );
 
-      if (refreshDashboardText) {
-        refreshDashboardText.textContent = "Refreshing...";
+
+    const refreshDashboardText =
+      document.getElementById(
+        "refreshDashboardText"
+      );
+
+
+    refreshDashboardButton?.addEventListener(
+      "click",
+      () => {
+
+        refreshDashboardButton.disabled =
+          true;
+
+
+        refreshDashboardButton.classList.add(
+          "refreshing"
+        );
+
+
+        if (refreshDashboardText) {
+
+          refreshDashboardText.textContent =
+            "Refreshing...";
+
+        }
+
+
+        setTimeout(
+          () => {
+
+            window.location.reload();
+
+          },
+          250
+        );
+
       }
+    );
 
-      setTimeout(() => {
-        window.location.reload();
-      }, 250);
-    });
   </script>
 
 
-  <!-- DASHBOARD JAVASCRIPT -->
+
+  <!-- =====================================================
+       DASHBOARD JAVASCRIPT
+  ====================================================== -->
 
   <script
     type="module"
