@@ -1,0 +1,879 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <title>Artifact Evaluations | Museo de Lucena</title>
+
+
+  <!-- FAVICON -->
+
+  <link
+    rel="icon"
+    type="image/png"
+    href="assets/images/museo-logo.png"
+  >
+
+
+  <!-- GOOGLE FONTS -->
+
+  <link
+    rel="preconnect"
+    href="https://fonts.googleapis.com"
+  >
+
+  <link
+    rel="preconnect"
+    href="https://fonts.gstatic.com"
+    crossorigin
+  >
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap"
+    rel="stylesheet"
+  >
+
+
+  <!-- STYLES -->
+
+  <link
+    rel="stylesheet"
+    href="assets/css/global.css"
+  >
+
+  <link
+    rel="stylesheet"
+    href="assets/css/evaluations.css"
+  >
+
+  <link
+    rel="stylesheet"
+    href="assets/css/sidebar.css"
+  >
+
+</head>
+
+
+<body>
+
+
+  <div class="page-layout">
+
+
+    <!-- =====================================================
+         SIDEBAR
+    ====================================================== -->
+
+    <aside
+      class="sidebar"
+      id="sidebar"
+    >
+
+
+      <!-- BRAND -->
+
+      <div class="sidebar-brand">
+
+        <div class="sidebar-logo">
+          M
+        </div>
+
+
+        <div class="sidebar-brand-text">
+
+          <strong>
+            Museo de Lucena
+          </strong>
+
+          <span>
+            Artifact Records System
+          </span>
+
+        </div>
+
+      </div>
+
+
+
+      <!-- NAVIGATION -->
+
+      <nav class="sidebar-nav">
+
+
+        <p class="nav-label">
+          Main Navigation
+        </p>
+
+
+        <!-- DASHBOARD -->
+
+        <a
+          href="dashboard.html"
+          class="nav-item"
+        >
+
+          <svg viewBox="0 0 24 24">
+
+            <path
+              d="M4 4h6v6H4zM14 4h6v6h-6zM4 14h6v6H4zM14 14h6v6h-6z"
+            />
+
+          </svg>
+
+          <span>
+            Dashboard
+          </span>
+
+        </a>
+
+
+        <!-- ARTIFACT RECORDS -->
+
+        <a
+          href="artifacts.html"
+          class="nav-item"
+        >
+
+          <svg viewBox="0 0 24 24">
+
+            <path
+              d="M5 4h14v16H5zM8 8h8M8 12h8M8 16h5"
+            />
+
+          </svg>
+
+          <span>
+            Artifact Records
+          </span>
+
+        </a>
+
+
+        <!-- CATEGORIES -->
+
+        <a
+          href="categories.html"
+          class="nav-item"
+        >
+
+          <svg viewBox="0 0 24 24">
+
+            <path
+              d="M4 6h7l2 2h7v10H4z"
+            />
+
+          </svg>
+
+          <span>
+            Categories
+          </span>
+
+        </a>
+
+
+        <!-- REPORTS -->
+
+        <a
+          href="reports.html"
+          class="nav-item"
+        >
+
+          <svg viewBox="0 0 24 24">
+
+            <path
+              d="M5 19V9M10 19V5M15 19v-7M20 19V3M3 19h19"
+            />
+
+          </svg>
+
+          <span>
+            Reports
+          </span>
+
+        </a>
+
+
+        <!-- EVALUATIONS -->
+
+        <a
+          href="evaluations.html"
+          class="nav-item active"
+          aria-current="page"
+        >
+
+          <svg viewBox="0 0 24 24">
+
+            <path
+              d="M12 3l2.2 4.5 5 .7-3.6 3.5.9 5-4.5-2.4-4.5 2.4.9-5-3.6-3.5 5-.7L12 3z"
+            />
+
+          </svg>
+
+          <span>
+            Evaluations
+          </span>
+
+        </a>
+
+
+
+        <!-- ADMINISTRATION -->
+
+        <p class="nav-label second admin-only">
+          Administration
+        </p>
+
+
+        <!-- USER MANAGEMENT -->
+
+        <a
+          href="users.html"
+          class="nav-item admin-only"
+        >
+
+          <svg viewBox="0 0 24 24">
+
+            <path
+              d="M16 20v-2a4 4 0 0 0-4-4H7a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM18 8v6M15 11h6"
+            />
+
+          </svg>
+
+          <span>
+            User Management
+          </span>
+
+        </a>
+
+
+        <!-- ACTIVITY LOGS -->
+
+        <a
+          href="activity.html"
+          class="nav-item admin-only"
+        >
+
+          <svg viewBox="0 0 24 24">
+
+            <path
+              d="M12 8v5l3 2M21 12a9 9 0 1 1-9-9"
+            />
+
+          </svg>
+
+          <span>
+            Activity Logs
+          </span>
+
+        </a>
+
+      </nav>
+
+
+
+      <!-- SIDEBAR FOOTER -->
+
+      <div class="sidebar-footer">
+
+
+        <div class="sidebar-user">
+
+          <div
+            class="sidebar-avatar"
+            id="sidebarAvatar"
+          >
+            M
+          </div>
+
+
+          <div class="sidebar-user-info">
+
+            <strong id="sidebarUserName">
+              Administrator
+            </strong>
+
+            <span id="sidebarUserRole">
+              Administrator
+            </span>
+
+          </div>
+
+        </div>
+
+
+        <button
+          type="button"
+          class="logout-button"
+          id="logoutButton"
+        >
+
+          <svg viewBox="0 0 24 24">
+
+            <path
+              d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4M10 17l5-5-5-5M15 12H3"
+            />
+
+          </svg>
+
+          <span>
+            Sign Out
+          </span>
+
+        </button>
+
+      </div>
+
+    </aside>
+
+
+
+    <!-- =====================================================
+         MAIN CONTENT
+    ====================================================== -->
+
+    <main class="main-content evaluations-main">
+
+
+      <!-- TOPBAR -->
+
+      <header class="evaluations-topbar">
+
+
+        <div class="topbar-left">
+
+
+          <button
+            type="button"
+            class="menu-button"
+            id="menuButton"
+            aria-label="Open sidebar"
+          >
+
+            <span></span>
+            <span></span>
+            <span></span>
+
+          </button>
+
+
+          <div>
+
+            <span class="page-eyebrow">
+              Evaluation Management
+            </span>
+
+            <h1>
+              Artifact Evaluations
+            </h1>
+
+          </div>
+
+        </div>
+
+
+        <button
+          type="button"
+          class="refresh-evaluations-button"
+          id="refreshEvaluationsButton"
+        >
+          Refresh
+        </button>
+
+      </header>
+
+
+
+      <!-- =================================================
+           CONTENT
+      ================================================== -->
+
+      <div class="evaluations-content">
+
+
+        <!-- HERO -->
+
+        <section class="evaluations-hero">
+
+          <div>
+
+            <span>
+              Client Feedback
+            </span>
+
+            <h2>
+              Monitor artifact evaluations.
+            </h2>
+
+            <p>
+              Review ratings and written feedback submitted by
+              registered evaluators for Museo de Lucena's digital
+              artifact collection.
+            </p>
+
+          </div>
+
+        </section>
+
+
+
+        <!-- =================================================
+             SUMMARY CARDS
+        ================================================== -->
+
+        <section class="evaluation-stats">
+
+
+          <!-- TOTAL -->
+
+          <article class="evaluation-stat-card">
+
+            <span class="stat-label">
+              Total Evaluations
+            </span>
+
+            <strong id="totalEvaluationCount">
+              0
+            </strong>
+
+            <p>
+              Submitted artifact evaluations
+            </p>
+
+          </article>
+
+
+          <!-- AVERAGE -->
+
+          <article class="evaluation-stat-card">
+
+            <span class="stat-label">
+              Average Rating
+            </span>
+
+            <strong id="averageEvaluationRating">
+              0.0
+            </strong>
+
+            <p>
+              Overall average out of 5
+            </p>
+
+          </article>
+
+
+          <!-- FIVE STAR -->
+
+          <article class="evaluation-stat-card">
+
+            <span class="stat-label">
+              Five-Star Ratings
+            </span>
+
+            <strong id="fiveStarEvaluationCount">
+              0
+            </strong>
+
+            <p>
+              Evaluations rated excellent
+            </p>
+
+          </article>
+
+
+          <!-- EVALUATORS -->
+
+          <article class="evaluation-stat-card">
+
+            <span class="stat-label">
+              Evaluators
+            </span>
+
+            <strong id="uniqueEvaluatorCount">
+              0
+            </strong>
+
+            <p>
+              Registered clients who evaluated
+            </p>
+
+          </article>
+
+        </section>
+
+
+
+        <!-- =================================================
+             FILTERS
+        ================================================== -->
+
+        <section class="evaluation-toolbar">
+
+
+          <div class="evaluation-search">
+
+            <svg viewBox="0 0 24 24">
+
+              <circle
+                cx="11"
+                cy="11"
+                r="6"
+              />
+
+              <path
+                d="M16 16l5 5"
+              />
+
+            </svg>
+
+
+            <input
+              type="search"
+              id="evaluationSearch"
+              placeholder="Search artifact or evaluator..."
+              autocomplete="off"
+            >
+
+          </div>
+
+
+
+          <select id="ratingFilter">
+
+            <option value="">
+              All Ratings
+            </option>
+
+            <option value="5">
+              5 Stars
+            </option>
+
+            <option value="4">
+              4 Stars
+            </option>
+
+            <option value="3">
+              3 Stars
+            </option>
+
+            <option value="2">
+              2 Stars
+            </option>
+
+            <option value="1">
+              1 Star
+            </option>
+
+          </select>
+
+
+
+          <select id="evaluationCategoryFilter">
+
+            <option value="">
+              All Categories
+            </option>
+
+          </select>
+
+
+
+          <button
+            type="button"
+            id="resetEvaluationFilters"
+            class="reset-button"
+          >
+            Reset
+          </button>
+
+        </section>
+
+
+
+        <!-- =================================================
+             EVALUATION TABLE
+        ================================================== -->
+
+        <section class="evaluation-table-card">
+
+
+          <div class="evaluation-table-header">
+
+
+            <div>
+
+              <span>
+                Submitted Feedback
+              </span>
+
+              <h3>
+                Evaluations
+              </h3>
+
+            </div>
+
+
+            <span
+              class="evaluation-result-count"
+              id="evaluationResultCount"
+            >
+              0 evaluations
+            </span>
+
+          </div>
+
+
+
+          <div class="evaluation-table-wrapper">
+
+
+            <table class="evaluation-table">
+
+
+              <thead>
+
+                <tr>
+
+                  <th>
+                    Artifact
+                  </th>
+
+                  <th>
+                    Evaluator
+                  </th>
+
+                  <th>
+                    Rating
+                  </th>
+
+                  <th>
+                    Feedback
+                  </th>
+
+                  <th>
+                    Submitted
+                  </th>
+
+                  <th>
+                    Action
+                  </th>
+
+                </tr>
+
+              </thead>
+
+
+              <tbody id="evaluationTableBody">
+
+                <tr>
+
+                  <td colspan="6">
+
+                    <div class="evaluation-empty-state">
+
+                      <strong>
+                        Loading evaluations...
+                      </strong>
+
+                      <p>
+                        Submitted evaluator feedback will appear here.
+                      </p>
+
+                    </div>
+
+                  </td>
+
+                </tr>
+
+              </tbody>
+
+            </table>
+
+          </div>
+
+        </section>
+
+
+
+        <!-- FOOTER -->
+
+        <footer class="evaluations-footer">
+
+          <span>
+            Museo de Lucena Artifact Records System
+          </span>
+
+          <span>
+            Administrator Access
+          </span>
+
+        </footer>
+
+      </div>
+
+    </main>
+
+  </div>
+
+
+
+  <!-- =====================================================
+       EVALUATION DETAILS MODAL
+  ====================================================== -->
+
+  <div
+    class="evaluation-modal-overlay"
+    id="evaluationModal"
+  >
+
+
+    <div class="evaluation-modal">
+
+
+      <div class="evaluation-modal-header">
+
+        <div>
+
+          <span>
+            Evaluation Details
+          </span>
+
+          <h2 id="modalEvaluationArtifact">
+            Artifact
+          </h2>
+
+        </div>
+
+
+        <button
+          type="button"
+          id="closeEvaluationModal"
+          class="evaluation-modal-close"
+        >
+          ×
+        </button>
+
+      </div>
+
+
+
+      <div class="evaluation-modal-content">
+
+
+        <div class="evaluation-detail-grid">
+
+
+          <div class="evaluation-detail">
+
+            <span>
+              Evaluator
+            </span>
+
+            <strong id="modalEvaluatorName">
+              —
+            </strong>
+
+          </div>
+
+
+          <div class="evaluation-detail">
+
+            <span>
+              Email
+            </span>
+
+            <strong id="modalEvaluatorEmail">
+              —
+            </strong>
+
+          </div>
+
+
+          <div class="evaluation-detail">
+
+            <span>
+              Category
+            </span>
+
+            <strong id="modalEvaluationCategory">
+              —
+            </strong>
+
+          </div>
+
+
+          <div class="evaluation-detail">
+
+            <span>
+              Rating
+            </span>
+
+            <strong id="modalEvaluationRating">
+              —
+            </strong>
+
+          </div>
+
+        </div>
+
+
+
+        <div class="evaluation-feedback-detail">
+
+          <span>
+            Feedback / Comment
+          </span>
+
+          <p id="modalEvaluationComment">
+            —
+          </p>
+
+        </div>
+
+
+
+        <div class="evaluation-feedback-detail">
+
+          <span>
+            Submitted
+          </span>
+
+          <p id="modalEvaluationDate">
+            —
+          </p>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+
+
+  <!-- MOBILE OVERLAY -->
+
+  <div
+    class="sidebar-overlay"
+    id="sidebarOverlay"
+  ></div>
+
+
+
+  <!-- JAVASCRIPT -->
+
+  <script
+    type="module"
+    src="assets/js/evaluations.js"
+  ></script>
+
+</body>
+
+</html>
