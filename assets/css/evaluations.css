@@ -837,10 +837,11 @@ body {
 
   -webkit-line-clamp: 2;
 
+  line-clamp: 2;
+
   line-height: 1.5;
 
-  color:
-    #776c65;
+  color: #776c65;
 }
 
 
