@@ -284,12 +284,6 @@ const userPassword =
   );
 
 
-const newUserRole =
-  document.getElementById(
-    "newUserRole"
-  );
-
-
 const newUserStatus =
   document.getElementById(
     "newUserStatus"
@@ -386,7 +380,7 @@ function displayCurrentUser(
   if (sidebarAvatar) {
 
     sidebarAvatar.textContent =
-      initial;
+      initial || "M";
 
   }
 
@@ -452,10 +446,7 @@ async function loadUsers() {
           roleA !== roleB
         ) {
 
-          return (
-            roleA -
-            roleB
-          );
+          return roleA - roleB;
 
         }
 
@@ -571,7 +562,9 @@ function updateSummary() {
   const admins =
     users.filter(
       user =>
-        user.role ===
+        String(
+          user.role || ""
+        ).toLowerCase() ===
         "admin"
     ).length;
 
@@ -579,7 +572,9 @@ function updateSummary() {
   const staff =
     users.filter(
       user =>
-        user.role ===
+        String(
+          user.role || ""
+        ).toLowerCase() ===
         "staff"
     ).length;
 
@@ -587,7 +582,9 @@ function updateSummary() {
   const inactive =
     users.filter(
       user =>
-        user.status ===
+        String(
+          user.status || ""
+        ).toLowerCase() ===
         "inactive"
     ).length;
 
@@ -670,6 +667,18 @@ function applyFilters() {
             .join(" ");
 
 
+        const userRole =
+          String(
+            user.role || ""
+          ).toLowerCase();
+
+
+        const userStatus =
+          String(
+            user.status || ""
+          ).toLowerCase();
+
+
         const matchesSearch =
           !keyword ||
           searchable.includes(
@@ -679,13 +688,13 @@ function applyFilters() {
 
         const matchesRole =
           !selectedRole ||
-          user.role ===
+          userRole ===
             selectedRole;
 
 
         const matchesStatus =
           !selectedStatus ||
-          user.status ===
+          userStatus ===
             selectedStatus;
 
 
@@ -898,15 +907,22 @@ function renderUsers(
             );
 
 
+          const normalizedStatus =
+            String(
+              user.status ||
+              "active"
+            ).toLowerCase();
+
+
           const status =
-            user.status ===
+            normalizedStatus ===
             "inactive"
               ? "Inactive"
               : "Active";
 
 
           const statusClass =
-            user.status ===
+            normalizedStatus ===
             "inactive"
               ? "inactive"
               : "active";
@@ -925,6 +941,12 @@ function renderUsers(
             )
               .charAt(0)
               .toUpperCase();
+
+
+          const normalizedRole =
+            String(
+              user.role || ""
+            ).toLowerCase();
 
 
           const isCurrentAccount =
@@ -960,7 +982,7 @@ function renderUsers(
           // =================================================
 
           else if (
-            user.role ===
+            normalizedRole ===
             "admin"
           ) {
 
@@ -982,7 +1004,7 @@ function renderUsers(
           else {
 
             const statusButton =
-              user.status ===
+              normalizedStatus ===
               "inactive"
                 ? `
                   <button
@@ -1047,7 +1069,7 @@ function renderUsers(
                       ${
                         isCurrentAccount
                           ? "Current account"
-                          : user.role ===
+                          : normalizedRole ===
                             "client"
                             ? "Registered evaluator"
                             : "System user"
@@ -1246,14 +1268,6 @@ function resetUserForm() {
   }
 
 
-  if (newUserRole) {
-
-    newUserRole.value =
-      "staff";
-
-  }
-
-
   clearFormMessage();
 
 
@@ -1317,7 +1331,7 @@ userForm?.addEventListener(
 
 
     const status =
-      newUserStatus.value ||
+      newUserStatus?.value ||
       "active";
 
 
@@ -1393,6 +1407,10 @@ userForm?.addEventListener(
 
     try {
 
+      // ===================================================
+      // CREATE FIREBASE AUTH ACCOUNT
+      // ===================================================
+
       const credential =
         await createUserWithEmailAndPassword(
           secondaryAuth,
@@ -1404,6 +1422,13 @@ userForm?.addEventListener(
       const newUid =
         credential.user.uid;
 
+
+      // ===================================================
+      // CREATE FIRESTORE PROFILE
+      //
+      // ROLE IS AUTOMATICALLY STAFF.
+      // NO ROLE FIELD IS REQUIRED IN THE FORM.
+      // ===================================================
 
       await setDoc(
         doc(
@@ -1425,6 +1450,9 @@ userForm?.addEventListener(
           createdAt:
             serverTimestamp(),
 
+          updatedAt:
+            serverTimestamp(),
+
           createdBy:
             auth.currentUser.uid,
 
@@ -1436,6 +1464,10 @@ userForm?.addEventListener(
       );
 
 
+      // ===================================================
+      // SIGN OUT SECONDARY AUTH ONLY
+      // ===================================================
+
       try {
 
         await signOut(
@@ -1444,6 +1476,10 @@ userForm?.addEventListener(
 
       } catch (_) {}
 
+
+      // ===================================================
+      // LOG ACTION
+      // ===================================================
 
       await logActivity(
         "Created staff account",
@@ -1613,6 +1649,12 @@ usersTableBody?.addEventListener(
     }
 
 
+    const selectedRole =
+      String(
+        selectedUser.role || ""
+      ).toLowerCase();
+
+
     // =====================================================
     // NEVER MODIFY CURRENT ADMIN
     // =====================================================
@@ -1637,7 +1679,7 @@ usersTableBody?.addEventListener(
     // =====================================================
 
     if (
-      selectedUser.role ===
+      selectedRole ===
       "admin"
     ) {
 
@@ -1689,7 +1731,7 @@ usersTableBody?.addEventListener(
 
 
         await logActivity(
-          selectedUser.role ===
+          selectedRole ===
             "client"
             ? "Deleted evaluator profile"
             : "Deleted staff profile",
@@ -1707,6 +1749,10 @@ usersTableBody?.addEventListener(
           "Delete user profile error:",
           error
         );
+
+
+        button.disabled =
+          false;
 
 
         if (
@@ -1810,13 +1856,13 @@ usersTableBody?.addEventListener(
         newStatus ===
           "active"
           ? (
-              selectedUser.role ===
+              selectedRole ===
                 "client"
                 ? "Activated evaluator account"
                 : "Activated staff account"
             )
           : (
-              selectedUser.role ===
+              selectedRole ===
                 "client"
                 ? "Deactivated evaluator account"
                 : "Deactivated staff account"
@@ -2203,8 +2249,20 @@ onAuthStateChanged(
         );
 
 
+      const currentRole =
+        String(
+          currentProfile.role || ""
+        ).toLowerCase();
+
+
+      const currentStatus =
+        String(
+          currentProfile.status || ""
+        ).toLowerCase();
+
+
       if (
-        currentProfile.status !==
+        currentStatus !==
         "active"
       ) {
 
@@ -2224,7 +2282,7 @@ onAuthStateChanged(
 
 
       if (
-        currentProfile.role !==
+        currentRole !==
         "admin"
       ) {
 

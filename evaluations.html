@@ -13,7 +13,9 @@
   <title>Artifact Evaluations | Museo de Lucena</title>
 
 
-  <!-- FAVICON -->
+  <!-- =====================================================
+       FAVICON
+  ====================================================== -->
 
   <link
     rel="icon"
@@ -22,7 +24,9 @@
   >
 
 
-  <!-- GOOGLE FONTS -->
+  <!-- =====================================================
+       GOOGLE FONTS
+  ====================================================== -->
 
   <link
     rel="preconnect"
@@ -41,7 +45,9 @@
   >
 
 
-  <!-- STYLES -->
+  <!-- =====================================================
+       STYLESHEETS
+  ====================================================== -->
 
   <link
     rel="stylesheet"
@@ -77,9 +83,12 @@
     >
 
 
-      <!-- BRAND -->
+      <!-- =================================================
+           BRAND
+      ================================================== -->
 
       <div class="sidebar-brand">
+
 
         <div class="sidebar-logo">
           M
@@ -102,17 +111,22 @@
 
 
 
-      <!-- NAVIGATION -->
+      <!-- =================================================
+           NAVIGATION
+      ================================================== -->
 
       <nav class="sidebar-nav">
 
 
         <p class="nav-label">
-          Main Navigation
+          Workspace
         </p>
 
 
-        <!-- DASHBOARD -->
+
+        <!-- =================================================
+             DASHBOARD
+        ================================================== -->
 
         <a
           href="dashboard.html"
@@ -134,7 +148,10 @@
         </a>
 
 
-        <!-- ARTIFACT RECORDS -->
+
+        <!-- =================================================
+             ARTIFACT RECORDS
+        ================================================== -->
 
         <a
           href="artifacts.html"
@@ -156,7 +173,10 @@
         </a>
 
 
-        <!-- CATEGORIES -->
+
+        <!-- =================================================
+             CATEGORIES
+        ================================================== -->
 
         <a
           href="categories.html"
@@ -178,7 +198,10 @@
         </a>
 
 
-        <!-- REPORTS -->
+
+        <!-- =================================================
+             REPORTS
+        ================================================== -->
 
         <a
           href="reports.html"
@@ -200,11 +223,15 @@
         </a>
 
 
-        <!-- EVALUATIONS -->
+
+        <!-- =================================================
+             EVALUATIONS
+        ================================================== -->
 
         <a
           href="evaluations.html"
-          class="nav-item active"
+          class="nav-item active admin-only"
+          id="evaluationsNav"
           aria-current="page"
         >
 
@@ -224,14 +251,19 @@
 
 
 
-        <!-- ADMINISTRATION -->
+        <!-- =================================================
+             ADMINISTRATION
+        ================================================== -->
 
         <p class="nav-label second admin-only">
           Administration
         </p>
 
 
-        <!-- USER MANAGEMENT -->
+
+        <!-- =================================================
+             USER MANAGEMENT
+        ================================================== -->
 
         <a
           href="users.html"
@@ -241,7 +273,7 @@
           <svg viewBox="0 0 24 24">
 
             <path
-              d="M16 20v-2a4 4 0 0 0-4-4H7a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM18 8v6M15 11h6"
+              d="M16 20v-2a4 4 0 0 0-4-4H7a4 4 0 0 0-4 4v2M9.5 10a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM18 8v6M15 11h6"
             />
 
           </svg>
@@ -253,7 +285,10 @@
         </a>
 
 
-        <!-- ACTIVITY LOGS -->
+
+        <!-- =================================================
+             ACTIVITY LOGS
+        ================================================== -->
 
         <a
           href="activity.html"
@@ -278,12 +313,15 @@
 
 
 
-      <!-- SIDEBAR FOOTER -->
+      <!-- =================================================
+           SIDEBAR FOOTER
+      ================================================== -->
 
       <div class="sidebar-footer">
 
 
         <div class="sidebar-user">
+
 
           <div
             class="sidebar-avatar"
@@ -296,16 +334,17 @@
           <div class="sidebar-user-info">
 
             <strong id="sidebarUserName">
-              Administrator
+              Loading...
             </strong>
 
             <span id="sidebarUserRole">
-              Administrator
+              —
             </span>
 
           </div>
 
         </div>
+
 
 
         <button
@@ -341,7 +380,9 @@
     <main class="main-content evaluations-main">
 
 
-      <!-- TOPBAR -->
+      <!-- =================================================
+           TOPBAR
+      ================================================== -->
 
       <header class="evaluations-topbar">
 
@@ -378,6 +419,7 @@
         </div>
 
 
+
         <button
           type="button"
           class="refresh-evaluations-button"
@@ -397,14 +439,16 @@
       <div class="evaluations-content">
 
 
-        <!-- HERO -->
+        <!-- =================================================
+             HERO
+        ================================================== -->
 
         <section class="evaluations-hero">
 
           <div>
 
             <span>
-              Client Feedback
+              Evaluator Feedback
             </span>
 
             <h2>
@@ -430,7 +474,7 @@
         <section class="evaluation-stats">
 
 
-          <!-- TOTAL -->
+          <!-- TOTAL EVALUATIONS -->
 
           <article class="evaluation-stat-card">
 
@@ -449,7 +493,8 @@
           </article>
 
 
-          <!-- AVERAGE -->
+
+          <!-- AVERAGE RATING -->
 
           <article class="evaluation-stat-card">
 
@@ -466,6 +511,7 @@
             </p>
 
           </article>
+
 
 
           <!-- FIVE STAR -->
@@ -487,6 +533,7 @@
           </article>
 
 
+
           <!-- EVALUATORS -->
 
           <article class="evaluation-stat-card">
@@ -500,7 +547,7 @@
             </strong>
 
             <p>
-              Registered clients who evaluated
+              Registered evaluators who submitted feedback
             </p>
 
           </article>
@@ -516,7 +563,10 @@
         <section class="evaluation-toolbar">
 
 
+          <!-- SEARCH -->
+
           <div class="evaluation-search">
+
 
             <svg viewBox="0 0 24 24">
 
@@ -543,6 +593,8 @@
           </div>
 
 
+
+          <!-- RATING FILTER -->
 
           <select id="ratingFilter">
 
@@ -574,6 +626,8 @@
 
 
 
+          <!-- CATEGORY FILTER -->
+
           <select id="evaluationCategoryFilter">
 
             <option value="">
@@ -583,6 +637,8 @@
           </select>
 
 
+
+          <!-- RESET -->
 
           <button
             type="button"
@@ -602,6 +658,8 @@
 
         <section class="evaluation-table-card">
 
+
+          <!-- HEADER -->
 
           <div class="evaluation-table-header">
 
@@ -629,6 +687,8 @@
           </div>
 
 
+
+          <!-- TABLE -->
 
           <div class="evaluation-table-wrapper">
 
@@ -669,11 +729,14 @@
               </thead>
 
 
+
               <tbody id="evaluationTableBody">
+
 
                 <tr>
 
                   <td colspan="6">
+
 
                     <div class="evaluation-empty-state">
 
@@ -701,7 +764,9 @@
 
 
 
-        <!-- FOOTER -->
+        <!-- =================================================
+             FOOTER
+        ================================================== -->
 
         <footer class="evaluations-footer">
 
@@ -736,7 +801,12 @@
     <div class="evaluation-modal">
 
 
+      <!-- =================================================
+           MODAL HEADER
+      ================================================== -->
+
       <div class="evaluation-modal-header">
+
 
         <div>
 
@@ -751,10 +821,12 @@
         </div>
 
 
+
         <button
           type="button"
           id="closeEvaluationModal"
           class="evaluation-modal-close"
+          aria-label="Close evaluation details"
         >
           ×
         </button>
@@ -763,11 +835,17 @@
 
 
 
+      <!-- =================================================
+           MODAL CONTENT
+      ================================================== -->
+
       <div class="evaluation-modal-content">
 
 
         <div class="evaluation-detail-grid">
 
+
+          <!-- EVALUATOR -->
 
           <div class="evaluation-detail">
 
@@ -782,6 +860,9 @@
           </div>
 
 
+
+          <!-- EMAIL -->
+
           <div class="evaluation-detail">
 
             <span>
@@ -795,6 +876,9 @@
           </div>
 
 
+
+          <!-- CATEGORY -->
+
           <div class="evaluation-detail">
 
             <span>
@@ -807,6 +891,9 @@
 
           </div>
 
+
+
+          <!-- RATING -->
 
           <div class="evaluation-detail">
 
@@ -824,6 +911,8 @@
 
 
 
+        <!-- FEEDBACK -->
+
         <div class="evaluation-feedback-detail">
 
           <span>
@@ -837,6 +926,8 @@
         </div>
 
 
+
+        <!-- SUBMITTED -->
 
         <div class="evaluation-feedback-detail">
 
@@ -858,7 +949,9 @@
 
 
 
-  <!-- MOBILE OVERLAY -->
+  <!-- =====================================================
+       MOBILE SIDEBAR OVERLAY
+  ====================================================== -->
 
   <div
     class="sidebar-overlay"
@@ -867,7 +960,9 @@
 
 
 
-  <!-- JAVASCRIPT -->
+  <!-- =====================================================
+       JAVASCRIPT
+  ====================================================== -->
 
   <script
     type="module"

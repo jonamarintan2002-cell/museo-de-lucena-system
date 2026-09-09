@@ -1,145 +1,335 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
   <title>Categories | Museo de Lucena</title>
-  <link rel="icon" type="image/png" href="assets/images/museo-logo.png">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap"rel="stylesheet">
-  <link rel="stylesheet" href="assets/css/global.css">
-  <link rel="stylesheet" href="assets/css/categories.css">
-  <link rel="stylesheet" href="assets/css/sidebar.css">
+
+
+  <!-- =====================================================
+       FAVICON
+  ====================================================== -->
+
+  <link
+    rel="icon"
+    type="image/png"
+    href="assets/images/museo-logo.png"
+  >
+
+
+  <!-- =====================================================
+       GOOGLE FONTS
+  ====================================================== -->
+
+  <link
+    rel="preconnect"
+    href="https://fonts.googleapis.com"
+  >
+
+  <link
+    rel="preconnect"
+    href="https://fonts.gstatic.com"
+    crossorigin
+  >
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap"
+    rel="stylesheet"
+  >
+
+
+  <!-- =====================================================
+       STYLESHEETS
+  ====================================================== -->
+
+  <link
+    rel="stylesheet"
+    href="assets/css/global.css"
+  >
+
+  <link
+    rel="stylesheet"
+    href="assets/css/categories.css"
+  >
+
+  <link
+    rel="stylesheet"
+    href="assets/css/sidebar.css"
+  >
+
 </head>
+
 
 <body>
 
+
   <div class="page-layout">
+
 
     <!-- =====================================================
          SIDEBAR
     ====================================================== -->
-    <aside class="sidebar" id="sidebar">
+
+    <aside
+      class="sidebar"
+      id="sidebar"
+    >
+
+
+      <!-- =================================================
+           BRAND
+      ================================================== -->
 
       <div class="sidebar-brand">
+
 
         <div class="sidebar-logo">
           M
         </div>
 
+
         <div class="sidebar-brand-text">
-          <strong>Museo de Lucena</strong>
-          <span>Artifact Records System</span>
+
+          <strong>
+            Museo de Lucena
+          </strong>
+
+          <span>
+            Artifact Records System
+          </span>
+
         </div>
 
       </div>
 
 
-     <nav class="sidebar-nav">
 
-  <p class="nav-label">
-    Workspace
-  </p>
+      <!-- =================================================
+           NAVIGATION
+      ================================================== -->
 
-
-  <!-- DASHBOARD -->
-  <a href="dashboard.html" class="nav-item">
-
-    <svg viewBox="0 0 24 24">
-      <path d="M4 4h6v6H4zM14 4h6v6h-6zM4 14h6v6H4zM14 14h6v6h-6z"/>
-    </svg>
-
-    <span>Dashboard</span>
-
-  </a>
+      <nav class="sidebar-nav">
 
 
-  <!-- ARTIFACT RECORDS -->
-  <a href="artifacts.html" class="nav-item">
-
-    <svg viewBox="0 0 24 24">
-      <path d="M5 4h14v16H5zM8 8h8M8 12h8M8 16h5"/>
-    </svg>
-
-    <span>Artifact Records</span>
-
-  </a>
+        <p class="nav-label">
+          Workspace
+        </p>
 
 
-  <!-- CATEGORIES -->
-  <a
-    href="categories.html"
-    class="nav-item active"
-    aria-current="page"
-  >
 
-    <svg viewBox="0 0 24 24">
-      <path d="M4 6h7l2 2h7v10H4z"/>
-    </svg>
+        <!-- =================================================
+             DASHBOARD
+        ================================================== -->
 
-    <span>Categories</span>
+        <a
+          href="dashboard.html"
+          class="nav-item"
+        >
 
-  </a>
+          <svg viewBox="0 0 24 24">
 
+            <path
+              d="M4 4h6v6H4zM14 4h6v6h-6zM4 14h6v6H4zM14 14h6v6h-6z"
+            />
 
-  <!-- REPORTS -->
-  <a href="reports.html" class="nav-item">
+          </svg>
 
-    <svg viewBox="0 0 24 24">
-      <path d="M5 19V9M10 19V5M15 19v-7M20 19V3M3 19h19"/>
-    </svg>
+          <span>
+            Dashboard
+          </span>
 
-    <span>Reports</span>
-
-  </a>
+        </a>
 
 
-  <!-- ADMINISTRATION -->
-  <p class="nav-label second admin-only">
-    Administration
-  </p>
+
+        <!-- =================================================
+             ARTIFACT RECORDS
+        ================================================== -->
+
+        <a
+          href="artifacts.html"
+          class="nav-item"
+        >
+
+          <svg viewBox="0 0 24 24">
+
+            <path
+              d="M5 4h14v16H5zM8 8h8M8 12h8M8 16h5"
+            />
+
+          </svg>
+
+          <span>
+            Artifact Records
+          </span>
+
+        </a>
 
 
-  <!-- USER MANAGEMENT -->
-  <a
-    href="users.html"
-    class="nav-item admin-only"
-  >
 
-    <svg viewBox="0 0 24 24">
-      <path d="M16 20v-2a4 4 0 0 0-4-4H7a4 4 0 0 0-4 4v2M9.5 10a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM18 8v6M15 11h6"/>
-    </svg>
+        <!-- =================================================
+             CATEGORIES
+        ================================================== -->
 
-    <span>User Management</span>
+        <a
+          href="categories.html"
+          class="nav-item active"
+          aria-current="page"
+        >
 
-  </a>
+          <svg viewBox="0 0 24 24">
+
+            <path
+              d="M4 6h7l2 2h7v10H4z"
+            />
+
+          </svg>
+
+          <span>
+            Categories
+          </span>
+
+        </a>
 
 
-  <!-- ACTIVITY LOGS -->
-  <a
-    href="activity.html"
-    class="nav-item admin-only"
-  >
 
-    <svg viewBox="0 0 24 24">
-      <path d="M12 8v5l3 2M21 12a9 9 0 1 1-9-9"/>
-    </svg>
+        <!-- =================================================
+             REPORTS
+        ================================================== -->
 
-    <span>Activity Logs</span>
+        <a
+          href="reports.html"
+          class="nav-item"
+        >
 
-  </a>
+          <svg viewBox="0 0 24 24">
 
-</nav>
+            <path
+              d="M5 19V9M10 19V5M15 19v-7M20 19V3M3 19h19"
+            />
 
+          </svg>
+
+          <span>
+            Reports
+          </span>
+
+        </a>
+
+
+
+        <!-- =================================================
+             EVALUATIONS
+        ================================================== -->
+
+        <a
+          href="evaluations.html"
+          class="nav-item admin-only"
+          id="evaluationsNav"
+        >
+
+          <svg viewBox="0 0 24 24">
+
+            <path
+              d="M12 3l2.2 4.5 5 .7-3.6 3.5.9 5-4.5-2.4-4.5 2.4.9-5-3.6-3.5 5-.7L12 3z"
+            />
+
+          </svg>
+
+          <span>
+            Evaluations
+          </span>
+
+        </a>
+
+
+
+        <!-- =================================================
+             ADMINISTRATION
+        ================================================== -->
+
+        <p class="nav-label second admin-only">
+          Administration
+        </p>
+
+
+
+        <!-- =================================================
+             USER MANAGEMENT
+        ================================================== -->
+
+        <a
+          href="users.html"
+          class="nav-item admin-only"
+        >
+
+          <svg viewBox="0 0 24 24">
+
+            <path
+              d="M16 20v-2a4 4 0 0 0-4-4H7a4 4 0 0 0-4 4v2M9.5 10a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM18 8v6M15 11h6"
+            />
+
+          </svg>
+
+          <span>
+            User Management
+          </span>
+
+        </a>
+
+
+
+        <!-- =================================================
+             ACTIVITY LOGS
+        ================================================== -->
+
+        <a
+          href="activity.html"
+          class="nav-item admin-only"
+        >
+
+          <svg viewBox="0 0 24 24">
+
+            <path
+              d="M12 8v5l3 2M21 12a9 9 0 1 1-9-9"
+            />
+
+          </svg>
+
+          <span>
+            Activity Logs
+          </span>
+
+        </a>
+
+      </nav>
+
+
+
+      <!-- =================================================
+           SIDEBAR FOOTER
+      ================================================== -->
 
       <div class="sidebar-footer">
 
+
         <div class="sidebar-user">
 
-          <div class="sidebar-avatar" id="sidebarAvatar">
+
+          <div
+            class="sidebar-avatar"
+            id="sidebarAvatar"
+          >
             M
           </div>
+
 
           <div>
 
@@ -156,7 +346,12 @@
         </div>
 
 
-        <button id="logoutButton" class="logout-button">
+
+        <button
+          type="button"
+          id="logoutButton"
+          class="logout-button"
+        >
           Sign Out
         </button>
 
@@ -165,22 +360,33 @@
     </aside>
 
 
+
     <!-- =====================================================
-         MAIN
+         MAIN CONTENT
     ====================================================== -->
+
     <main class="main-content">
 
-      <!-- TOPBAR -->
+
+      <!-- =================================================
+           TOPBAR
+      ================================================== -->
+
       <header class="topbar">
+
 
         <div class="topbar-left">
 
+
           <button
+            type="button"
             class="menu-button"
             id="menuButton"
+            aria-label="Open sidebar"
           >
             ☰
           </button>
+
 
           <div>
 
@@ -188,14 +394,18 @@
               Collection Management
             </span>
 
-            <h1>Categories</h1>
+            <h1>
+              Categories
+            </h1>
 
           </div>
 
         </div>
 
 
+
         <button
+          type="button"
           class="add-button admin-only"
           id="openAddCategory"
         >
@@ -205,21 +415,39 @@
       </header>
 
 
+
+      <!-- =================================================
+           CONTENT
+      ================================================== -->
+
       <div class="content">
 
-        <!-- INTRO -->
+
+        <!-- =================================================
+             INTRO
+        ================================================== -->
+
         <section class="page-intro">
 
+
           <div>
+
 
             <span class="intro-label">
               Artifact Classification
             </span>
 
+
             <h2>
+
               Organize artifact records into
-              <span>defined categories.</span>
+
+              <span>
+                defined categories.
+              </span>
+
             </h2>
+
 
             <p>
               Categories provide a consistent method of classifying
@@ -229,11 +457,14 @@
           </div>
 
 
+
           <div class="category-count">
+
 
             <span id="categoryCount">
               0
             </span>
+
 
             <small>
               Total Categories
@@ -244,20 +475,38 @@
         </section>
 
 
-        <!-- TOOLBAR -->
+
+        <!-- =================================================
+             TOOLBAR
+        ================================================== -->
+
         <section class="toolbar">
+
 
           <div class="search-box">
 
+
             <svg viewBox="0 0 24 24">
-              <circle cx="11" cy="11" r="6"></circle>
-              <path d="M16 16l5 5"></path>
+
+              <circle
+                cx="11"
+                cy="11"
+                r="6"
+              ></circle>
+
+              <path
+                d="M16 16l5 5"
+              ></path>
+
             </svg>
+
+
 
             <input
               type="search"
               id="searchCategory"
               placeholder="Search categories..."
+              autocomplete="off"
             >
 
           </div>
@@ -265,19 +514,29 @@
         </section>
 
 
-        <!-- CATEGORY LIST -->
+
+        <!-- =================================================
+             CATEGORY LIST
+        ================================================== -->
+
         <section
           class="category-grid"
           id="categoryGrid"
         >
 
+
           <div class="empty-state">
+
 
             <div class="empty-symbol">
               C
             </div>
 
-            <h3>No categories yet</h3>
+
+            <h3>
+              No categories yet
+            </h3>
+
 
             <p>
               Artifact categories created by the Administrator
@@ -288,6 +547,11 @@
 
         </section>
 
+
+
+        <!-- =================================================
+             FOOTER
+        ================================================== -->
 
         <footer class="page-footer">
 
@@ -308,20 +572,34 @@
   </div>
 
 
+
   <!-- =====================================================
-       ADD / EDIT MODAL
+       ADD / EDIT CATEGORY MODAL
   ====================================================== -->
-  <div class="modal-overlay" id="categoryModal">
+
+  <div
+    class="modal-overlay"
+    id="categoryModal"
+  >
+
 
     <div class="modal-card">
 
+
+      <!-- =================================================
+           MODAL HEADER
+      ================================================== -->
+
       <div class="modal-header">
 
+
         <div>
+
 
           <span class="modal-label">
             Collection Classification
           </span>
+
 
           <h2 id="modalTitle">
             Add Category
@@ -329,9 +607,13 @@
 
         </div>
 
+
+
         <button
+          type="button"
           class="close-modal"
           id="closeCategoryModal"
+          aria-label="Close category form"
         >
           ×
         </button>
@@ -339,7 +621,13 @@
       </div>
 
 
+
+      <!-- =================================================
+           CATEGORY FORM
+      ================================================== -->
+
       <form id="categoryForm">
+
 
         <input
           type="hidden"
@@ -347,29 +635,45 @@
         >
 
 
+
+        <!-- CATEGORY NAME -->
+
         <div class="form-group">
 
+
           <label for="categoryName">
+
             Category Name
-            <span>*</span>
+
+            <span>
+              *
+            </span>
+
           </label>
+
 
           <input
             type="text"
             id="categoryName"
             maxlength="80"
             placeholder="Enter category name"
+            autocomplete="off"
             required
           >
 
         </div>
 
 
+
+        <!-- DESCRIPTION -->
+
         <div class="form-group">
+
 
           <label for="categoryDescription">
             Description
           </label>
+
 
           <textarea
             id="categoryDescription"
@@ -381,13 +685,21 @@
         </div>
 
 
+
+        <!-- MESSAGE -->
+
         <div
           class="form-message"
           id="formMessage"
+          aria-live="polite"
         ></div>
 
 
+
+        <!-- ACTIONS -->
+
         <div class="modal-actions">
+
 
           <button
             type="button"
@@ -396,6 +708,7 @@
           >
             Cancel
           </button>
+
 
           <button
             type="submit"
@@ -414,21 +727,35 @@
   </div>
 
 
-  <!-- MOBILE OVERLAY -->
+
+  <!-- =====================================================
+       MOBILE SIDEBAR OVERLAY
+  ====================================================== -->
+
   <div
     class="sidebar-overlay"
     id="sidebarOverlay"
   ></div>
 
 
-  <!-- LOADER -->
-  <div class="page-loader" id="pageLoader">
+
+  <!-- =====================================================
+       PAGE LOADER
+  ====================================================== -->
+
+  <div
+    class="page-loader"
+    id="pageLoader"
+  >
+
 
     <div class="loader-logo">
       M
     </div>
 
+
     <div class="spinner"></div>
+
 
     <span>
       Loading categories...
@@ -437,10 +764,16 @@
   </div>
 
 
+
+  <!-- =====================================================
+       JAVASCRIPT
+  ====================================================== -->
+
   <script
     type="module"
     src="assets/js/categories.js"
   ></script>
 
 </body>
+
 </html>

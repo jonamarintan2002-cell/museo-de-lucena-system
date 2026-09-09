@@ -1,3 +1,6 @@
+<!DOCTYPE html>
+<html lang="en">
+
 <head>
 
   <meta charset="UTF-8">
@@ -10,7 +13,10 @@
   <title>Reports | Museo de Lucena</title>
 
 
-  <!-- FAVICON -->
+  <!-- =====================================================
+       FAVICON
+  ====================================================== -->
+
   <link
     rel="icon"
     type="image/png"
@@ -24,7 +30,10 @@
   >
 
 
-  <!-- GOOGLE FONTS -->
+  <!-- =====================================================
+       GOOGLE FONTS
+  ====================================================== -->
+
   <link
     rel="preconnect"
     href="https://fonts.googleapis.com"
@@ -42,26 +51,40 @@
   >
 
 
-  <!-- GLOBAL CSS -->
+  <!-- =====================================================
+       GLOBAL CSS
+  ====================================================== -->
+
   <link
     rel="stylesheet"
     href="assets/css/global.css"
   >
 
 
-  <!-- REPORTS CSS -->
+  <!-- =====================================================
+       REPORTS CSS
+  ====================================================== -->
+
   <link
     rel="stylesheet"
     href="assets/css/reports.css"
   >
 
-  <!-- SHARED SIDEBAR -->
-<link rel="stylesheet" href="assets/css/sidebar.css">
+
+  <!-- =====================================================
+       SHARED SIDEBAR
+  ====================================================== -->
+
+  <link
+    rel="stylesheet"
+    href="assets/css/sidebar.css"
+  >
 
 </head>
 
 
 <body>
+
 
   <div class="page-layout">
 
@@ -75,7 +98,13 @@
       id="sidebar"
     >
 
+
+      <!-- =================================================
+           BRAND
+      ================================================== -->
+
       <div class="sidebar-brand">
+
 
         <div class="sidebar-logo">
           M
@@ -98,9 +127,12 @@
 
 
 
-      <!-- NAVIGATION -->
+      <!-- =================================================
+           NAVIGATION
+      ================================================== -->
 
       <nav class="sidebar-nav">
+
 
         <p class="nav-label">
           Workspace
@@ -108,7 +140,9 @@
 
 
 
-        <!-- DASHBOARD -->
+        <!-- =================================================
+             DASHBOARD
+        ================================================== -->
 
         <a
           href="dashboard.html"
@@ -131,7 +165,9 @@
 
 
 
-        <!-- ARTIFACT RECORDS -->
+        <!-- =================================================
+             ARTIFACT RECORDS
+        ================================================== -->
 
         <a
           href="artifacts.html"
@@ -154,7 +190,9 @@
 
 
 
-        <!-- CATEGORIES -->
+        <!-- =================================================
+             CATEGORIES
+        ================================================== -->
 
         <a
           href="categories.html"
@@ -177,7 +215,9 @@
 
 
 
-        <!-- REPORTS -->
+        <!-- =================================================
+             REPORTS
+        ================================================== -->
 
         <a
           href="reports.html"
@@ -201,12 +241,45 @@
 
 
 
+        <!-- =================================================
+             EVALUATIONS
+        ================================================== -->
+
+        <a
+          href="evaluations.html"
+          class="nav-item admin-only"
+          id="evaluationsNav"
+        >
+
+          <svg viewBox="0 0 24 24">
+
+            <path
+              d="M12 3l2.2 4.5 5 .7-3.6 3.5.9 5-4.5-2.4-4.5 2.4.9-5-3.6-3.5 5-.7L12 3z"
+            />
+
+          </svg>
+
+          <span>
+            Evaluations
+          </span>
+
+        </a>
+
+
+
+        <!-- =================================================
+             ADMINISTRATION
+        ================================================== -->
+
         <p class="nav-label second admin-only">
-        Administration </p>
+          Administration
+        </p>
 
 
 
-        <!-- USER MANAGEMENT -->
+        <!-- =================================================
+             USER MANAGEMENT
+        ================================================== -->
 
         <a
           href="users.html"
@@ -217,7 +290,7 @@
           <svg viewBox="0 0 24 24">
 
             <path
-              d="M16 20v-2a4 4 0 0 0-4-4H7a4 4 0 0 0- 4v2M9.5 10a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM18 8v6M15 11h6"
+              d="M16 20v-2a4 4 0 0 0-4-4H7a4 4 0 0 0-4 4v2M9.5 10a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM18 8v6M15 11h6"
             />
 
           </svg>
@@ -230,7 +303,9 @@
 
 
 
-        <!-- ACTIVITY LOGS -->
+        <!-- =================================================
+             ACTIVITY LOGS
+        ================================================== -->
 
         <a
           href="activity.html"
@@ -256,11 +331,15 @@
 
 
 
-      <!-- SIDEBAR USER -->
+      <!-- =================================================
+           SIDEBAR USER
+      ================================================== -->
 
       <div class="sidebar-footer">
 
+
         <div class="sidebar-user">
+
 
           <div
             class="sidebar-avatar"
@@ -285,6 +364,7 @@
         </div>
 
 
+
         <button
           type="button"
           class="logout-button"
@@ -306,11 +386,15 @@
     <main class="main-content">
 
 
-      <!-- TOPBAR -->
+      <!-- =================================================
+           TOPBAR
+      ================================================== -->
 
       <header class="topbar">
 
+
         <div class="topbar-left">
+
 
           <button
             type="button"
@@ -337,6 +421,7 @@
         </div>
 
 
+
         <button
           type="button"
           class="print-report-button"
@@ -350,6 +435,10 @@
 
 
 
+      <!-- =================================================
+           CONTENT
+      ================================================== -->
+
       <div class="content">
 
 
@@ -359,7 +448,9 @@
 
         <section class="report-intro">
 
+
           <div>
+
 
             <span class="intro-label">
               Artifact Reporting
@@ -402,13 +493,16 @@
 
           <article class="summary-card">
 
+
             <span>
               Total Artifacts
             </span>
 
+
             <strong id="reportTotalArtifacts">
               0
             </strong>
+
 
             <small>
               All stored artifact records
@@ -422,13 +516,16 @@
 
           <article class="summary-card">
 
+
             <span>
               Good Condition
             </span>
 
+
             <strong id="reportGoodCondition">
               0
             </strong>
+
 
             <small>
               Artifacts recorded as good
@@ -442,13 +539,16 @@
 
           <article class="summary-card">
 
+
             <span>
               Needs Attention
             </span>
 
+
             <strong id="reportNeedsAttention">
               0
             </strong>
+
 
             <small>
               Fair and poor condition
@@ -462,13 +562,16 @@
 
           <article class="summary-card">
 
+
             <span>
               Archived Records
             </span>
 
+
             <strong id="reportArchived">
               0
             </strong>
+
 
             <small>
               Archived artifact records
@@ -486,7 +589,9 @@
 
         <section class="report-generator-card">
 
+
           <div class="section-heading">
+
 
             <div>
 
@@ -507,9 +612,12 @@
           <div class="report-form-grid">
 
 
-            <!-- REPORT TYPE -->
+            <!-- =================================================
+                 REPORT TYPE
+            ================================================== -->
 
             <div class="form-group">
+
 
               <label for="reportType">
                 Report Type
@@ -540,12 +648,15 @@
 
 
 
-            <!-- CATEGORY -->
+            <!-- =================================================
+                 CATEGORY
+            ================================================== -->
 
             <div
               class="form-group report-filter-group"
               id="categoryReportGroup"
             >
+
 
               <label for="reportCategory">
                 Category
@@ -567,12 +678,15 @@
 
 
 
-            <!-- CONDITION -->
+            <!-- =================================================
+                 CONDITION
+            ================================================== -->
 
             <div
               class="form-group report-filter-group"
               id="conditionReportGroup"
             >
+
 
               <label for="reportCondition">
                 Condition
@@ -606,12 +720,15 @@
 
 
 
-            <!-- STATUS -->
+            <!-- =================================================
+                 STATUS
+            ================================================== -->
 
             <div
               class="form-group report-filter-group"
               id="statusReportGroup"
             >
+
 
               <label for="reportStatus">
                 Status
@@ -643,9 +760,12 @@
 
 
 
-          <!-- ACTIONS -->
+          <!-- =================================================
+               ACTIONS
+          ================================================== -->
 
           <div class="report-actions">
+
 
             <button
               type="button"
@@ -680,11 +800,15 @@
         >
 
 
-          <!-- REPORT HEADER -->
+          <!-- =================================================
+               REPORT HEADER
+          ================================================== -->
 
           <div class="report-preview-header">
 
+
             <div>
+
 
               <span class="section-label">
                 Report Preview
@@ -703,11 +827,14 @@
             </div>
 
 
+
             <div class="report-meta">
+
 
               <span>
                 Records
               </span>
+
 
               <strong id="reportRecordCount">
                 0
@@ -719,11 +846,15 @@
 
 
 
-          <!-- REPORT TABLE -->
+          <!-- =================================================
+               REPORT TABLE
+          ================================================== -->
 
           <div class="report-table-wrapper">
 
+
             <table class="report-table">
+
 
               <thead>
 
@@ -765,15 +896,19 @@
 
               <tbody id="reportTableBody">
 
+
                 <tr>
 
                   <td colspan="7">
 
+
                     <div class="report-empty-state">
+
 
                       <strong>
                         No report generated
                       </strong>
+
 
                       <p>
                         Select a report type and click
@@ -840,11 +975,14 @@
     id="pageLoader"
   >
 
+
     <div class="loader-logo">
       M
     </div>
 
+
     <div class="spinner"></div>
+
 
     <span>
       Loading reports...

@@ -13,7 +13,10 @@
   <title>User Management | Museo de Lucena</title>
 
 
-  <!-- FAVICON -->
+  <!-- =====================================================
+       FAVICON
+  ====================================================== -->
+
   <link
     rel="icon"
     type="image/png"
@@ -21,7 +24,10 @@
   >
 
 
-  <!-- GOOGLE FONTS -->
+  <!-- =====================================================
+       GOOGLE FONTS
+  ====================================================== -->
+
   <link
     rel="preconnect"
     href="https://fonts.googleapis.com"
@@ -39,23 +45,40 @@
   >
 
 
-  <!-- GLOBAL CSS -->
+  <!-- =====================================================
+       GLOBAL CSS
+  ====================================================== -->
+
   <link
     rel="stylesheet"
     href="assets/css/global.css"
   >
 
 
-  <!-- USERS CSS -->
+  <!-- =====================================================
+       USERS CSS
+  ====================================================== -->
+
   <link
     rel="stylesheet"
     href="assets/css/users.css"
+  >
+
+
+  <!-- =====================================================
+       SHARED SIDEBAR
+  ====================================================== -->
+
+  <link
+    rel="stylesheet"
+    href="assets/css/sidebar.css"
   >
 
 </head>
 
 
 <body>
+
 
   <div class="page-layout">
 
@@ -69,7 +92,13 @@
       id="sidebar"
     >
 
+
+      <!-- =================================================
+           BRAND
+      ================================================== -->
+
       <div class="sidebar-brand">
+
 
         <div class="sidebar-logo">
           M
@@ -92,16 +121,22 @@
 
 
 
-      <!-- NAVIGATION -->
+      <!-- =================================================
+           NAVIGATION
+      ================================================== -->
 
       <nav class="sidebar-nav">
+
 
         <p class="nav-label">
           Workspace
         </p>
 
 
-        <!-- DASHBOARD -->
+
+        <!-- =================================================
+             DASHBOARD
+        ================================================== -->
 
         <a
           href="dashboard.html"
@@ -124,7 +159,9 @@
 
 
 
-        <!-- ARTIFACT RECORDS -->
+        <!-- =================================================
+             ARTIFACT RECORDS
+        ================================================== -->
 
         <a
           href="artifacts.html"
@@ -147,7 +184,9 @@
 
 
 
-        <!-- CATEGORIES -->
+        <!-- =================================================
+             CATEGORIES
+        ================================================== -->
 
         <a
           href="categories.html"
@@ -170,7 +209,9 @@
 
 
 
-        <!-- REPORTS -->
+        <!-- =================================================
+             REPORTS
+        ================================================== -->
 
         <a
           href="reports.html"
@@ -193,13 +234,45 @@
 
 
 
-        <p class="nav-label second">
+        <!-- =================================================
+             EVALUATIONS
+        ================================================== -->
+
+        <a
+          href="evaluations.html"
+          class="nav-item admin-only"
+          id="evaluationsNav"
+        >
+
+          <svg viewBox="0 0 24 24">
+
+            <path
+              d="M12 3l2.2 4.5 5 .7-3.6 3.5.9 5-4.5-2.4-4.5 2.4.9-5-3.6-3.5 5-.7L12 3z"
+            />
+
+          </svg>
+
+          <span>
+            Evaluations
+          </span>
+
+        </a>
+
+
+
+        <!-- =================================================
+             ADMINISTRATION
+        ================================================== -->
+
+        <p class="nav-label second admin-only">
           Administration
         </p>
 
 
 
-        <!-- USER MANAGEMENT -->
+        <!-- =================================================
+             USER MANAGEMENT
+        ================================================== -->
 
         <a
           href="users.html"
@@ -223,7 +296,9 @@
 
 
 
-        <!-- ACTIVITY LOGS -->
+        <!-- =================================================
+             ACTIVITY LOGS
+        ================================================== -->
 
         <a
           href="activity.html"
@@ -249,11 +324,15 @@
 
 
 
-      <!-- SIDEBAR FOOTER -->
+      <!-- =================================================
+           SIDEBAR FOOTER
+      ================================================== -->
 
       <div class="sidebar-footer">
 
+
         <div class="sidebar-user">
+
 
           <div
             class="sidebar-avatar"
@@ -265,9 +344,11 @@
 
           <div class="sidebar-user-info">
 
+
             <strong id="sidebarUserName">
               Loading...
             </strong>
+
 
             <span id="sidebarUserRole">
               —
@@ -276,6 +357,7 @@
           </div>
 
         </div>
+
 
 
         <button
@@ -299,11 +381,15 @@
     <main class="main-content">
 
 
-      <!-- TOPBAR -->
+      <!-- =================================================
+           TOPBAR
+      ================================================== -->
 
       <header class="topbar">
 
+
         <div class="topbar-left">
+
 
           <button
             type="button"
@@ -330,6 +416,7 @@
         </div>
 
 
+
         <button
           type="button"
           class="add-user-button"
@@ -342,6 +429,10 @@
 
 
 
+      <!-- =================================================
+           CONTENT
+      ================================================== -->
+
       <div class="content">
 
 
@@ -351,7 +442,9 @@
 
         <section class="user-intro">
 
+
           <div>
+
 
             <span class="intro-label">
               System Access
@@ -370,11 +463,9 @@
 
 
             <p>
-
               View and manage Administrator and Museum Staff
               accounts authorized to access the Museo de
               Lucena Artifact Records System.
-
             </p>
 
           </div>
@@ -388,6 +479,9 @@
         ================================================== -->
 
         <section class="user-summary">
+
+
+          <!-- TOTAL USERS -->
 
           <article class="summary-card">
 
@@ -406,6 +500,9 @@
           </article>
 
 
+
+          <!-- ADMINISTRATORS -->
+
           <article class="summary-card">
 
             <span>
@@ -423,6 +520,9 @@
           </article>
 
 
+
+          <!-- MUSEUM STAFF -->
+
           <article class="summary-card">
 
             <span>
@@ -439,6 +539,9 @@
 
           </article>
 
+
+
+          <!-- INACTIVE -->
 
           <article class="summary-card">
 
@@ -466,7 +569,11 @@
 
         <section class="user-toolbar">
 
+
+          <!-- SEARCH -->
+
           <div class="user-search">
+
 
             <svg viewBox="0 0 24 24">
 
@@ -493,6 +600,9 @@
           </div>
 
 
+
+          <!-- ROLE FILTER -->
+
           <select
             id="roleFilter"
             class="user-filter"
@@ -510,8 +620,15 @@
               Museum Staff
             </option>
 
+            <option value="client">
+              Evaluator
+            </option>
+
           </select>
 
+
+
+          <!-- STATUS FILTER -->
 
           <select
             id="userStatusFilter"
@@ -533,6 +650,9 @@
           </select>
 
 
+
+          <!-- RESET -->
+
           <button
             type="button"
             class="reset-user-filter"
@@ -551,7 +671,9 @@
 
         <section class="users-card">
 
+
           <div class="users-card-header">
+
 
             <div>
 
@@ -579,7 +701,9 @@
 
           <div class="users-table-wrapper">
 
+
             <table class="users-table">
+
 
               <thead>
 
@@ -614,11 +738,14 @@
               </thead>
 
 
+
               <tbody id="usersTableBody">
+
 
                 <tr>
 
                   <td colspan="6">
+
 
                     <div class="user-empty-state">
 
@@ -646,7 +773,9 @@
 
 
 
-        <!-- FOOTER -->
+        <!-- =================================================
+             FOOTER
+        ================================================== -->
 
         <footer class="page-footer">
 
@@ -677,10 +806,16 @@
     id="userModal"
   >
 
+
     <div class="modal-card user-modal-card">
 
 
+      <!-- =================================================
+           MODAL HEADER
+      ================================================== -->
+
       <div class="modal-header">
+
 
         <div>
 
@@ -693,10 +828,12 @@
           </h2>
 
           <p>
-            Create an account for an authorized Museo de Lucena staff member.
+            Create an account for an authorized Museo de Lucena
+            staff member.
           </p>
 
         </div>
+
 
 
         <button
@@ -712,12 +849,19 @@
 
 
 
+      <!-- =================================================
+           FORM
+      ================================================== -->
+
       <form id="userForm">
 
 
-        <!-- NAME -->
+        <!-- =================================================
+             FULL NAME
+        ================================================== -->
 
         <div class="form-group">
+
 
           <label for="userFullName">
 
@@ -743,9 +887,12 @@
 
 
 
-        <!-- EMAIL -->
+        <!-- =================================================
+             EMAIL ADDRESS
+        ================================================== -->
 
         <div class="form-group">
+
 
           <label for="userEmail">
 
@@ -771,9 +918,12 @@
 
 
 
-        <!-- PASSWORD -->
+        <!-- =================================================
+             TEMPORARY PASSWORD
+        ================================================== -->
 
         <div class="form-group">
+
 
           <label for="userPassword">
 
@@ -805,38 +955,12 @@
 
 
 
-        <!-- ROLE -->
+        <!-- =================================================
+             ACCOUNT STATUS
+        ================================================== -->
 
         <div class="form-group">
 
-          <label for="newUserRole">
-            Role
-          </label>
-
-
-          <select
-            id="newUserRole"
-            disabled
-          >
-
-            <option value="staff">
-              Museum Staff
-            </option>
-
-          </select>
-
-
-          <small class="field-note">
-            New accounts created from this page are Museum Staff accounts.
-          </small>
-
-        </div>
-
-
-
-        <!-- STATUS -->
-
-        <div class="form-group">
 
           <label for="newUserStatus">
             Account Status
@@ -859,7 +983,9 @@
 
 
 
-        <!-- MESSAGE -->
+        <!-- =================================================
+             FORM MESSAGE
+        ================================================== -->
 
         <div
           class="form-message"
@@ -869,9 +995,12 @@
 
 
 
-        <!-- ACTIONS -->
+        <!-- =================================================
+             ACTIONS
+        ================================================== -->
 
         <div class="modal-actions">
+
 
           <button
             type="button"
@@ -920,11 +1049,14 @@
     id="pageLoader"
   >
 
+
     <div class="loader-logo">
       M
     </div>
 
+
     <div class="spinner"></div>
+
 
     <span>
       Loading user management...

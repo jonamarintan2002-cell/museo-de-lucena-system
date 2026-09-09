@@ -12,7 +12,11 @@
 
   <title>Activity Logs | Museo de Lucena</title>
 
-   <!-- FAVICON -->
+
+  <!-- =====================================================
+       FAVICON
+  ====================================================== -->
+
   <link
     rel="icon"
     type="image/png"
@@ -55,13 +59,16 @@
     href="assets/css/activity.css"
   >
 
-  <!-- SHARED SIDEBAR -->
-<link rel="stylesheet" href="assets/css/sidebar.css">
+  <link
+    rel="stylesheet"
+    href="assets/css/sidebar.css"
+  >
 
 </head>
 
 
 <body>
+
 
   <div class="page-layout">
 
@@ -75,9 +82,13 @@
       id="sidebar"
     >
 
-      <!-- BRAND -->
+
+      <!-- =================================================
+           BRAND
+      ================================================== -->
 
       <div class="sidebar-brand">
+
 
         <div class="sidebar-logo">
           M
@@ -106,12 +117,16 @@
 
       <nav class="sidebar-nav">
 
+
         <p class="nav-label">
           Workspace
         </p>
 
 
-        <!-- DASHBOARD -->
+
+        <!-- =================================================
+             DASHBOARD
+        ================================================== -->
 
         <a
           href="dashboard.html"
@@ -134,7 +149,9 @@
 
 
 
-        <!-- ARTIFACT RECORDS -->
+        <!-- =================================================
+             ARTIFACT RECORDS
+        ================================================== -->
 
         <a
           href="artifacts.html"
@@ -157,7 +174,9 @@
 
 
 
-        <!-- CATEGORIES -->
+        <!-- =================================================
+             CATEGORIES
+        ================================================== -->
 
         <a
           href="categories.html"
@@ -180,7 +199,9 @@
 
 
 
-        <!-- REPORTS -->
+        <!-- =================================================
+             REPORTS
+        ================================================== -->
 
         <a
           href="reports.html"
@@ -204,16 +225,44 @@
 
 
         <!-- =================================================
+             EVALUATIONS
+        ================================================== -->
+
+        <a
+          href="evaluations.html"
+          class="nav-item admin-only"
+          id="evaluationsNav"
+        >
+
+          <svg viewBox="0 0 24 24">
+
+            <path
+              d="M12 3l2.2 4.5 5 .7-3.6 3.5.9 5-4.5-2.4-4.5 2.4.9-5-3.6-3.5 5-.7L12 3z"
+            />
+
+          </svg>
+
+          <span>
+            Evaluations
+          </span>
+
+        </a>
+
+
+
+        <!-- =================================================
              ADMINISTRATION
         ================================================== -->
 
-        <p class="nav-label second">
+        <p class="nav-label second admin-only">
           Administration
         </p>
 
 
 
-        <!-- USER MANAGEMENT -->
+        <!-- =================================================
+             USER MANAGEMENT
+        ================================================== -->
 
         <a
           href="users.html"
@@ -236,7 +285,9 @@
 
 
 
-        <!-- ACTIVITY LOGS -->
+        <!-- =================================================
+             ACTIVITY LOGS
+        ================================================== -->
 
         <a
           href="activity.html"
@@ -268,7 +319,9 @@
 
       <div class="sidebar-footer">
 
+
         <div class="sidebar-user">
+
 
           <div
             class="sidebar-avatar"
@@ -291,6 +344,7 @@
           </div>
 
         </div>
+
 
 
         <button
@@ -320,7 +374,9 @@
 
       <header class="topbar">
 
+
         <div class="topbar-left">
+
 
           <button
             type="button"
@@ -345,6 +401,7 @@
           </div>
 
         </div>
+
 
 
         <button
@@ -372,6 +429,7 @@
 
         <section class="activity-intro">
 
+
           <div>
 
             <span class="intro-label">
@@ -391,11 +449,9 @@
 
 
             <p>
-
               Review actions performed by authorized
               administrators and Museum Staff within the
               Museo de Lucena Artifact Records System.
-
             </p>
 
           </div>
@@ -503,6 +559,7 @@
           <!-- SEARCH -->
 
           <div class="activity-search">
+
 
             <svg viewBox="0 0 24 24">
 
@@ -636,6 +693,7 @@
 
           <div class="activity-card-header">
 
+
             <div>
 
               <span class="section-label">
@@ -664,7 +722,9 @@
 
           <div class="activity-table-wrapper">
 
+
             <table class="activity-table">
+
 
               <thead>
 
@@ -695,11 +755,14 @@
               </thead>
 
 
+
               <tbody id="activityTableBody">
+
 
                 <tr>
 
                   <td colspan="5">
+
 
                     <div class="activity-empty-state">
 
@@ -733,7 +796,9 @@
 
         <section class="audit-note">
 
+
           <div class="audit-note-icon">
+
 
             <svg viewBox="0 0 24 24">
 
@@ -750,11 +815,14 @@
           </div>
 
 
+
           <div>
+
 
             <strong>
               Audit records are protected.
             </strong>
+
 
             <p>
               Activity logs are maintained as a historical
@@ -813,12 +881,14 @@
     id="pageLoader"
   >
 
+
     <div class="loader-logo">
       M
     </div>
 
-    <div class="spinner">
-    </div>
+
+    <div class="spinner"></div>
+
 
     <span>
       Loading activity logs...

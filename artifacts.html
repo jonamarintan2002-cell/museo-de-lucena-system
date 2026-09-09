@@ -65,7 +65,6 @@
     href="assets/css/artifacts.css"
   >
 
-  <!-- SHARED SIDEBAR -->
   <link
     rel="stylesheet"
     href="assets/css/sidebar.css"
@@ -214,6 +213,32 @@
 
           <span>
             Reports
+          </span>
+
+        </a>
+
+
+
+        <!-- =================================================
+             EVALUATIONS
+        ================================================== -->
+
+        <a
+          href="evaluations.html"
+          class="nav-item admin-only"
+          id="evaluationsNav"
+        >
+
+          <svg viewBox="0 0 24 24">
+
+            <path
+              d="M12 3l2.2 4.5 5 .7-3.6 3.5.9 5-4.5-2.4-4.5 2.4.9-5-3.6-3.5 5-.7L12 3z"
+            />
+
+          </svg>
+
+          <span>
+            Evaluations
           </span>
 
         </a>
@@ -588,8 +613,6 @@
         <section class="records-card">
 
 
-          <!-- RECORD HEADER -->
-
           <div class="records-header">
 
             <div>
@@ -615,8 +638,6 @@
           </div>
 
 
-
-          <!-- TABLE -->
 
           <div class="table-wrapper">
 
@@ -732,10 +753,6 @@
     <div class="modal-card artifact-form-modal">
 
 
-      <!-- =================================================
-           MODAL HEADER
-      ================================================== -->
-
       <div class="modal-header">
 
         <div>
@@ -771,14 +788,8 @@
 
 
 
-      <!-- =================================================
-           ARTIFACT FORM
-      ================================================== -->
-
       <form id="artifactForm">
 
-
-        <!-- FIRESTORE DOCUMENT ID -->
 
         <input
           type="hidden"
@@ -820,8 +831,6 @@
           <div class="form-grid">
 
 
-            <!-- ACCESSION NUMBER -->
-
             <div class="form-group">
 
               <label for="accessionNumber">
@@ -848,8 +857,6 @@
 
 
 
-            <!-- ARTIFACT NAME -->
-
             <div class="form-group">
 
               <label for="artifactName">
@@ -875,8 +882,6 @@
             </div>
 
 
-
-            <!-- CATEGORY -->
 
             <div class="form-group">
 
@@ -905,8 +910,6 @@
             </div>
 
 
-
-            <!-- CONDITION -->
 
             <div class="form-group">
 
@@ -982,8 +985,6 @@
 
 
 
-          <!-- DESCRIPTION -->
-
           <div class="form-group full-width">
 
             <label for="artifactDescription">
@@ -1008,8 +1009,6 @@
           </div>
 
 
-
-          <!-- HISTORICAL BACKGROUND -->
 
           <div class="form-group full-width">
 
@@ -1064,8 +1063,6 @@
           <div class="form-grid">
 
 
-            <!-- ORIGIN -->
-
             <div class="form-group">
 
               <label for="origin">
@@ -1085,8 +1082,6 @@
 
 
 
-            <!-- DATE ACQUIRED -->
-
             <div class="form-group">
 
               <label for="dateAcquired">
@@ -1102,8 +1097,6 @@
             </div>
 
 
-
-            <!-- CURRENT LOCATION -->
 
             <div class="form-group">
 
@@ -1123,8 +1116,6 @@
             </div>
 
 
-
-            <!-- STATUS -->
 
             <div class="form-group">
 
@@ -1188,8 +1179,6 @@
           <div class="image-upload-area">
 
 
-            <!-- IMAGE PREVIEW -->
-
             <div
               class="image-preview"
               id="imagePreview"
@@ -1216,8 +1205,6 @@
             </div>
 
 
-
-            <!-- IMAGE CONTROLS -->
 
             <div class="image-controls">
 
@@ -1289,8 +1276,6 @@
 
 
 
-          <!-- REMARKS -->
-
           <div class="form-group full-width">
 
             <label for="remarks">
@@ -1311,10 +1296,6 @@
 
 
 
-        <!-- =================================================
-             FORM MESSAGE
-        ================================================== -->
-
         <div
           class="form-message"
           id="artifactFormMessage"
@@ -1322,10 +1303,6 @@
         ></div>
 
 
-
-        <!-- =================================================
-             FORM ACTIONS
-        ================================================== -->
 
         <div class="modal-actions">
 
@@ -1368,10 +1345,6 @@
     <div class="modal-card view-modal">
 
 
-      <!-- =================================================
-           MODAL HEADER
-      ================================================== -->
-
       <div class="modal-header">
 
         <div>
@@ -1406,14 +1379,8 @@
 
 
 
-      <!-- =================================================
-           ARTIFACT DETAILS
-      ================================================== -->
-
       <div class="view-layout">
 
-
-        <!-- IMAGE -->
 
         <div class="view-image">
 
@@ -1433,8 +1400,6 @@
         </div>
 
 
-
-        <!-- BASIC DETAILS -->
 
         <div class="view-details">
 
@@ -1527,10 +1492,6 @@
 
 
 
-      <!-- =================================================
-           DESCRIPTION
-      ================================================== -->
-
       <div class="view-text-section">
 
         <span>
@@ -1544,10 +1505,6 @@
       </div>
 
 
-
-      <!-- =================================================
-           HISTORICAL BACKGROUND
-      ================================================== -->
 
       <div class="view-text-section">
 
@@ -1563,10 +1520,6 @@
 
 
 
-      <!-- =================================================
-           REMARKS
-      ================================================== -->
-
       <div class="view-text-section">
 
         <span>
@@ -1580,10 +1533,6 @@
       </div>
 
 
-
-      <!-- =================================================
-           RECORD METADATA
-      ================================================== -->
 
       <div class="record-metadata">
 
