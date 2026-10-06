@@ -4,261 +4,2332 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>Personnel Login | Museo de Lucena</title>
-  <link rel="icon" type="image/png" href="assets/images/museo-logo.png">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<title>Personnel Login | Museo de Lucena</title>
+<link rel="icon" type="image/png" href="assets/images/museo-logo.png">
 
-  <link
-    href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap"
-    rel="stylesheet"
-  >
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
-  <link rel="stylesheet" href="assets/css/global.css">
-  <link rel="stylesheet" href="assets/css/login.css">
+<link
+  href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap"
+  rel="stylesheet"
+>
+
+<link rel="stylesheet" href="assets/css/global.css">
+<link rel="stylesheet" href="assets/css/login.css">
+
+<style>
+/* =========================================================
+   FORGOT PASSWORD
+========================================================= */
+
+.forgot-password-link {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: -8px;
+  margin-bottom: 18px;
+}
+
+.forgot-password-link button {
+  border: none;
+  background: none;
+  padding: 0;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  color: #6d292b;
+  cursor: pointer;
+}
+
+.forgot-password-link button:hover {
+  text-decoration: underline;
+}
+
+
+/* =========================================================
+   MODAL
+========================================================= */
+
+.password-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+
+  display: none;
+  align-items: center;
+  justify-content: center;
+
+  padding: 24px;
+
+  background: rgba(36, 24, 21, 0.58);
+  backdrop-filter: blur(4px);
+}
+
+.password-modal.show {
+  display: flex;
+}
+
+.password-modal-card {
+  width: min(100%, 430px);
+
+  background: #f5f1e8;
+  border-radius: 16px;
+
+  padding: 30px;
+
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.20);
+
+  position: relative;
+}
+
+.password-modal-close {
+  position: absolute;
+  top: 15px;
+  right: 17px;
+
+  width: 34px;
+  height: 34px;
+
+  border: none;
+  border-radius: 50%;
+
+  background: transparent;
+
+  font-size: 24px;
+  line-height: 1;
+
+  color: #241815;
+  cursor: pointer;
+}
+
+.password-modal-close:hover {
+  background: rgba(36, 24, 21, 0.08);
+}
+
+.password-modal-eyebrow {
+  display: block;
+
+  margin-bottom: 6px;
+
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+
+  color: #b59050;
+}
+
+.password-modal-card h3 {
+  margin: 0 0 8px;
+
+  font-family: "Playfair Display", serif;
+  font-size: 25px;
+
+  color: #241815;
+}
+
+.password-modal-card > p {
+  margin: 0 0 22px;
+
+  font-size: 14px;
+  line-height: 1.6;
+
+  color: #665b56;
+}
+
+.reset-password-form-group {
+  margin-bottom: 18px;
+}
+
+.reset-password-form-group label {
+  display: block;
+
+  margin-bottom: 7px;
+
+  font-size: 13px;
+  font-weight: 600;
+
+  color: #241815;
+}
+
+.reset-password-form-group input {
+  width: 100%;
+  box-sizing: border-box;
+
+  padding: 12px 14px;
+
+  border: 1px solid rgba(36, 24, 21, 0.18);
+  border-radius: 9px;
+
+  background: #ffffff;
+
+  font-family: inherit;
+  font-size: 14px;
+
+  outline: none;
+}
+
+.reset-password-form-group input:focus {
+  border-color: #b59050;
+  box-shadow: 0 0 0 3px rgba(181, 144, 80, 0.12);
+}
+
+.reset-password-message {
+  display: none;
+
+  margin-bottom: 15px;
+  padding: 11px 13px;
+
+  border-radius: 8px;
+
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.reset-password-message.show {
+  display: block;
+}
+
+.reset-password-message.error {
+  background: #f8e7e5;
+  color: #7a2525;
+}
+
+.reset-password-message.success {
+  background: #e8f3ea;
+  color: #28613a;
+}
+
+.reset-password-submit {
+  width: 100%;
+
+  border: none;
+  border-radius: 9px;
+
+  padding: 13px 16px;
+
+  background: #6d292b;
+  color: #ffffff;
+
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 700;
+
+  cursor: pointer;
+}
+
+.reset-password-submit:hover {
+  background: #592124;
+}
+
+.reset-password-submit:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 480px) {
+
+  .password-modal {
+    padding: 16px;
+  }
+
+  .password-modal-card {
+    padding: 25px 20px;
+  }
+
+}
+</style>
+
 </head>
 
 <body>
 
-  <main class="login-page">
+<main class="login-page">
 
-    <!-- LEFT SIDE -->
-    <section class="login-visual">
+  <!-- LEFT SIDE -->
+  <section class="login-visual">
 
-      <div class="login-background"></div>
-      <div class="login-overlay"></div>
+    <div class="login-background"></div>
+    <div class="login-overlay"></div>
 
-      <div class="visual-content">
+    <div class="visual-content">
 
-        <a href="index.html" class="back-home">
-          ← Back to Home
-        </a>
+      <a href="index.html" class="back-home">
+        ← Back to Home
+      </a>
 
-        <div class="visual-bottom">
+      <div class="visual-bottom">
 
-          <span class="visual-kicker">
-            Museo de Lucena
-          </span>
+        <span class="visual-kicker">
+          Museo de Lucena
+        </span>
 
-          <h1>
-            Protecting history through
-            <span>organized digital records.</span>
-          </h1>
+        <h1>
+          Protecting history through
+          <span>organized digital records.</span>
+        </h1>
 
-          <p>
-            Secure personnel access to the Web-Based Information
-            and Filing System for Artifact Records of Museo de Lucena.
-          </p>
+        <p>
+          Secure personnel access to the Web-Based Information
+          and Filing System for Artifact Records of Museo de Lucena.
+        </p>
 
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- RIGHT SIDE -->
+  <section class="login-panel">
+
+    <div class="login-container">
+
+      <div class="login-brand">
+
+        <div class="login-logo">
+          M
+        </div>
+
+        <div>
+          <strong>Museo de Lucena</strong>
+          <span>Artifact Records System</span>
         </div>
 
       </div>
 
-    </section>
+
+      <div class="login-heading">
+
+        <span class="login-eyebrow">
+          Authorized Personnel
+        </span>
+
+        <h2>Welcome back.</h2>
+
+        <p>
+          Enter your registered account credentials to continue.
+        </p>
+
+      </div>
 
 
-    <!-- RIGHT SIDE -->
-    <section class="login-panel">
+      <!-- MESSAGE -->
+      <div
+        class="login-message"
+        id="loginMessage"
+        role="alert"
+      ></div>
 
-      <div class="login-container">
 
-        <div class="login-brand">
+      <!-- FORM -->
+      <form id="loginForm" class="login-form">
 
-          <div class="login-logo">
-            M
-          </div>
+        <div class="form-group">
 
-          <div>
-            <strong>Museo de Lucena</strong>
-            <span>Artifact Records System</span>
+          <label for="email">
+            Email Address
+          </label>
+
+          <div class="input-wrapper">
+
+            <svg
+              viewBox="0 0 24 24"
+              width="20"
+              height="20"
+              aria-hidden="true"
+            >
+              <path
+                d="M3 5h18v14H3zM3 7l9 6 9-6"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.7"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+
+            <input
+              type="email"
+              id="email"
+              name="email"
+              placeholder="Enter your email"
+              autocomplete="email"
+              required
+            >
+
           </div>
 
         </div>
 
 
-        <div class="login-heading">
+        <div class="form-group">
 
-          <span class="login-eyebrow">
-            Authorized Personnel
-          </span>
+          <div class="password-label-row">
 
-          <h2>Welcome back.</h2>
-
-          <p>
-            Enter your registered account credentials to continue.
-          </p>
-
-        </div>
-
-
-        <!-- MESSAGE -->
-        <div
-          class="login-message"
-          id="loginMessage"
-          role="alert"
-        ></div>
-
-
-        <!-- FORM -->
-        <form id="loginForm" class="login-form">
-
-          <div class="form-group">
-
-            <label for="email">
-              Email Address
+            <label for="password">
+              Password
             </label>
 
-            <div class="input-wrapper">
-
-              <svg
-                viewBox="0 0 24 24"
-                width="20"
-                height="20"
-                aria-hidden="true"
-              >
-                <path
-                  d="M3 5h18v14H3zM3 7l9 6 9-6"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="1.7"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                />
-              </svg>
-
-              <input
-                type="email"
-                id="email"
-                name="email"
-                placeholder="Enter your email"
-                autocomplete="email"
-                required
-              >
-
-            </div>
-
           </div>
 
+          <div class="input-wrapper">
 
-          <div class="form-group">
+            <svg
+              viewBox="0 0 24 24"
+              width="20"
+              height="20"
+              aria-hidden="true"
+            >
+              <rect
+                x="5"
+                y="10"
+                width="14"
+                height="10"
+                rx="2"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.7"
+              />
 
-            <div class="password-label-row">
+              <path
+                d="M8 10V7a4 4 0 0 1 8 0v3"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.7"
+                stroke-linecap="round"
+              />
+            </svg>
 
-              <label for="password">
-                Password
-              </label>
+            <input
+              type="password"
+              id="password"
+              name="password"
+              placeholder="Enter your password"
+              autocomplete="current-password"
+              required
+            >
 
-            </div>
-
-            <div class="input-wrapper">
-
-              <svg
-                viewBox="0 0 24 24"
-                width="20"
-                height="20"
-                aria-hidden="true"
-              >
-                <rect
-                  x="5"
-                  y="10"
-                  width="14"
-                  height="10"
-                  rx="2"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="1.7"
-                />
-
-                <path
-                  d="M8 10V7a4 4 0 0 1 8 0v3"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="1.7"
-                  stroke-linecap="round"
-                />
-              </svg>
-
-              <input
-                type="password"
-                id="password"
-                name="password"
-                placeholder="Enter your password"
-                autocomplete="current-password"
-                required
-              >
-
-              <button
-                type="button"
-                class="toggle-password"
-                id="togglePassword"
-                aria-label="Show password"
-              >
-                Show
-              </button>
-
-            </div>
+            <button
+              type="button"
+              class="toggle-password"
+              id="togglePassword"
+              aria-label="Show password"
+            >
+              Show
+            </button>
 
           </div>
-
-
-          <button
-            type="submit"
-            class="login-submit"
-            id="loginButton"
-          >
-
-            <span id="loginButtonText">
-              Sign In
-            </span>
-
-            <span
-              class="button-spinner"
-              id="loginSpinner"
-            ></span>
-
-          </button>
-
-        </form>
-
-
-        <div class="login-security">
-
-          <svg
-            viewBox="0 0 24 24"
-            width="18"
-            height="18"
-            aria-hidden="true"
-          >
-            <path
-              d="M12 3l7 3v5c0 4.8-2.9 8.3-7 10-4.1-1.7-7-5.2-7-10V6l7-3z"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="1.6"
-            />
-          </svg>
-
-          <p>
-            Access is restricted to authorized Museum Administrators
-            and Museum Staff.
-          </p>
 
         </div>
 
 
-        <div class="login-footer">
-          <span>Internal institutional system</span>
-          <span>•</span>
-          <span>Lucena City, Quezon Province</span>
+        <!-- FORGOT PASSWORD -->
+        <div class="forgot-password-link">
+
+          <button
+            type="button"
+            id="forgotPasswordButton"
+          >
+            Forgot Password?
+          </button>
+
+        </div>
+
+
+        <button
+          type="submit"
+          class="login-submit"
+          id="loginButton"
+        >
+
+          <span id="loginButtonText">
+            Sign In
+          </span>
+
+          <span
+            class="button-spinner"
+            id="loginSpinner"
+          ></span>
+
+        </button>
+
+      </form>
+
+
+      <div class="login-security">
+
+        <svg
+          viewBox="0 0 24 24"
+          width="18"
+          height="18"
+          aria-hidden="true"
+        >
+          <path
+            d="M12 3l7 3v5c0 4.8-2.9 8.3-7 10-4.1-1.7-7-5.2-7-10V6l7-3z"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.6"
+          />
+        </svg>
+
+        <p>
+          Access is restricted to authorized Museum Administrators
+          and Museum Staff.
+        </p>
+
+      </div>
+
+
+      <div class="login-footer">
+        <span>Internal institutional system</span>
+        <span>•</span>
+        <span>Lucena City, Quezon Province</span>
+      </div>
+
+    </div>
+
+  </section>
+
+</main>
+
+
+<!-- =========================================================
+     FORGOT PASSWORD MODAL
+========================================================= -->
+
+<div
+  class="password-modal"
+  id="passwordModal"
+  aria-hidden="true"
+>
+
+  <div
+    class="password-modal-card"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="passwordModalTitle"
+  >
+
+    <button
+      type="button"
+      class="password-modal-close"
+      id="closePasswordModal"
+      aria-label="Close"
+    >
+      ×
+    </button>
+
+    <span class="password-modal-eyebrow">
+      Account Recovery
+    </span>
+
+    <h3 id="passwordModalTitle">
+      Reset your password
+    </h3>
+
+    <p>
+      Enter the email address registered to your Museo de Lucena
+      account. We will send you a password reset link.
+    </p>
+
+
+    <div
+      class="reset-password-message"
+      id="resetPasswordMessage"
+      role="alert"
+    ></div>
+
+
+    <form id="resetPasswordForm">
+
+      <div class="reset-password-form-group">
+
+        <label for="resetEmail">
+          Email Address
+        </label>
+
+        <input
+          type="email"
+          id="resetEmail"
+          placeholder="Enter your registered email"
+          autocomplete="email"
+          required
+        >
+
+      </div>
+
+
+      <button
+        type="submit"
+        class="reset-password-submit"
+        id="resetPasswordButton"
+      >
+        Send Reset Link
+      </button>
+
+    </form>
+
+  </div>
+
+</div>
+
+
+<script
+  type="module"
+  src="assets/js/auth.js"
+></script>
+
+</body>
+</html><!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Personnel Login | Museo de Lucena</title>
+<link rel="icon" type="image/png" href="assets/images/museo-logo.png">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<link
+  href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap"
+  rel="stylesheet"
+>
+
+<link rel="stylesheet" href="assets/css/global.css">
+<link rel="stylesheet" href="assets/css/login.css">
+
+<style>
+/* =========================================================
+   FORGOT PASSWORD
+========================================================= */
+
+.forgot-password-link {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: -8px;
+  margin-bottom: 18px;
+}
+
+.forgot-password-link button {
+  border: none;
+  background: none;
+  padding: 0;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  color: #6d292b;
+  cursor: pointer;
+}
+
+.forgot-password-link button:hover {
+  text-decoration: underline;
+}
+
+
+/* =========================================================
+   MODAL
+========================================================= */
+
+.password-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+
+  display: none;
+  align-items: center;
+  justify-content: center;
+
+  padding: 24px;
+
+  background: rgba(36, 24, 21, 0.58);
+  backdrop-filter: blur(4px);
+}
+
+.password-modal.show {
+  display: flex;
+}
+
+.password-modal-card {
+  width: min(100%, 430px);
+
+  background: #f5f1e8;
+  border-radius: 16px;
+
+  padding: 30px;
+
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.20);
+
+  position: relative;
+}
+
+.password-modal-close {
+  position: absolute;
+  top: 15px;
+  right: 17px;
+
+  width: 34px;
+  height: 34px;
+
+  border: none;
+  border-radius: 50%;
+
+  background: transparent;
+
+  font-size: 24px;
+  line-height: 1;
+
+  color: #241815;
+  cursor: pointer;
+}
+
+.password-modal-close:hover {
+  background: rgba(36, 24, 21, 0.08);
+}
+
+.password-modal-eyebrow {
+  display: block;
+
+  margin-bottom: 6px;
+
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+
+  color: #b59050;
+}
+
+.password-modal-card h3 {
+  margin: 0 0 8px;
+
+  font-family: "Playfair Display", serif;
+  font-size: 25px;
+
+  color: #241815;
+}
+
+.password-modal-card > p {
+  margin: 0 0 22px;
+
+  font-size: 14px;
+  line-height: 1.6;
+
+  color: #665b56;
+}
+
+.reset-password-form-group {
+  margin-bottom: 18px;
+}
+
+.reset-password-form-group label {
+  display: block;
+
+  margin-bottom: 7px;
+
+  font-size: 13px;
+  font-weight: 600;
+
+  color: #241815;
+}
+
+.reset-password-form-group input {
+  width: 100%;
+  box-sizing: border-box;
+
+  padding: 12px 14px;
+
+  border: 1px solid rgba(36, 24, 21, 0.18);
+  border-radius: 9px;
+
+  background: #ffffff;
+
+  font-family: inherit;
+  font-size: 14px;
+
+  outline: none;
+}
+
+.reset-password-form-group input:focus {
+  border-color: #b59050;
+  box-shadow: 0 0 0 3px rgba(181, 144, 80, 0.12);
+}
+
+.reset-password-message {
+  display: none;
+
+  margin-bottom: 15px;
+  padding: 11px 13px;
+
+  border-radius: 8px;
+
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.reset-password-message.show {
+  display: block;
+}
+
+.reset-password-message.error {
+  background: #f8e7e5;
+  color: #7a2525;
+}
+
+.reset-password-message.success {
+  background: #e8f3ea;
+  color: #28613a;
+}
+
+.reset-password-submit {
+  width: 100%;
+
+  border: none;
+  border-radius: 9px;
+
+  padding: 13px 16px;
+
+  background: #6d292b;
+  color: #ffffff;
+
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 700;
+
+  cursor: pointer;
+}
+
+.reset-password-submit:hover {
+  background: #592124;
+}
+
+.reset-password-submit:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 480px) {
+
+  .password-modal {
+    padding: 16px;
+  }
+
+  .password-modal-card {
+    padding: 25px 20px;
+  }
+
+}
+</style>
+
+</head>
+
+<body>
+
+<main class="login-page">
+
+  <!-- LEFT SIDE -->
+  <section class="login-visual">
+
+    <div class="login-background"></div>
+    <div class="login-overlay"></div>
+
+    <div class="visual-content">
+
+      <a href="index.html" class="back-home">
+        ← Back to Home
+      </a>
+
+      <div class="visual-bottom">
+
+        <span class="visual-kicker">
+          Museo de Lucena
+        </span>
+
+        <h1>
+          Protecting history through
+          <span>organized digital records.</span>
+        </h1>
+
+        <p>
+          Secure personnel access to the Web-Based Information
+          and Filing System for Artifact Records of Museo de Lucena.
+        </p>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- RIGHT SIDE -->
+  <section class="login-panel">
+
+    <div class="login-container">
+
+      <div class="login-brand">
+
+        <div class="login-logo">
+          M
+        </div>
+
+        <div>
+          <strong>Museo de Lucena</strong>
+          <span>Artifact Records System</span>
         </div>
 
       </div>
 
-    </section>
 
-  </main>
+      <div class="login-heading">
+
+        <span class="login-eyebrow">
+          Authorized Personnel
+        </span>
+
+        <h2>Welcome back.</h2>
+
+        <p>
+          Enter your registered account credentials to continue.
+        </p>
+
+      </div>
 
 
-  <script type="module" src="assets/js/auth.js"></script>
+      <!-- MESSAGE -->
+      <div
+        class="login-message"
+        id="loginMessage"
+        role="alert"
+      ></div>
+
+
+      <!-- FORM -->
+      <form id="loginForm" class="login-form">
+
+        <div class="form-group">
+
+          <label for="email">
+            Email Address
+          </label>
+
+          <div class="input-wrapper">
+
+            <svg
+              viewBox="0 0 24 24"
+              width="20"
+              height="20"
+              aria-hidden="true"
+            >
+              <path
+                d="M3 5h18v14H3zM3 7l9 6 9-6"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.7"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+
+            <input
+              type="email"
+              id="email"
+              name="email"
+              placeholder="Enter your email"
+              autocomplete="email"
+              required
+            >
+
+          </div>
+
+        </div>
+
+
+        <div class="form-group">
+
+          <div class="password-label-row">
+
+            <label for="password">
+              Password
+            </label>
+
+          </div>
+
+          <div class="input-wrapper">
+
+            <svg
+              viewBox="0 0 24 24"
+              width="20"
+              height="20"
+              aria-hidden="true"
+            >
+              <rect
+                x="5"
+                y="10"
+                width="14"
+                height="10"
+                rx="2"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.7"
+              />
+
+              <path
+                d="M8 10V7a4 4 0 0 1 8 0v3"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.7"
+                stroke-linecap="round"
+              />
+            </svg>
+
+            <input
+              type="password"
+              id="password"
+              name="password"
+              placeholder="Enter your password"
+              autocomplete="current-password"
+              required
+            >
+
+            <button
+              type="button"
+              class="toggle-password"
+              id="togglePassword"
+              aria-label="Show password"
+            >
+              Show
+            </button>
+
+          </div>
+
+        </div>
+
+
+        <!-- FORGOT PASSWORD -->
+        <div class="forgot-password-link">
+
+          <button
+            type="button"
+            id="forgotPasswordButton"
+          >
+            Forgot Password?
+          </button>
+
+        </div>
+
+
+        <button
+          type="submit"
+          class="login-submit"
+          id="loginButton"
+        >
+
+          <span id="loginButtonText">
+            Sign In
+          </span>
+
+          <span
+            class="button-spinner"
+            id="loginSpinner"
+          ></span>
+
+        </button>
+
+      </form>
+
+
+      <div class="login-security">
+
+        <svg
+          viewBox="0 0 24 24"
+          width="18"
+          height="18"
+          aria-hidden="true"
+        >
+          <path
+            d="M12 3l7 3v5c0 4.8-2.9 8.3-7 10-4.1-1.7-7-5.2-7-10V6l7-3z"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.6"
+          />
+        </svg>
+
+        <p>
+          Access is restricted to authorized Museum Administrators
+          and Museum Staff.
+        </p>
+
+      </div>
+
+
+      <div class="login-footer">
+        <span>Internal institutional system</span>
+        <span>•</span>
+        <span>Lucena City, Quezon Province</span>
+      </div>
+
+    </div>
+
+  </section>
+
+</main>
+
+
+<!-- =========================================================
+     FORGOT PASSWORD MODAL
+========================================================= -->
+
+<div
+  class="password-modal"
+  id="passwordModal"
+  aria-hidden="true"
+>
+
+  <div
+    class="password-modal-card"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="passwordModalTitle"
+  >
+
+    <button
+      type="button"
+      class="password-modal-close"
+      id="closePasswordModal"
+      aria-label="Close"
+    >
+      ×
+    </button>
+
+    <span class="password-modal-eyebrow">
+      Account Recovery
+    </span>
+
+    <h3 id="passwordModalTitle">
+      Reset your password
+    </h3>
+
+    <p>
+      Enter the email address registered to your Museo de Lucena
+      account. We will send you a password reset link.
+    </p>
+
+
+    <div
+      class="reset-password-message"
+      id="resetPasswordMessage"
+      role="alert"
+    ></div>
+
+
+    <form id="resetPasswordForm">
+
+      <div class="reset-password-form-group">
+
+        <label for="resetEmail">
+          Email Address
+        </label>
+
+        <input
+          type="email"
+          id="resetEmail"
+          placeholder="Enter your registered email"
+          autocomplete="email"
+          required
+        >
+
+      </div>
+
+
+      <button
+        type="submit"
+        class="reset-password-submit"
+        id="resetPasswordButton"
+      >
+        Send Reset Link
+      </button>
+
+    </form>
+
+  </div>
+
+</div>
+
+
+<script
+  type="module"
+  src="assets/js/auth.js"
+></script>
+
+</body>
+</html><!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Personnel Login | Museo de Lucena</title>
+<link rel="icon" type="image/png" href="assets/images/museo-logo.png">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<link
+  href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap"
+  rel="stylesheet"
+>
+
+<link rel="stylesheet" href="assets/css/global.css">
+<link rel="stylesheet" href="assets/css/login.css">
+
+<style>
+/* =========================================================
+   FORGOT PASSWORD
+========================================================= */
+
+.forgot-password-link {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: -8px;
+  margin-bottom: 18px;
+}
+
+.forgot-password-link button {
+  border: none;
+  background: none;
+  padding: 0;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  color: #6d292b;
+  cursor: pointer;
+}
+
+.forgot-password-link button:hover {
+  text-decoration: underline;
+}
+
+
+/* =========================================================
+   MODAL
+========================================================= */
+
+.password-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+
+  display: none;
+  align-items: center;
+  justify-content: center;
+
+  padding: 24px;
+
+  background: rgba(36, 24, 21, 0.58);
+  backdrop-filter: blur(4px);
+}
+
+.password-modal.show {
+  display: flex;
+}
+
+.password-modal-card {
+  width: min(100%, 430px);
+
+  background: #f5f1e8;
+  border-radius: 16px;
+
+  padding: 30px;
+
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.20);
+
+  position: relative;
+}
+
+.password-modal-close {
+  position: absolute;
+  top: 15px;
+  right: 17px;
+
+  width: 34px;
+  height: 34px;
+
+  border: none;
+  border-radius: 50%;
+
+  background: transparent;
+
+  font-size: 24px;
+  line-height: 1;
+
+  color: #241815;
+  cursor: pointer;
+}
+
+.password-modal-close:hover {
+  background: rgba(36, 24, 21, 0.08);
+}
+
+.password-modal-eyebrow {
+  display: block;
+
+  margin-bottom: 6px;
+
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+
+  color: #b59050;
+}
+
+.password-modal-card h3 {
+  margin: 0 0 8px;
+
+  font-family: "Playfair Display", serif;
+  font-size: 25px;
+
+  color: #241815;
+}
+
+.password-modal-card > p {
+  margin: 0 0 22px;
+
+  font-size: 14px;
+  line-height: 1.6;
+
+  color: #665b56;
+}
+
+.reset-password-form-group {
+  margin-bottom: 18px;
+}
+
+.reset-password-form-group label {
+  display: block;
+
+  margin-bottom: 7px;
+
+  font-size: 13px;
+  font-weight: 600;
+
+  color: #241815;
+}
+
+.reset-password-form-group input {
+  width: 100%;
+  box-sizing: border-box;
+
+  padding: 12px 14px;
+
+  border: 1px solid rgba(36, 24, 21, 0.18);
+  border-radius: 9px;
+
+  background: #ffffff;
+
+  font-family: inherit;
+  font-size: 14px;
+
+  outline: none;
+}
+
+.reset-password-form-group input:focus {
+  border-color: #b59050;
+  box-shadow: 0 0 0 3px rgba(181, 144, 80, 0.12);
+}
+
+.reset-password-message {
+  display: none;
+
+  margin-bottom: 15px;
+  padding: 11px 13px;
+
+  border-radius: 8px;
+
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.reset-password-message.show {
+  display: block;
+}
+
+.reset-password-message.error {
+  background: #f8e7e5;
+  color: #7a2525;
+}
+
+.reset-password-message.success {
+  background: #e8f3ea;
+  color: #28613a;
+}
+
+.reset-password-submit {
+  width: 100%;
+
+  border: none;
+  border-radius: 9px;
+
+  padding: 13px 16px;
+
+  background: #6d292b;
+  color: #ffffff;
+
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 700;
+
+  cursor: pointer;
+}
+
+.reset-password-submit:hover {
+  background: #592124;
+}
+
+.reset-password-submit:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 480px) {
+
+  .password-modal {
+    padding: 16px;
+  }
+
+  .password-modal-card {
+    padding: 25px 20px;
+  }
+
+}
+</style>
+
+</head>
+
+<body>
+
+<main class="login-page">
+
+  <!-- LEFT SIDE -->
+  <section class="login-visual">
+
+    <div class="login-background"></div>
+    <div class="login-overlay"></div>
+
+    <div class="visual-content">
+
+      <a href="index.html" class="back-home">
+        ← Back to Home
+      </a>
+
+      <div class="visual-bottom">
+
+        <span class="visual-kicker">
+          Museo de Lucena
+        </span>
+
+        <h1>
+          Protecting history through
+          <span>organized digital records.</span>
+        </h1>
+
+        <p>
+          Secure personnel access to the Web-Based Information
+          and Filing System for Artifact Records of Museo de Lucena.
+        </p>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- RIGHT SIDE -->
+  <section class="login-panel">
+
+    <div class="login-container">
+
+      <div class="login-brand">
+
+        <div class="login-logo">
+          M
+        </div>
+
+        <div>
+          <strong>Museo de Lucena</strong>
+          <span>Artifact Records System</span>
+        </div>
+
+      </div>
+
+
+      <div class="login-heading">
+
+        <span class="login-eyebrow">
+          Authorized Personnel
+        </span>
+
+        <h2>Welcome back.</h2>
+
+        <p>
+          Enter your registered account credentials to continue.
+        </p>
+
+      </div>
+
+
+      <!-- MESSAGE -->
+      <div
+        class="login-message"
+        id="loginMessage"
+        role="alert"
+      ></div>
+
+
+      <!-- FORM -->
+      <form id="loginForm" class="login-form">
+
+        <div class="form-group">
+
+          <label for="email">
+            Email Address
+          </label>
+
+          <div class="input-wrapper">
+
+            <svg
+              viewBox="0 0 24 24"
+              width="20"
+              height="20"
+              aria-hidden="true"
+            >
+              <path
+                d="M3 5h18v14H3zM3 7l9 6 9-6"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.7"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+
+            <input
+              type="email"
+              id="email"
+              name="email"
+              placeholder="Enter your email"
+              autocomplete="email"
+              required
+            >
+
+          </div>
+
+        </div>
+
+
+        <div class="form-group">
+
+          <div class="password-label-row">
+
+            <label for="password">
+              Password
+            </label>
+
+          </div>
+
+          <div class="input-wrapper">
+
+            <svg
+              viewBox="0 0 24 24"
+              width="20"
+              height="20"
+              aria-hidden="true"
+            >
+              <rect
+                x="5"
+                y="10"
+                width="14"
+                height="10"
+                rx="2"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.7"
+              />
+
+              <path
+                d="M8 10V7a4 4 0 0 1 8 0v3"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.7"
+                stroke-linecap="round"
+              />
+            </svg>
+
+            <input
+              type="password"
+              id="password"
+              name="password"
+              placeholder="Enter your password"
+              autocomplete="current-password"
+              required
+            >
+
+            <button
+              type="button"
+              class="toggle-password"
+              id="togglePassword"
+              aria-label="Show password"
+            >
+              Show
+            </button>
+
+          </div>
+
+        </div>
+
+
+        <!-- FORGOT PASSWORD -->
+        <div class="forgot-password-link">
+
+          <button
+            type="button"
+            id="forgotPasswordButton"
+          >
+            Forgot Password?
+          </button>
+
+        </div>
+
+
+        <button
+          type="submit"
+          class="login-submit"
+          id="loginButton"
+        >
+
+          <span id="loginButtonText">
+            Sign In
+          </span>
+
+          <span
+            class="button-spinner"
+            id="loginSpinner"
+          ></span>
+
+        </button>
+
+      </form>
+
+
+      <div class="login-security">
+
+        <svg
+          viewBox="0 0 24 24"
+          width="18"
+          height="18"
+          aria-hidden="true"
+        >
+          <path
+            d="M12 3l7 3v5c0 4.8-2.9 8.3-7 10-4.1-1.7-7-5.2-7-10V6l7-3z"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.6"
+          />
+        </svg>
+
+        <p>
+          Access is restricted to authorized Museum Administrators
+          and Museum Staff.
+        </p>
+
+      </div>
+
+
+      <div class="login-footer">
+        <span>Internal institutional system</span>
+        <span>•</span>
+        <span>Lucena City, Quezon Province</span>
+      </div>
+
+    </div>
+
+  </section>
+
+</main>
+
+
+<!-- =========================================================
+     FORGOT PASSWORD MODAL
+========================================================= -->
+
+<div
+  class="password-modal"
+  id="passwordModal"
+  aria-hidden="true"
+>
+
+  <div
+    class="password-modal-card"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="passwordModalTitle"
+  >
+
+    <button
+      type="button"
+      class="password-modal-close"
+      id="closePasswordModal"
+      aria-label="Close"
+    >
+      ×
+    </button>
+
+    <span class="password-modal-eyebrow">
+      Account Recovery
+    </span>
+
+    <h3 id="passwordModalTitle">
+      Reset your password
+    </h3>
+
+    <p>
+      Enter the email address registered to your Museo de Lucena
+      account. We will send you a password reset link.
+    </p>
+
+
+    <div
+      class="reset-password-message"
+      id="resetPasswordMessage"
+      role="alert"
+    ></div>
+
+
+    <form id="resetPasswordForm">
+
+      <div class="reset-password-form-group">
+
+        <label for="resetEmail">
+          Email Address
+        </label>
+
+        <input
+          type="email"
+          id="resetEmail"
+          placeholder="Enter your registered email"
+          autocomplete="email"
+          required
+        >
+
+      </div>
+
+      <!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Personnel Login | Museo de Lucena</title>
+<link rel="icon" type="image/png" href="assets/images/museo-logo.png">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<link
+  href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap"
+  rel="stylesheet"
+>
+
+<link rel="stylesheet" href="assets/css/global.css">
+<link rel="stylesheet" href="assets/css/login.css">
+
+<style>
+/* =========================================================
+   FORGOT PASSWORD
+========================================================= */
+
+.forgot-password-link {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: -8px;
+  margin-bottom: 18px;
+}
+
+.forgot-password-link button {
+  border: none;
+  background: none;
+  padding: 0;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  color: #6d292b;
+  cursor: pointer;
+}
+
+.forgot-password-link button:hover {
+  text-decoration: underline;
+}
+
+
+/* =========================================================
+   MODAL
+========================================================= */
+
+.password-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+
+  display: none;
+  align-items: center;
+  justify-content: center;
+
+  padding: 24px;
+
+  background: rgba(36, 24, 21, 0.58);
+  backdrop-filter: blur(4px);
+}
+
+.password-modal.show {
+  display: flex;
+}
+
+.password-modal-card {
+  width: min(100%, 430px);
+
+  background: #f5f1e8;
+  border-radius: 16px;
+
+  padding: 30px;
+
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.20);
+
+  position: relative;
+}
+
+.password-modal-close {
+  position: absolute;
+  top: 15px;
+  right: 17px;
+
+  width: 34px;
+  height: 34px;
+
+  border: none;
+  border-radius: 50%;
+
+  background: transparent;
+
+  font-size: 24px;
+  line-height: 1;
+
+  color: #241815;
+  cursor: pointer;
+}
+
+.password-modal-close:hover {
+  background: rgba(36, 24, 21, 0.08);
+}
+
+.password-modal-eyebrow {
+  display: block;
+
+  margin-bottom: 6px;
+
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+
+  color: #b59050;
+}
+
+.password-modal-card h3 {
+  margin: 0 0 8px;
+
+  font-family: "Playfair Display", serif;
+  font-size: 25px;
+
+  color: #241815;
+}
+
+.password-modal-card > p {
+  margin: 0 0 22px;
+
+  font-size: 14px;
+  line-height: 1.6;
+
+  color: #665b56;
+}
+
+.reset-password-form-group {
+  margin-bottom: 18px;
+}
+
+.reset-password-form-group label {
+  display: block;
+
+  margin-bottom: 7px;
+
+  font-size: 13px;
+  font-weight: 600;
+
+  color: #241815;
+}
+
+.reset-password-form-group input {
+  width: 100%;
+  box-sizing: border-box;
+
+  padding: 12px 14px;
+
+  border: 1px solid rgba(36, 24, 21, 0.18);
+  border-radius: 9px;
+
+  background: #ffffff;
+
+  font-family: inherit;
+  font-size: 14px;
+
+  outline: none;
+}
+
+.reset-password-form-group input:focus {
+  border-color: #b59050;
+  box-shadow: 0 0 0 3px rgba(181, 144, 80, 0.12);
+}
+
+.reset-password-message {
+  display: none;
+
+  margin-bottom: 15px;
+  padding: 11px 13px;
+
+  border-radius: 8px;
+
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.reset-password-message.show {
+  display: block;
+}
+
+.reset-password-message.error {
+  background: #f8e7e5;
+  color: #7a2525;
+}
+
+.reset-password-message.success {
+  background: #e8f3ea;
+  color: #28613a;
+}
+
+.reset-password-submit {
+  width: 100%;
+
+  border: none;
+  border-radius: 9px;
+
+  padding: 13px 16px;
+
+  background: #6d292b;
+  color: #ffffff;
+
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 700;
+
+  cursor: pointer;
+}
+
+.reset-password-submit:hover {
+  background: #592124;
+}
+
+.reset-password-submit:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 480px) {
+
+  .password-modal {
+    padding: 16px;
+  }
+
+  .password-modal-card {
+    padding: 25px 20px;
+  }
+
+}
+</style>
+
+</head>
+
+<body>
+
+<main class="login-page">
+
+  <!-- LEFT SIDE -->
+  <section class="login-visual">
+
+    <div class="login-background"></div>
+    <div class="login-overlay"></div>
+
+    <div class="visual-content">
+
+      <a href="index.html" class="back-home">
+        ← Back to Home
+      </a>
+
+      <div class="visual-bottom">
+
+        <span class="visual-kicker">
+          Museo de Lucena
+        </span>
+
+        <h1>
+          Protecting history through
+          <span>organized digital records.</span>
+        </h1>
+
+        <p>
+          Secure personnel access to the Web-Based Information
+          and Filing System for Artifact Records of Museo de Lucena.
+        </p>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- RIGHT SIDE -->
+  <section class="login-panel">
+
+    <div class="login-container">
+
+      <div class="login-brand">
+
+        <div class="login-logo">
+          M
+        </div>
+
+        <div>
+          <strong>Museo de Lucena</strong>
+          <span>Artifact Records System</span>
+        </div>
+
+      </div>
+
+
+      <div class="login-heading">
+
+        <span class="login-eyebrow">
+          Authorized Personnel
+        </span>
+
+        <h2>Welcome back.</h2>
+
+        <p>
+          Enter your registered account credentials to continue.
+        </p>
+
+      </div>
+
+
+      <!-- MESSAGE -->
+      <div
+        class="login-message"
+        id="loginMessage"
+        role="alert"
+      ></div>
+
+
+      <!-- FORM -->
+      <form id="loginForm" class="login-form">
+
+        <div class="form-group">
+
+          <label for="email">
+            Email Address
+          </label>
+
+          <div class="input-wrapper">
+
+            <svg
+              viewBox="0 0 24 24"
+              width="20"
+              height="20"
+              aria-hidden="true"
+            >
+              <path
+                d="M3 5h18v14H3zM3 7l9 6 9-6"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.7"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+
+            <input
+              type="email"
+              id="email"
+              name="email"
+              placeholder="Enter your email"
+              autocomplete="email"
+              required
+            >
+
+          </div>
+
+        </div>
+
+
+        <div class="form-group">
+
+          <div class="password-label-row">
+
+            <label for="password">
+              Password
+            </label>
+
+          </div>
+
+          <div class="input-wrapper">
+
+            <svg
+              viewBox="0 0 24 24"
+              width="20"
+              height="20"
+              aria-hidden="true"
+            >
+              <rect
+                x="5"
+                y="10"
+                width="14"
+                height="10"
+                rx="2"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.7"
+              />
+
+              <path
+                d="M8 10V7a4 4 0 0 1 8 0v3"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.7"
+                stroke-linecap="round"
+              />
+            </svg>
+
+            <input
+              type="password"
+              id="password"
+              name="password"
+              placeholder="Enter your password"
+              autocomplete="current-password"
+              required
+            >
+
+            <button
+              type="button"
+              class="toggle-password"
+              id="togglePassword"
+              aria-label="Show password"
+            >
+              Show
+            </button>
+
+          </div>
+
+        </div>
+
+
+        <!-- FORGOT PASSWORD -->
+        <div class="forgot-password-link">
+
+          <button
+            type="button"
+            id="forgotPasswordButton"
+          >
+            Forgot Password?
+          </button>
+
+        </div>
+
+
+        <button
+          type="submit"
+          class="login-submit"
+          id="loginButton"
+        >
+
+          <span id="loginButtonText">
+            Sign In
+          </span>
+
+          <span
+            class="button-spinner"
+            id="loginSpinner"
+          ></span>
+
+        </button>
+
+      </form>
+
+
+      <div class="login-security">
+
+        <svg
+          viewBox="0 0 24 24"
+          width="18"
+          height="18"
+          aria-hidden="true"
+        >
+          <path
+            d="M12 3l7 3v5c0 4.8-2.9 8.3-7 10-4.1-1.7-7-5.2-7-10V6l7-3z"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.6"
+          />
+        </svg>
+
+        <p>
+          Access is restricted to authorized Museum Administrators
+          and Museum Staff.
+        </p>
+
+      </div>
+
+
+      <div class="login-footer">
+        <span>Internal institutional system</span>
+        <span>•</span>
+        <span>Lucena City, Quezon Province</span>
+      </div>
+
+    </div>
+
+  </section>
+
+</main>
+
+
+<!-- =========================================================
+     FORGOT PASSWORD MODAL
+========================================================= -->
+
+<div
+  class="password-modal"
+  id="passwordModal"
+  aria-hidden="true"
+>
+
+  <div
+    class="password-modal-card"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="passwordModalTitle"
+  >
+
+    <button
+      type="button"
+      class="password-modal-close"
+      id="closePasswordModal"
+      aria-label="Close"
+    >
+      ×
+    </button>
+
+    <span class="password-modal-eyebrow">
+      Account Recovery
+    </span>
+
+    <h3 id="passwordModalTitle">
+      Reset your password
+    </h3>
+
+    <p>
+      Enter the email address registered to your Museo de Lucena
+      account. We will send you a password reset link.
+    </p>
+
+
+    <div
+      class="reset-password-message"
+      id="resetPasswordMessage"
+      role="alert"
+    ></div>
+
+
+    <form id="resetPasswordForm">
+
+      <div class="reset-password-form-group">
+
+        <label for="resetEmail">
+          Email Address
+        </label>
+
+        <input
+          type="email"
+          id="resetEmail"
+          placeholder="Enter your registered email"
+          autocomplete="email"
+          required
+        >
+
+      </div>
+
+
+      <button
+        type="submit"
+        class="reset-password-submit"
+        id="resetPasswordButton"
+      >
+        Send Reset Link
+      </button>
+
+    </form>
+
+  </div>
+
+</div>
+
+
+<script
+  type="module"
+  src="assets/js/auth.js"
+></script>
 
 </body>
 </html>

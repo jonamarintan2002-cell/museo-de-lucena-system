@@ -116,6 +116,35 @@ const registerMessage =
     "registerMessage"
   );
 
+  const termsAgreement =
+  document.getElementById(
+    "termsAgreement"
+  );
+
+
+const openTermsButton =
+  document.getElementById(
+    "openTermsButton"
+  );
+
+
+const closeTermsButton =
+  document.getElementById(
+    "closeTermsButton"
+  );
+
+
+const acceptTermsButton =
+  document.getElementById(
+    "acceptTermsButton"
+  );
+
+
+const termsModal =
+  document.getElementById(
+    "termsModal"
+  );
+
 
 // =========================================================
 // SHOW MESSAGE
@@ -427,6 +456,19 @@ function validateForm() {
 
   }
 
+  if (
+  !termsAgreement ||
+  !termsAgreement.checked
+) {
+
+  return {
+    valid: false,
+    message:
+      "Please read and agree to the Terms and Conditions before creating your account."
+  };
+
+}
+
 
   if (
     fullName.length < 2
@@ -521,6 +563,113 @@ function validateForm() {
   };
 
 }
+
+// =========================================================
+// TERMS AND CONDITIONS
+// =========================================================
+
+function openTermsModal() {
+
+  if (!termsModal) {
+    return;
+  }
+
+
+  termsModal.classList.add(
+    "show"
+  );
+
+
+  termsModal.setAttribute(
+    "aria-hidden",
+    "false"
+  );
+
+}
+
+
+function closeTermsModal() {
+
+  if (!termsModal) {
+    return;
+  }
+
+
+  termsModal.classList.remove(
+    "show"
+  );
+
+
+  termsModal.setAttribute(
+    "aria-hidden",
+    "true"
+  );
+
+}
+
+
+openTermsButton?.addEventListener(
+  "click",
+  openTermsModal
+);
+
+
+closeTermsButton?.addEventListener(
+  "click",
+  closeTermsModal
+);
+
+
+acceptTermsButton?.addEventListener(
+  "click",
+  () => {
+
+    if (termsAgreement) {
+
+      termsAgreement.checked =
+        true;
+
+    }
+
+
+    closeTermsModal();
+
+  }
+);
+
+
+termsModal?.addEventListener(
+  "click",
+  event => {
+
+    if (
+      event.target ===
+      termsModal
+    ) {
+
+      closeTermsModal();
+
+    }
+
+  }
+);
+
+
+document.addEventListener(
+  "keydown",
+  event => {
+
+    if (
+      event.key === "Escape" &&
+      termsModal?.classList.contains("show")
+    ) {
+
+      closeTermsModal();
+
+    }
+
+  }
+);
 
 
 // =========================================================

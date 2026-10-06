@@ -13,6 +13,7 @@ import {
 
 import {
   signInWithEmailAndPassword,
+  sendPasswordResetEmail,
   signOut,
   onAuthStateChanged
 } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
@@ -27,9 +28,6 @@ import {
 // =========================================================
 // STATE
 // =========================================================
-
-// Prevent the auth listener from signing out the user
-// while an intentional login is being processed.
 
 let isLoggingIn = false;
 
@@ -85,6 +83,52 @@ const loginMessage =
 const togglePassword =
   document.getElementById(
     "togglePassword"
+  );
+
+
+// =========================================================
+// FORGOT PASSWORD ELEMENTS
+// =========================================================
+
+const forgotPasswordButton =
+  document.getElementById(
+    "forgotPasswordButton"
+  );
+
+
+const passwordModal =
+  document.getElementById(
+    "passwordModal"
+  );
+
+
+const closePasswordModal =
+  document.getElementById(
+    "closePasswordModal"
+  );
+
+
+const resetPasswordForm =
+  document.getElementById(
+    "resetPasswordForm"
+  );
+
+
+const resetEmailInput =
+  document.getElementById(
+    "resetEmail"
+  );
+
+
+const resetPasswordButton =
+  document.getElementById(
+    "resetPasswordButton"
+  );
+
+
+const resetPasswordMessage =
+  document.getElementById(
+    "resetPasswordMessage"
   );
 
 
@@ -223,6 +267,311 @@ togglePassword?.addEventListener(
         ? "Hide password"
         : "Show password"
     );
+
+  }
+);
+
+
+// =========================================================
+// FORGOT PASSWORD MODAL
+// =========================================================
+
+function openPasswordModal() {
+
+  if (!passwordModal) {
+    return;
+  }
+
+
+  passwordModal.classList.add(
+    "show"
+  );
+
+
+  passwordModal.setAttribute(
+    "aria-hidden",
+    "false"
+  );
+
+
+  if (resetEmailInput) {
+
+    resetEmailInput.value =
+      emailInput?.value
+        ?.trim()
+        ?.toLowerCase() || "";
+
+
+    setTimeout(
+      () => resetEmailInput.focus(),
+      50
+    );
+
+  }
+
+}
+
+
+function closePasswordResetModal() {
+
+  if (!passwordModal) {
+    return;
+  }
+
+
+  passwordModal.classList.remove(
+    "show"
+  );
+
+
+  passwordModal.setAttribute(
+    "aria-hidden",
+    "true"
+  );
+
+
+  if (resetPasswordMessage) {
+
+    resetPasswordMessage.textContent =
+      "";
+
+    resetPasswordMessage.className =
+      "reset-password-message";
+
+  }
+
+}
+
+
+forgotPasswordButton?.addEventListener(
+  "click",
+  openPasswordModal
+);
+
+
+closePasswordModal?.addEventListener(
+  "click",
+  closePasswordResetModal
+);
+
+
+passwordModal?.addEventListener(
+  "click",
+  event => {
+
+    if (
+      event.target ===
+      passwordModal
+    ) {
+
+      closePasswordResetModal();
+
+    }
+
+  }
+);
+
+
+document.addEventListener(
+  "keydown",
+  event => {
+
+    if (
+      event.key === "Escape" &&
+      passwordModal?.classList.contains("show")
+    ) {
+
+      closePasswordResetModal();
+
+    }
+
+  }
+);
+
+
+// =========================================================
+// RESET PASSWORD MESSAGE
+// =========================================================
+
+function showResetMessage(
+  message,
+  type = "error"
+) {
+
+  if (!resetPasswordMessage) {
+    return;
+  }
+
+
+  resetPasswordMessage.textContent =
+    message;
+
+
+  resetPasswordMessage.className =
+    `reset-password-message show ${type}`;
+
+}
+
+
+// =========================================================
+// RESET PASSWORD
+// =========================================================
+
+resetPasswordForm?.addEventListener(
+  "submit",
+  async event => {
+
+    event.preventDefault();
+
+
+    if (!resetEmailInput) {
+      return;
+    }
+
+
+    const email =
+      resetEmailInput.value
+        .trim()
+        .toLowerCase();
+
+
+    if (!email) {
+
+      showResetMessage(
+        "Please enter your email address.",
+        "error"
+      );
+
+      return;
+
+    }
+
+
+    const emailIsValid =
+      /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(
+        email
+      );
+
+
+    if (!emailIsValid) {
+
+      showResetMessage(
+        "Please enter a valid email address.",
+        "error"
+      );
+
+      return;
+
+    }
+
+
+    if (resetPasswordButton) {
+
+      resetPasswordButton.disabled =
+        true;
+
+      resetPasswordButton.textContent =
+        "Sending...";
+
+    }
+
+
+    try {
+
+      await sendPasswordResetEmail(
+        auth,
+        email
+      );
+
+
+      showResetMessage(
+        "Password reset link sent. Please check your email inbox and follow the instructions.",
+        "success"
+      );
+
+
+      resetPasswordForm.reset();
+
+
+    } catch (error) {
+
+      console.error(
+        "Password reset error:",
+        error
+      );
+
+
+      let message =
+        "Unable to send the password reset email. Please try again.";
+
+
+      switch (
+        error.code
+      ) {
+
+        case "auth/invalid-email":
+
+          message =
+            "Please enter a valid email address.";
+
+          break;
+
+
+        case "auth/user-not-found":
+
+          message =
+            "No account was found with that email address.";
+
+          break;
+
+
+        case "auth/user-disabled":
+
+          message =
+            "This account has been disabled. Please contact the system administrator.";
+
+          break;
+
+
+        case "auth/too-many-requests":
+
+          message =
+            "Too many reset attempts. Please wait before trying again.";
+
+          break;
+
+
+        case "auth/network-request-failed":
+
+          message =
+            "Network connection failed. Please check your internet connection.";
+
+          break;
+
+      }
+
+
+      showResetMessage(
+        message,
+        "error"
+      );
+
+    }
+
+
+    finally {
+
+      if (resetPasswordButton) {
+
+        resetPasswordButton.disabled =
+          false;
+
+        resetPasswordButton.textContent =
+          "Send Reset Link";
+
+      }
+
+    }
 
   }
 );
@@ -664,8 +1013,8 @@ loginForm?.addEventListener(
 // LOGIN PAGE SESSION HANDLING
 // =========================================================
 //
-// The login page does not automatically redirect
-// an old remembered Firebase session.
+// The login page does not automatically redirect an old
+// remembered Firebase session.
 //
 // If login.html opens while a previous Firebase session
 // still exists, it is cleared first.
