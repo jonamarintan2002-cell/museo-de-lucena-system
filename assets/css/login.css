@@ -844,3 +844,30 @@ body {
   }
 
 }
+
+.otp-actions {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 14px;
+}
+
+.otp-actions button {
+  border: none;
+  background: none;
+  padding: 0;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  color: #6d292b;
+  cursor: pointer;
+}
+
+.otp-actions button:hover { text-decoration: underline; }
+.otp-actions button:disabled { opacity: .5; cursor: not-allowed; }
+
+#otpCode {
+  text-align: center;
+  font-size: 22px;
+  letter-spacing: .45em;
+  font-weight: 700;
+}

@@ -3,6 +3,14 @@
 // ARTIFACT RECORD MANAGEMENT
 // FIRESTORE + COMPRESSED IMAGE VERSION
 // NO FIREBASE STORAGE REQUIRED
+//
+// FAST VERSION:
+// - Maliit na thumbnail (thumbData) ang nasa artifact document
+// - Ang buong larawan ay nasa collection na "artifact_images"
+//   at kinukuha lang kapag binuksan ang View
+// - Sabay na kinukuha ang profile, categories, at artifacts
+// - May "Optimize images" button (admin) para ilipat ang mga
+//   lumang larawan na nasa loob pa ng artifact document
 // =========================================================
 
 import {
@@ -21,11 +29,13 @@ import {
   collection,
   addDoc,
   deleteDoc,
+  deleteField,
   doc,
   getDoc,
   getDocs,
   setDoc,
   updateDoc,
+  writeBatch,
   serverTimestamp
 } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
 
@@ -53,9 +63,18 @@ const MAX_IMAGE_DIMENSION =
 
 
 // Target Data URL size.
-// Keeps Firestore documents much smaller.
 const TARGET_DATA_URL_LENGTH =
   180000;
+
+
+// ADDED: laki ng thumbnail na nasa artifact document
+const THUMBNAIL_DIMENSION =
+  220;
+
+
+// ADDED: hiwalay na collection para sa buong larawan
+const IMAGE_COLLECTION =
+  "artifact_images";
 
 
 // =========================================================
@@ -69,8 +88,12 @@ let artifacts = [];
 let categories = [];
 
 
-// Existing saved Firestore image
+// Existing saved image (old style: nasa loob ng artifact document)
 let existingImageData = "";
+
+
+// ADDED: existing thumbnail (bagong style)
+let existingThumbData = "";
 
 
 // Backward compatibility with old Storage records
@@ -89,6 +112,14 @@ let imageProcessing = false;
 
 // Existing image removed / replaced
 let imageMarkedForRemoval = false;
+
+
+// ADDED: para sa async na pag-load ng buong larawan sa View
+let viewRequestToken = 0;
+
+
+// ADDED: status ng image optimizer
+let optimizingImages = false;
 
 
 // =========================================================
@@ -737,6 +768,8 @@ async function loadArtifacts() {
 
   applyFilters();
 
+  refreshOptimizeButton();
+
 }
 
 
@@ -951,7 +984,7 @@ resetFilters?.addEventListener(
 
 
 // =========================================================
-// GET ARTIFACT IMAGE SOURCE
+// GET ARTIFACT IMAGE SOURCE (PARA SA TABLE: THUMBNAIL MUNA)
 // =========================================================
 
 function getArtifactImageSource(
@@ -959,10 +992,53 @@ function getArtifactImageSource(
 ) {
 
   return (
+    artifact.thumbData ||
     artifact.imageData ||
     artifact.imageUrl ||
     ""
   );
+
+}
+
+
+// =========================================================
+// SHOW TABLE ERROR
+// =========================================================
+
+function showTableError(message) {
+
+  if (!artifactTableBody) {
+
+    return;
+
+  }
+
+
+  artifactTableBody.innerHTML = `
+    <tr>
+
+      <td colspan="7">
+
+        <div class="empty-state">
+
+          <div class="empty-symbol">
+            !
+          </div>
+
+          <h3>
+            Unable to load records
+          </h3>
+
+          <p>
+            ${escapeHTML(message)}
+          </p>
+
+        </div>
+
+      </td>
+
+    </tr>
+  `;
 
 }
 
@@ -1362,6 +1438,10 @@ function resetArtifactForm() {
     "";
 
 
+  existingThumbData =
+    "";
+
+
   existingImageUrl =
     "";
 
@@ -1536,6 +1616,7 @@ function updateRemoveImageButton() {
 
   const existingSource =
     existingImageData ||
+    existingThumbData ||
     existingImageUrl;
 
 
@@ -1850,6 +1931,118 @@ async function compressImage(
 
 
 // =========================================================
+// ADDED: CREATE SMALL THUMBNAIL (mga ~10 KB)
+// =========================================================
+
+async function createThumbnail(
+  source,
+  maxDimension = THUMBNAIL_DIMENSION
+) {
+
+  const image =
+    await loadImage(
+      source
+    );
+
+
+  let width =
+    image.naturalWidth ||
+    image.width;
+
+
+  let height =
+    image.naturalHeight ||
+    image.height;
+
+
+  const scale =
+    Math.min(
+      1,
+      maxDimension /
+        Math.max(
+          width,
+          height
+        )
+    );
+
+
+  width =
+    Math.max(
+      1,
+      Math.round(
+        width * scale
+      )
+    );
+
+
+  height =
+    Math.max(
+      1,
+      Math.round(
+        height * scale
+      )
+    );
+
+
+  const canvas =
+    document.createElement(
+      "canvas"
+    );
+
+
+  canvas.width =
+    width;
+
+
+  canvas.height =
+    height;
+
+
+  const context =
+    canvas.getContext(
+      "2d"
+    );
+
+
+  if (!context) {
+
+    throw new Error(
+      "IMAGE_PROCESSING_FAILED"
+    );
+
+  }
+
+
+  context.fillStyle =
+    "#ffffff";
+
+
+  context.fillRect(
+    0,
+    0,
+    width,
+    height
+  );
+
+
+  context.drawImage(
+    image,
+    0,
+    0,
+    width,
+    height
+  );
+
+
+  return canvas.toDataURL(
+    "image/jpeg",
+    0.65
+  );
+
+}
+
+
+// =========================================================
 // IMAGE SELECTION
 // =========================================================
 
@@ -1946,6 +2139,7 @@ artifactImage?.addEventListener(
       imageMarkedForRemoval =
         Boolean(
           existingImageData ||
+          existingThumbData ||
           existingImageUrl
         );
 
@@ -2041,6 +2235,16 @@ function restoreCurrentImagePreview() {
 
 
   } else if (
+    existingThumbData &&
+    !imageMarkedForRemoval
+  ) {
+
+    showImagePreview(
+      existingThumbData
+    );
+
+
+  } else if (
     existingImageUrl &&
     !imageMarkedForRemoval
   ) {
@@ -2087,6 +2291,7 @@ removeSelectedImage?.addEventListener(
 
     if (
       existingImageData ||
+      existingThumbData ||
       existingImageUrl
     ) {
 
@@ -2317,10 +2522,17 @@ function openEditArtifact(
     "";
 
 
-  // Firestore image
+  // Old style: larawan na nasa loob ng artifact document
 
   existingImageData =
     artifact.imageData ||
+    "";
+
+
+  // New style: thumbnail lang ang nasa artifact document
+
+  existingThumbData =
+    artifact.thumbData ||
     "";
 
 
@@ -2514,58 +2726,124 @@ artifactForm?.addEventListener(
             );
 
 
+      const imageReference =
+        doc(
+          db,
+          IMAGE_COLLECTION,
+          artifactReference.id
+        );
+
+
       // ===================================================
-      // DETERMINE FINAL IMAGE
+      // IMAGE FIELDS
+      // ===================================================
+      // - Bagong larawan: thumbnail sa artifact document,
+      //   buong larawan sa artifact_images
+      // - Tinanggal na larawan: burahin pareho
+      // - Walang binago: huwag galawin ang image fields
       // ===================================================
 
-      let finalImageData =
-        existingImageData;
+      let imageFields = {};
 
+      let writeFullImage = false;
 
-      let finalLegacyImageUrl =
-        existingImageUrl;
+      let deleteFullImage = false;
 
-
-      let finalLegacyImagePath =
-        existingImagePath;
-
-
-      // NEW IMAGE SELECTED
 
       if (selectedImageData) {
 
-        finalImageData =
-          selectedImageData;
+        const thumbnail =
+          await createThumbnail(
+            selectedImageData
+          );
 
 
-        // Remove old Storage reference
-        // from the record.
+        imageFields = {
 
-        finalLegacyImageUrl =
-          "";
+          thumbData:
+            thumbnail,
+
+          hasImage:
+            true,
+
+          imageUrl:
+            "",
+
+          imagePath:
+            ""
+
+        };
 
 
-        finalLegacyImagePath =
-          "";
+        // Alisin ang lumang larawan na nasa loob
+        // ng artifact document (kung meron).
+
+        if (editingId) {
+
+          imageFields.imageData =
+            deleteField();
+
+        }
+
+
+        writeFullImage =
+          true;
 
       }
-
-      // IMAGE REMOVED
 
       else if (
         imageMarkedForRemoval
       ) {
 
-        finalImageData =
-          "";
+        imageFields = {
+
+          thumbData:
+            "",
+
+          hasImage:
+            false,
+
+          imageUrl:
+            "",
+
+          imagePath:
+            ""
+
+        };
 
 
-        finalLegacyImageUrl =
-          "";
+        if (editingId) {
+
+          imageFields.imageData =
+            deleteField();
+
+        }
 
 
-        finalLegacyImagePath =
-          "";
+        deleteFullImage =
+          true;
+
+      }
+
+      else if (!editingId) {
+
+        // Bagong record na walang larawan
+
+        imageFields = {
+
+          thumbData:
+            "",
+
+          hasImage:
+            false,
+
+          imageUrl:
+            "",
+
+          imagePath:
+            ""
+
+        };
 
       }
 
@@ -2621,19 +2899,7 @@ artifactForm?.addEventListener(
           remarks.value
             .trim(),
 
-        // COMPRESSED IMAGE STORED
-        // DIRECTLY IN FIRESTORE
-
-        imageData:
-          finalImageData,
-
-        // Backward compatibility
-
-        imageUrl:
-          finalLegacyImageUrl,
-
-        imagePath:
-          finalLegacyImagePath,
+        ...imageFields,
 
         updatedAt:
           serverTimestamp(),
@@ -2648,27 +2914,21 @@ artifactForm?.addEventListener(
       };
 
 
+      const batch =
+        writeBatch(
+          db
+        );
+
+
       // ===================================================
       // UPDATE
       // ===================================================
 
       if (editingId) {
 
-        await updateDoc(
+        batch.update(
           artifactReference,
           payload
-        );
-
-
-        await logActivity(
-          "Updated artifact",
-          `${accession} - ${name}`
-        );
-
-
-        showFormMessage(
-          "Artifact record updated successfully.",
-          "success"
         );
 
       }
@@ -2680,7 +2940,7 @@ artifactForm?.addEventListener(
 
       else {
 
-        await setDoc(
+        batch.set(
           artifactReference,
           {
 
@@ -2699,19 +2959,60 @@ artifactForm?.addEventListener(
           }
         );
 
-
-        await logActivity(
-          "Added artifact",
-          `${accession} - ${name}`
-        );
+      }
 
 
-        showFormMessage(
-          "Artifact record added successfully.",
-          "success"
+      // ===================================================
+      // FULL IMAGE (HIWALAY NA COLLECTION)
+      // ===================================================
+
+      if (writeFullImage) {
+
+        batch.set(
+          imageReference,
+          {
+
+            artifactId:
+              artifactReference.id,
+
+            imageData:
+              selectedImageData,
+
+            updatedAt:
+              serverTimestamp()
+
+          }
         );
 
       }
+
+      else if (deleteFullImage) {
+
+        batch.delete(
+          imageReference
+        );
+
+      }
+
+
+      await batch.commit();
+
+
+      await logActivity(
+        editingId
+          ? "Updated artifact"
+          : "Added artifact",
+
+        `${accession} - ${name}`
+      );
+
+
+      showFormMessage(
+        editingId
+          ? "Artifact record updated successfully."
+          : "Artifact record added successfully.",
+        "success"
+      );
 
 
       await loadArtifacts();
@@ -2745,7 +3046,7 @@ artifactForm?.addEventListener(
       ) {
 
         message =
-          "Permission denied by Firestore. Please check your Firestore security rules.";
+          `Permission denied by Firestore. Please check your Firestore security rules (including the "${IMAGE_COLLECTION}" collection).`;
 
       }
 
@@ -2939,6 +3240,28 @@ async function permanentlyDeleteArtifact(
     );
 
 
+    // Burahin din ang buong larawan (kung meron).
+
+    try {
+
+      await deleteDoc(
+        doc(
+          db,
+          IMAGE_COLLECTION,
+          artifact.id
+        )
+      );
+
+    } catch (imageError) {
+
+      console.error(
+        "Delete artifact image error:",
+        imageError
+      );
+
+    }
+
+
     await logActivity(
       "Deleted artifact",
 
@@ -3062,10 +3385,13 @@ function openViewArtifact(
   );
 
 
+  // Una: ipakita ang pinakamabilis na magagamit na larawan.
+
   const imageSource =
-    getArtifactImageSource(
-      artifact
-    );
+    artifact.imageData ||
+    artifact.thumbData ||
+    artifact.imageUrl ||
+    "";
 
 
   if (
@@ -3125,9 +3451,99 @@ function openViewArtifact(
   }
 
 
+  viewRequestToken++;
+
+
+  // Pangalawa: kunin sa background ang buong larawan.
+
+  if (
+    artifact.hasImage &&
+    !artifact.imageData
+  ) {
+
+    loadFullImageForView(
+      artifact,
+      viewRequestToken
+    );
+
+  }
+
+
   viewArtifactModal.classList.add(
     "show"
   );
+
+}
+
+
+// =========================================================
+// ADDED: LOAD FULL IMAGE FOR VIEW MODAL
+// =========================================================
+
+async function loadFullImageForView(
+  artifact,
+  token
+) {
+
+  try {
+
+    const snapshot =
+      await getDoc(
+        doc(
+          db,
+          IMAGE_COLLECTION,
+          artifact.id
+        )
+      );
+
+
+    // Kung ibang artifact na ang nakabukas, huwag nang ipakita.
+
+    if (token !== viewRequestToken) {
+
+      return;
+
+    }
+
+
+    const fullImage =
+      snapshot.exists()
+        ? snapshot.data().imageData
+        : "";
+
+
+    if (
+      fullImage &&
+      viewArtifactImage
+    ) {
+
+      viewArtifactImage.src =
+        fullImage;
+
+
+      viewArtifactImage.style.display =
+        "block";
+
+
+      if (
+        viewImagePlaceholder
+      ) {
+
+        viewImagePlaceholder.style.display =
+          "none";
+
+      }
+
+    }
+
+  } catch (error) {
+
+    console.error(
+      "Unable to load full artifact image:",
+      error
+    );
+
+  }
 
 }
 
@@ -3139,6 +3555,8 @@ function openViewArtifact(
 closeViewModal?.addEventListener(
   "click",
   () => {
+
+    viewRequestToken++;
 
     viewArtifactModal.classList.remove(
       "show"
@@ -3156,6 +3574,8 @@ viewArtifactModal?.addEventListener(
       event.target ===
       viewArtifactModal
     ) {
+
+      viewRequestToken++;
 
       viewArtifactModal.classList.remove(
         "show"
@@ -3189,6 +3609,261 @@ function setText(
     )
       .trim() ||
     "Not specified";
+
+}
+
+
+// =========================================================
+// ADDED: IMAGE OPTIMIZER (ADMIN ONLY)
+// Inililipat ang mga lumang larawan (nasa loob ng artifact
+// document) papunta sa "artifact_images" at gumagawa ng
+// thumbnail. Isang beses lang ito kailangan.
+// =========================================================
+
+function getLegacyImageArtifacts() {
+
+  return artifacts.filter(
+    artifact =>
+      typeof artifact.imageData ===
+        "string" &&
+      artifact.imageData.length > 0
+  );
+
+}
+
+
+function refreshOptimizeButton() {
+
+  if (optimizingImages) {
+
+    return;
+
+  }
+
+
+  const header =
+    document.querySelector(
+      ".records-header"
+    );
+
+
+  if (!header) {
+
+    return;
+
+  }
+
+
+  const legacy =
+    getLegacyImageArtifacts();
+
+
+  let button =
+    document.getElementById(
+      "optimizeImagesButton"
+    );
+
+
+  if (
+    currentProfile?.role !==
+      "admin" ||
+    !legacy.length
+  ) {
+
+    button?.remove();
+
+    return;
+
+  }
+
+
+  if (!button) {
+
+    button =
+      document.createElement(
+        "button"
+      );
+
+
+    button.type =
+      "button";
+
+
+    button.id =
+      "optimizeImagesButton";
+
+
+    button.className =
+      "reset-filter";
+
+
+    button.style.marginLeft =
+      "12px";
+
+
+    button.addEventListener(
+      "click",
+      () =>
+        optimizeLegacyImages(
+          button
+        )
+    );
+
+
+    header.appendChild(
+      button
+    );
+
+  }
+
+
+  button.textContent =
+    `Optimize ${legacy.length} images`;
+
+}
+
+
+async function optimizeLegacyImages(
+  button
+) {
+
+  const legacy =
+    getLegacyImageArtifacts();
+
+
+  if (!legacy.length) {
+
+    return;
+
+  }
+
+
+  const confirmed =
+    confirm(
+      `Optimize ${legacy.length} artifact images?\n\nThis makes the system much faster. Please keep this page open until it finishes. It is safe to run again if interrupted.`
+    );
+
+
+  if (!confirmed) {
+
+    return;
+
+  }
+
+
+  optimizingImages =
+    true;
+
+
+  button.disabled =
+    true;
+
+
+  let done = 0;
+
+  let failed = 0;
+
+
+  for (const artifact of legacy) {
+
+    try {
+
+      const thumbnail =
+        await createThumbnail(
+          artifact.imageData
+        );
+
+
+      const batch =
+        writeBatch(
+          db
+        );
+
+
+      batch.set(
+        doc(
+          db,
+          IMAGE_COLLECTION,
+          artifact.id
+        ),
+        {
+
+          artifactId:
+            artifact.id,
+
+          imageData:
+            artifact.imageData,
+
+          updatedAt:
+            serverTimestamp()
+
+        }
+      );
+
+
+      batch.update(
+        doc(
+          db,
+          "artifacts",
+          artifact.id
+        ),
+        {
+
+          thumbData:
+            thumbnail,
+
+          hasImage:
+            true,
+
+          imageData:
+            deleteField()
+
+        }
+      );
+
+
+      await batch.commit();
+
+
+      done++;
+
+
+    } catch (error) {
+
+      console.error(
+        "Optimize image error:",
+        artifact.id,
+        error
+      );
+
+
+      failed++;
+
+    }
+
+
+    button.textContent =
+      `Optimizing... ${done + failed}/${legacy.length}`;
+
+  }
+
+
+  optimizingImages =
+    false;
+
+
+  button.disabled =
+    false;
+
+
+  await loadArtifacts();
+
+
+  alert(
+    failed
+      ? `Finished. ${done} optimized, ${failed} failed. Check the Firestore rules for "${IMAGE_COLLECTION}", then click the button again.`
+      : `Finished. ${done} images optimized.`
+  );
 
 }
 
@@ -3476,6 +4151,40 @@ logoutButton?.addEventListener(
 
 
 // =========================================================
+// ADDED: DATA LOAD ERROR MESSAGE
+// =========================================================
+
+function handleDataError(error) {
+
+  console.error(
+    "Artifact data loading error:",
+    error
+  );
+
+
+  let message =
+    "Please check your internet connection and try again.";
+
+
+  if (
+    error?.code ===
+    "permission-denied"
+  ) {
+
+    message =
+      "Permission denied by Firestore. Please check your Firestore security rules.";
+
+  }
+
+
+  showTableError(
+    message
+  );
+
+}
+
+
+// =========================================================
 // AUTH GUARD
 // =========================================================
 
@@ -3492,6 +4201,25 @@ onAuthStateChanged(
       return;
 
     }
+
+
+    // =====================================================
+    // ADDED: SIMULAN AGAD ANG PAGKUHA NG DATA
+    // Sabay na tumatakbo sa pagkuha ng profile.
+    // =====================================================
+
+    const categoriesPromise =
+      loadCategories()
+        .catch(
+          handleDataError
+        );
+
+
+    const artifactsPromise =
+      loadArtifacts()
+        .catch(
+          handleDataError
+        );
 
 
     try {
@@ -3535,12 +4263,6 @@ onAuthStateChanged(
       );
 
 
-      await Promise.all([
-        loadCategories(),
-        loadArtifacts()
-      ]);
-
-
       if (artifactImage) {
 
         artifactImage.disabled =
@@ -3555,6 +4277,8 @@ onAuthStateChanged(
       updateRemoveImageButton();
 
 
+      // Ipakita agad ang page (hindi na hinihintay ang data).
+
       if (pageLoader) {
 
         pageLoader.classList.add(
@@ -3562,6 +4286,25 @@ onAuthStateChanged(
         );
 
       }
+
+
+      await Promise.all([
+        categoriesPromise,
+        artifactsPromise
+      ]);
+
+
+      // I-render ulit para lumabas ang tamang buttons
+      // ayon sa role (halimbawa Delete para sa admin).
+
+      if (artifacts.length) {
+
+        applyFilters();
+
+      }
+
+
+      refreshOptimizeButton();
 
 
     } catch (error) {

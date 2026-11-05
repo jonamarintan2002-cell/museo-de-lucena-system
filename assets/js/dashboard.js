@@ -38,6 +38,15 @@ import {
 
 
 // =========================================================
+// OPTIONAL: EMAIL VERIFICATION GUARD
+// Tanggalin ang "//" sa unahan ng dalawang linya (dito at sa
+// AUTH GUARD sa ibaba) kapag nagawa mo na ang email-guard.js
+// =========================================================
+
+// import { requireVerifiedEmail } from "./email-guard.js";
+
+
+// =========================================================
 // ELEMENTS
 // =========================================================
 
@@ -135,6 +144,255 @@ const recentArtifacts =
 
 const activityList =
   document.getElementById("activityList");
+
+
+// =========================================================
+// ADDED: STATS CACHE (INSTANT NUMBERS)
+// =========================================================
+// Ipinapakita agad ang huling alam na numero pagbukas ng
+// dashboard, habang kinukuha pa ang bago sa Firestore.
+// Napapalitan ito ng totoong bilang pagdating ng data.
+// =========================================================
+
+const STATS_CACHE_KEY =
+  "museo_dashboard_stats_v1";
+
+
+function readStatsCache() {
+
+  try {
+
+    return JSON.parse(
+      localStorage.getItem(
+        STATS_CACHE_KEY
+      ) || "null"
+    );
+
+  } catch (_) {
+
+    return null;
+
+  }
+
+}
+
+
+function updateStatsCache(partial) {
+
+  try {
+
+    const current =
+      readStatsCache() || {};
+
+
+    localStorage.setItem(
+      STATS_CACHE_KEY,
+      JSON.stringify({
+        ...current,
+        ...partial
+      })
+    );
+
+  } catch (_) {}
+
+}
+
+
+function setNumber(element, value) {
+
+  if (
+    element &&
+    value !== undefined &&
+    value !== null
+  ) {
+
+    element.textContent =
+      value;
+
+  }
+
+}
+
+
+function applyStats(stats) {
+
+  if (!stats) {
+
+    return;
+
+  }
+
+
+  setNumber(
+    totalArtifactsElement,
+    stats.total
+  );
+
+  setNumber(
+    totalCategoriesElement,
+    stats.categories
+  );
+
+  setNumber(
+    goodConditionElement,
+    stats.good
+  );
+
+  if (
+    stats.fair !== undefined &&
+    stats.poor !== undefined
+  ) {
+
+    setNumber(
+      needsAttentionElement,
+      stats.fair + stats.poor
+    );
+
+  }
+
+  setNumber(
+    conditionGoodCount,
+    stats.good
+  );
+
+  setNumber(
+    conditionFairCount,
+    stats.fair
+  );
+
+  setNumber(
+    conditionPoorCount,
+    stats.poor
+  );
+
+
+  const good =
+    stats.good || 0;
+
+  const fair =
+    stats.fair || 0;
+
+  const poor =
+    stats.poor || 0;
+
+  const total =
+    good + fair + poor;
+
+
+  const percent =
+    value =>
+      total
+        ? `${(value / total) * 100}%`
+        : "0%";
+
+
+  if (conditionGoodBar) {
+
+    conditionGoodBar.style.width =
+      percent(good);
+
+  }
+
+  if (conditionFairBar) {
+
+    conditionFairBar.style.width =
+      percent(fair);
+
+  }
+
+  if (conditionPoorBar) {
+
+    conditionPoorBar.style.width =
+      percent(poor);
+
+  }
+
+}
+
+
+// Ipakita agad ang cached numbers pagbukas ng page.
+
+applyStats(
+  readStatsCache()
+);
+
+
+// =========================================================
+// ADDED: WALANG LOADING SCREEN
+// =========================================================
+// Ipinapakita agad ang dashboard pagbukas ng page.
+// Ang pangalan at role ay galing sa huling login (cache),
+// at kinukumpirma pa rin ito ng auth guard sa ibaba.
+// Kung hindi valid ang account, ire-redirect pa rin sa login.
+// =========================================================
+
+const PROFILE_CACHE_KEY =
+  "museo_dashboard_profile_v1";
+
+
+function readProfileCache() {
+
+  try {
+
+    return JSON.parse(
+      localStorage.getItem(
+        PROFILE_CACHE_KEY
+      ) || "null"
+    );
+
+  } catch (_) {
+
+    return null;
+
+  }
+
+}
+
+
+function saveProfileCache(profile) {
+
+  try {
+
+    localStorage.setItem(
+      PROFILE_CACHE_KEY,
+      JSON.stringify({
+        fullName: profile.fullName,
+        role: profile.role
+      })
+    );
+
+  } catch (_) {}
+
+}
+
+
+function clearProfileCache() {
+
+  try {
+
+    localStorage.removeItem(
+      PROFILE_CACHE_KEY
+    );
+
+  } catch (_) {}
+
+}
+
+
+const cachedProfile =
+  readProfileCache();
+
+
+if (cachedProfile) {
+
+  displayUser(
+    cachedProfile
+  );
+
+}
+
+
+hidePageLoader();
 
 
 // =========================================================
@@ -480,6 +738,15 @@ async function loadArtifacts() {
     );
 
 
+    // ADDED: i-save ang numero para instant na sa susunod na bukas
+    updateStatsCache({
+      total: artifacts.length,
+      good,
+      fair,
+      poor
+    });
+
+
     if (goodConditionElement) {
 
       goodConditionElement.textContent =
@@ -817,6 +1084,12 @@ async function loadCategories() {
         snapshot.size;
 
     }
+
+
+    // ADDED: i-save ang numero para instant na sa susunod na bukas
+    updateStatsCache({
+      categories: snapshot.size
+    });
 
 
   } catch (error) {
@@ -1265,6 +1538,9 @@ logoutButton?.addEventListener(
     }
 
 
+    clearProfileCache();
+
+
     try {
 
       await signOut(
@@ -1329,6 +1605,9 @@ onAuthStateChanged(
 
     if (!user) {
 
+      clearProfileCache();
+
+
       window.location.replace(
         "login.html"
       );
@@ -1337,6 +1616,28 @@ onAuthStateChanged(
       return;
 
     }
+
+
+    // =====================================================
+    // OPTIONAL: EMAIL VERIFICATION CHECK
+    // Tanggalin ang "//" kapag nagawa mo na ang email-guard.js
+    // =====================================================
+
+    // if (!(await requireVerifiedEmail(auth, user))) return;
+
+
+    // =====================================================
+    // ADDED: SIMULAN AGAD ANG PAGKUHA NG DATA
+    // Hindi na hinihintay ang profile; sabay na itong tumatakbo.
+    // (Ang loadArtifacts at loadCategories ay may sariling
+    // error handling kaya hindi sila magka-crash.)
+    // =====================================================
+
+    const artifactsPromise =
+      loadArtifacts();
+
+    const categoriesPromise =
+      loadCategories();
 
 
     try {
@@ -1407,6 +1708,11 @@ onAuthStateChanged(
       // DISPLAY USER
       // ===================================================
 
+      saveProfileCache(
+        profile
+      );
+
+
       displayUser(
         profile
       );
@@ -1421,12 +1727,13 @@ onAuthStateChanged(
 
       // ===================================================
       // LOAD DASHBOARD DATA
+      // (artifacts at categories ay nasimulan na sa taas)
       // ===================================================
 
       const results =
         await Promise.allSettled([
-          loadArtifacts(),
-          loadCategories(),
+          artifactsPromise,
+          categoriesPromise,
           loadActivities(
             profile
           )
@@ -1458,6 +1765,9 @@ onAuthStateChanged(
         "Dashboard initialization error:",
         error
       );
+
+
+      clearProfileCache();
 
 
       try {
