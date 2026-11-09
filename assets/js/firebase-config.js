@@ -36,9 +36,12 @@ const app = initializeApp(firebaseConfig);
 
 const auth = getAuth(app);
 
-// CHANGED: dating getFirestore(app).
+// CHANGED: dating getFirestore(app), at dating AutoDetect.
+// Pinipilit ang long polling dahil may network/antivirus/
+// extension na humaharang sa default na koneksyon ng Firestore
+// (lumalabas bilang "Listen ... 404" at laging delay).
 const db = initializeFirestore(app, {
-  experimentalAutoDetectLongPolling: true
+  experimentalForceLongPolling: true
 });
 
 const storage = getStorage(app);

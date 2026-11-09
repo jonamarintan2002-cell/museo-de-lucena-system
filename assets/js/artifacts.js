@@ -46,7 +46,7 @@ import {
 
 // Maximum original file selected by user
 const MAX_IMAGE_SIZE =
-  5 * 1024 * 1024;
+  20 * 1024 * 1024;
 
 
 // Accepted image formats
@@ -2101,7 +2101,7 @@ artifactImage?.addEventListener(
 
 
       showFormMessage(
-        "The selected image is larger than 5 MB. Please choose a smaller image.",
+        `The selected image is larger than ${Math.round(MAX_IMAGE_SIZE / 1024 / 1024)} MB. Please choose a smaller image.`,
         "error"
       );
 
@@ -3764,88 +3764,114 @@ async function optimizeLegacyImages(
   let failed = 0;
 
 
-  for (const artifact of legacy) {
+  // 4 na larawan ang sabay na pinoproseso para mas mabilis.
 
-    try {
+  const CONCURRENCY =
+    4;
 
-      const thumbnail =
-        await createThumbnail(
-          artifact.imageData
+
+  let nextIndex =
+    0;
+
+
+  async function optimizeWorker() {
+
+    while (nextIndex < legacy.length) {
+
+      const artifact =
+        legacy[nextIndex++];
+
+
+      try {
+
+        const thumbnail =
+          await createThumbnail(
+            artifact.imageData
+          );
+
+
+        const batch =
+          writeBatch(
+            db
+          );
+
+
+        batch.set(
+          doc(
+            db,
+            IMAGE_COLLECTION,
+            artifact.id
+          ),
+          {
+
+            artifactId:
+              artifact.id,
+
+            imageData:
+              artifact.imageData,
+
+            updatedAt:
+              serverTimestamp()
+
+          }
         );
 
 
-      const batch =
-        writeBatch(
-          db
+        batch.update(
+          doc(
+            db,
+            "artifacts",
+            artifact.id
+          ),
+          {
+
+            thumbData:
+              thumbnail,
+
+            hasImage:
+              true,
+
+            imageData:
+              deleteField()
+
+          }
         );
 
 
-      batch.set(
-        doc(
-          db,
-          IMAGE_COLLECTION,
-          artifact.id
-        ),
-        {
-
-          artifactId:
-            artifact.id,
-
-          imageData:
-            artifact.imageData,
-
-          updatedAt:
-            serverTimestamp()
-
-        }
-      );
+        await batch.commit();
 
 
-      batch.update(
-        doc(
-          db,
-          "artifacts",
-          artifact.id
-        ),
-        {
-
-          thumbData:
-            thumbnail,
-
-          hasImage:
-            true,
-
-          imageData:
-            deleteField()
-
-        }
-      );
+        done++;
 
 
-      await batch.commit();
+      } catch (error) {
+
+        console.error(
+          "Optimize image error:",
+          artifact.id,
+          error
+        );
 
 
-      done++;
+        failed++;
+
+      }
 
 
-    } catch (error) {
-
-      console.error(
-        "Optimize image error:",
-        artifact.id,
-        error
-      );
-
-
-      failed++;
+      button.textContent =
+        `Optimizing... ${done + failed}/${legacy.length}`;
 
     }
 
-
-    button.textContent =
-      `Optimizing... ${done + failed}/${legacy.length}`;
-
   }
+
+
+  await Promise.all(
+    Array.from(
+      { length: CONCURRENCY },
+      optimizeWorker
+    )
+  );
 
 
   optimizingImages =
