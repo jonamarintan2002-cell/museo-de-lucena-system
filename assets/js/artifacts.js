@@ -33,6 +33,7 @@ import {
   doc,
   getDoc,
   getDocs,
+  getDocsFromCache,
   setDoc,
   updateDoc,
   writeBatch,
@@ -120,6 +121,22 @@ let viewRequestToken = 0;
 
 // ADDED: status ng image optimizer
 let optimizingImages = false;
+
+
+// =========================================================
+// ADDED (1/7): IMAGE EDITOR + LIGHTBOX STATE
+// =========================================================
+
+// Cropper instance (image editor)
+let cropper = null;
+
+
+// Cache ng buong larawan para hindi paulit-ulit ang Firestore read
+const fullImageCache = new Map();
+
+
+// Para hindi magkapalit ang larawan sa lightbox
+let lightboxToken = 0;
 
 
 // =========================================================
@@ -375,6 +392,64 @@ const imagePreview =
 const removeSelectedImage =
   document.getElementById(
     "removeSelectedImage"
+  );
+
+
+// =========================================================
+// ADDED (2/7): EDIT IMAGE / CROP MODAL / LIGHTBOX ELEMENTS
+// =========================================================
+
+const editImageButton =
+  document.getElementById(
+    "editImageButton"
+  );
+
+
+const cropModal =
+  document.getElementById(
+    "cropModal"
+  );
+
+
+const cropImage =
+  document.getElementById(
+    "cropImage"
+  );
+
+
+const cropApply =
+  document.getElementById(
+    "cropApply"
+  );
+
+
+const cropCancel =
+  document.getElementById(
+    "cropCancel"
+  );
+
+
+const cropClose =
+  document.getElementById(
+    "cropClose"
+  );
+
+
+const lightbox =
+  document.getElementById(
+    "lightbox"
+  );
+
+
+const lightboxImage =
+  document.getElementById(
+    "lightboxImage"
+  );
+
+
+const lightboxClose =
+  document.getElementById(
+    "lightboxClose"
   );
 
 
@@ -733,16 +808,7 @@ function populateCategoryOptions() {
 // LOAD ARTIFACTS
 // =========================================================
 
-async function loadArtifacts() {
-
-  const snapshot =
-    await getDocs(
-      collection(
-        db,
-        "artifacts"
-      )
-    );
-
+function applyArtifactsSnapshot(snapshot) {
 
   artifacts =
     snapshot.docs.map(
@@ -769,6 +835,54 @@ async function loadArtifacts() {
   applyFilters();
 
   refreshOptimizeButton();
+
+}
+
+
+async function loadArtifacts() {
+
+  // 1. ADDED: ipakita agad ang laman ng lokal na cache (kung meron)
+
+  try {
+
+    const cachedSnapshot =
+      await getDocsFromCache(
+        collection(
+          db,
+          "artifacts"
+        )
+      );
+
+
+    if (!cachedSnapshot.empty) {
+
+      applyArtifactsSnapshot(
+        cachedSnapshot
+      );
+
+    }
+
+  } catch (_) {
+
+    // Walang cache pa; ituloy sa server.
+
+  }
+
+
+  // 2. Kunin ang pinakabago mula sa server
+
+  const snapshot =
+    await getDocs(
+      collection(
+        db,
+        "artifacts"
+      )
+    );
+
+
+  applyArtifactsSnapshot(
+    snapshot
+  );
 
 }
 
@@ -1633,6 +1747,16 @@ function updateRemoveImageButton() {
   removeSelectedImage.disabled =
     !hasImage;
 
+
+  // ADDED (3/7): i-enable din ang Edit Image button
+
+  if (editImageButton) {
+
+    editImageButton.disabled =
+      !hasImage;
+
+  }
+
 }
 
 
@@ -2311,6 +2435,636 @@ removeSelectedImage?.addEventListener(
 
 
 // =========================================================
+// ADDED (4/7): KUNIN ANG BUONG LARAWAN (may cache)
+// =========================================================
+
+async function fetchFullImage(id) {
+
+  if (fullImageCache.has(id)) {
+
+    return fullImageCache.get(id);
+
+  }
+
+
+  const snapshot =
+    await getDoc(
+      doc(
+        db,
+        IMAGE_COLLECTION,
+        id
+      )
+    );
+
+
+  const data =
+    snapshot.exists()
+      ? snapshot.data().imageData || ""
+      : "";
+
+
+  if (data) {
+
+    fullImageCache.set(
+      id,
+      data
+    );
+
+  }
+
+
+  return data;
+
+}
+
+
+// =========================================================
+// ADDED (5/7): IMAGE EDITOR (CROP / ROTATE / ZOOM / FLIP)
+// =========================================================
+
+function openCropper(source) {
+
+  if (typeof Cropper === "undefined") {
+
+    showFormMessage(
+      "Image editor failed to load. Please refresh the page.",
+      "error"
+    );
+
+    return;
+
+  }
+
+
+  cropper?.destroy();
+
+  cropper = null;
+
+
+  cropImage.onload = () => {
+
+    cropper?.destroy();
+
+
+    cropper =
+      new Cropper(
+        cropImage,
+        {
+          viewMode: 1,
+          autoCropArea: 1,
+          background: false,
+          dragMode: "move",
+          responsive: true
+        }
+      );
+
+  };
+
+
+  cropImage.src =
+    source;
+
+
+  cropModal.classList.add(
+    "show"
+  );
+
+
+  // Balik sa "Free" ang shape
+
+  cropModal
+    .querySelectorAll(
+      "[data-ratio]"
+    )
+    .forEach(
+      button =>
+        button.classList.toggle(
+          "active",
+          button.dataset.ratio === "NaN"
+        )
+    );
+
+}
+
+
+function closeCropper() {
+
+  cropper?.destroy();
+
+  cropper = null;
+
+
+  cropImage.onload = null;
+
+  cropImage.removeAttribute(
+    "src"
+  );
+
+
+  cropModal.classList.remove(
+    "show"
+  );
+
+}
+
+
+editImageButton?.addEventListener(
+  "click",
+  async () => {
+
+    clearFormMessage();
+
+
+    let source =
+      selectedImageData;
+
+
+    if (
+      !source &&
+      !imageMarkedForRemoval
+    ) {
+
+      source =
+        existingImageData;
+
+
+      // Bagong style: kunin ang buong larawan, hindi thumbnail
+
+      if (
+        !source &&
+        artifactId.value
+      ) {
+
+        const originalText =
+          editImageButton.textContent;
+
+
+        editImageButton.disabled =
+          true;
+
+
+        editImageButton.textContent =
+          "Loading...";
+
+
+        try {
+
+          source =
+            await fetchFullImage(
+              artifactId.value
+            );
+
+        } catch (error) {
+
+          console.error(
+            "Unable to load full image:",
+            error
+          );
+
+        }
+
+
+        editImageButton.textContent =
+          originalText;
+
+
+        editImageButton.disabled =
+          false;
+
+      }
+
+
+      source =
+        source ||
+        existingThumbData ||
+        existingImageUrl;
+
+    }
+
+
+    if (!source) {
+
+      return;
+
+    }
+
+
+    openCropper(
+      source
+    );
+
+  }
+);
+
+
+// Toolbar buttons (rotate, zoom, flip, reset, shape)
+
+cropModal?.addEventListener(
+  "click",
+  event => {
+
+    const toolButton =
+      event.target.closest(
+        "[data-crop]"
+      );
+
+
+    const ratioButton =
+      event.target.closest(
+        "[data-ratio]"
+      );
+
+
+    if (!cropper) {
+
+      return;
+
+    }
+
+
+    if (toolButton) {
+
+      switch (
+        toolButton.dataset.crop
+      ) {
+
+        case "rotate-left":
+          cropper.rotate(-90);
+          break;
+
+        case "rotate-right":
+          cropper.rotate(90);
+          break;
+
+        case "zoom-in":
+          cropper.zoom(0.15);
+          break;
+
+        case "zoom-out":
+          cropper.zoom(-0.15);
+          break;
+
+        case "flip":
+          cropper.scaleX(
+            -(cropper.getData().scaleX || 1)
+          );
+          break;
+
+        case "reset":
+          cropper.reset();
+          break;
+
+      }
+
+    }
+
+
+    if (ratioButton) {
+
+      cropper.setAspectRatio(
+        Number(
+          ratioButton.dataset.ratio
+        )
+      );
+
+
+      cropModal
+        .querySelectorAll(
+          "[data-ratio]"
+        )
+        .forEach(
+          button =>
+            button.classList.toggle(
+              "active",
+              button === ratioButton
+            )
+        );
+
+    }
+
+  }
+);
+
+
+cropCancel?.addEventListener(
+  "click",
+  closeCropper
+);
+
+
+cropClose?.addEventListener(
+  "click",
+  closeCropper
+);
+
+
+// Apply: i-crop, tapos i-compress gamit ang compressImage()
+
+cropApply?.addEventListener(
+  "click",
+  async () => {
+
+    if (!cropper) {
+
+      return;
+
+    }
+
+
+    cropApply.disabled =
+      true;
+
+
+    cropApply.textContent =
+      "Processing...";
+
+
+    try {
+
+      const canvas =
+        cropper.getCroppedCanvas(
+          {
+            maxWidth: 2000,
+            maxHeight: 2000,
+            fillColor: "#ffffff",
+            imageSmoothingQuality: "high"
+          }
+        );
+
+
+      const blob =
+        await new Promise(
+          resolve =>
+            canvas.toBlob(
+              resolve,
+              "image/jpeg",
+              0.92
+            )
+        );
+
+
+      const file =
+        new File(
+          [blob],
+          "edited.jpg",
+          {
+            type: "image/jpeg"
+          }
+        );
+
+
+      const compressed =
+        await compressImage(
+          file
+        );
+
+
+      selectedImageData =
+        compressed;
+
+
+      imageMarkedForRemoval =
+        Boolean(
+          existingImageData ||
+          existingThumbData ||
+          existingImageUrl
+        );
+
+
+      showImagePreview(
+        selectedImageData,
+        "Edited artifact image"
+      );
+
+
+      updateRemoveImageButton();
+
+
+      closeCropper();
+
+
+    } catch (error) {
+
+      console.error(
+        "CROP ERROR:",
+        error
+      );
+
+
+      closeCropper();
+
+
+      showFormMessage(
+        "Unable to edit this image. If it is an old Storage image, please upload it again.",
+        "error"
+      );
+
+
+    } finally {
+
+      cropApply.disabled =
+        false;
+
+
+      cropApply.textContent =
+        "Apply";
+
+    }
+
+  }
+);
+
+
+// =========================================================
+// ADDED (6/7): LIGHTBOX (CLICK PARA LUMAKI ANG LARAWAN)
+// =========================================================
+
+async function openLightbox(
+  fallbackSrc,
+  id = "",
+  needsFull = false
+) {
+
+  if (!fallbackSrc) {
+
+    return;
+
+  }
+
+
+  const token =
+    ++lightboxToken;
+
+
+  lightboxImage.src =
+    fallbackSrc;
+
+
+  lightbox.classList.add(
+    "show"
+  );
+
+
+  if (
+    !id ||
+    !needsFull
+  ) {
+
+    return;
+
+  }
+
+
+  try {
+
+    const full =
+      await fetchFullImage(
+        id
+      );
+
+
+    if (
+      full &&
+      token === lightboxToken &&
+      lightbox.classList.contains(
+        "show"
+      )
+    ) {
+
+      lightboxImage.src =
+        full;
+
+    }
+
+  } catch (error) {
+
+    console.error(
+      "Lightbox image error:",
+      error
+    );
+
+  }
+
+}
+
+
+function closeLightbox() {
+
+  lightboxToken++;
+
+
+  lightbox.classList.remove(
+    "show"
+  );
+
+
+  lightboxImage.removeAttribute(
+    "src"
+  );
+
+}
+
+
+lightbox?.addEventListener(
+  "click",
+  closeLightbox
+);
+
+
+lightboxClose?.addEventListener(
+  "click",
+  closeLightbox
+);
+
+
+// ESC key: isara ang lightbox o ang image editor
+
+document.addEventListener(
+  "keydown",
+  event => {
+
+    if (event.key !== "Escape") {
+
+      return;
+
+    }
+
+
+    if (
+      lightbox?.classList.contains(
+        "show"
+      )
+    ) {
+
+      closeLightbox();
+
+    } else if (
+      cropModal?.classList.contains(
+        "show"
+      )
+    ) {
+
+      closeCropper();
+
+    }
+
+  }
+);
+
+
+// Click sa preview ng form (Section 04)
+
+imagePreview?.addEventListener(
+  "click",
+  event => {
+
+    const image =
+      event.target.closest(
+        "img"
+      );
+
+
+    if (!image) {
+
+      return;
+
+    }
+
+
+    const usingThumbOnly =
+      !selectedImageData &&
+      !existingImageData &&
+      existingThumbData &&
+      artifactId.value;
+
+
+    openLightbox(
+      image.src,
+      artifactId.value,
+      Boolean(
+        usingThumbOnly
+      )
+    );
+
+  }
+);
+
+
+// Click sa larawan ng View modal
+
+viewArtifactImage?.addEventListener(
+  "click",
+  () => {
+
+    openLightbox(
+      viewArtifactImage.src
+    );
+
+  }
+);
+
+
+// =========================================================
 // CLOSE FORM MODAL
 // =========================================================
 
@@ -2362,6 +3116,49 @@ artifactModal?.addEventListener(
 artifactTableBody?.addEventListener(
   "click",
   async event => {
+
+    // ADDED (7/7): click sa thumbnail ng table para lumaki
+
+    const thumbImage =
+      event.target.closest(
+        ".artifact-thumb img"
+      );
+
+
+    if (thumbImage) {
+
+      const row =
+        thumbImage.closest(
+          "tr"
+        );
+
+
+      const rowId =
+        row?.querySelector(
+          "[data-id]"
+        )?.dataset.id;
+
+
+      const rowArtifact =
+        artifacts.find(
+          item =>
+            item.id === rowId
+        );
+
+
+      openLightbox(
+        thumbImage.src,
+        rowId,
+        Boolean(
+          rowArtifact?.hasImage &&
+          !rowArtifact?.imageData
+        )
+      );
+
+      return;
+
+    }
+
 
     const button =
       event.target.closest(
@@ -2998,6 +3795,13 @@ artifactForm?.addEventListener(
       await batch.commit();
 
 
+      // ADDED: alisin sa cache para hindi lumang larawan ang lumabas
+
+      fullImageCache.delete(
+        artifactReference.id
+      );
+
+
       await logActivity(
         editingId
           ? "Updated artifact"
@@ -3260,6 +4064,13 @@ async function permanentlyDeleteArtifact(
       );
 
     }
+
+
+    // ADDED: alisin din sa cache
+
+    fullImageCache.delete(
+      artifact.id
+    );
 
 
     await logActivity(
