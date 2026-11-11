@@ -784,6 +784,17 @@ generateReportButton?.addEventListener(
     }
 
 
+    // =====================================================
+    // ADDED (1/2): GUMAWA AT I-DOWNLOAD ANG PDF
+    // =====================================================
+
+    await downloadReportPdf(
+      filteredArtifacts,
+      title,
+      subtitle
+    );
+
+
     await logActivity(
       "Generated report",
       `${title} - ${filteredArtifacts.length} record(s)`
@@ -1276,6 +1287,780 @@ printReportButton?.addEventListener(
 
   }
 );
+
+
+// =========================================================
+// ADDED (2/2): PDF REPORT (jsPDF + AutoTable)
+// Ang dalawang library ay ilo-load mula sa cdnjs kapag
+// kailangan na, kaya hindi na kailangang baguhin ang
+// reports.html.
+// =========================================================
+
+const JSPDF_URL =
+  "https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js";
+
+
+const AUTOTABLE_URL =
+  "https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js";
+
+
+const scriptPromises =
+  {};
+
+
+function loadExternalScript(
+  source
+) {
+
+  if (scriptPromises[source]) {
+
+    return scriptPromises[source];
+
+  }
+
+
+  scriptPromises[source] =
+    new Promise(
+      (resolve, reject) => {
+
+        const script =
+          document.createElement(
+            "script"
+          );
+
+
+        script.src =
+          source;
+
+
+        script.onload =
+          () => resolve();
+
+
+        script.onerror =
+          () => {
+
+            delete scriptPromises[source];
+
+            reject(
+              new Error(
+                `Unable to load ${source}`
+              )
+            );
+
+          };
+
+
+        document.head.appendChild(
+          script
+        );
+
+      }
+    );
+
+
+  return scriptPromises[source];
+
+}
+
+
+async function loadPdfLibraries() {
+
+  if (!window.jspdf) {
+
+    await loadExternalScript(
+      JSPDF_URL
+    );
+
+  }
+
+
+  if (
+    !window.jspdf?.jsPDF?.API?.autoTable
+  ) {
+
+    await loadExternalScript(
+      AUTOTABLE_URL
+    );
+
+  }
+
+}
+
+
+// Linisin ang text para hindi masira ang PDF font
+
+function pdfText(
+  value
+) {
+
+  return String(
+    value ?? ""
+  )
+    .replace(/[\u2014\u2013]/g, "-")
+    .replace(/[\u2018\u2019]/g, "'")
+    .replace(/[\u201C\u201D]/g, '"')
+    .replace(/\u2026/g, "...")
+    .replace(/[^\x00-\xFF]/g, "?")
+    .trim();
+
+}
+
+
+function buildPdfFileName(
+  title
+) {
+
+  const slug =
+    String(title || "report")
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, "-")
+      .replace(/^-+|-+$/g, "")
+      .slice(0, 60);
+
+
+  const now =
+    new Date();
+
+
+  const date =
+    [
+      now.getFullYear(),
+
+      String(
+        now.getMonth() + 1
+      ).padStart(2, "0"),
+
+      String(
+        now.getDate()
+      ).padStart(2, "0")
+    ].join("-");
+
+
+  return `Museo-de-Lucena_${slug}_${date}.pdf`;
+
+}
+
+
+function buildReportPdf(
+  records,
+  title,
+  subtitle
+) {
+
+  const { jsPDF } =
+    window.jspdf;
+
+
+  const pdf =
+    new jsPDF(
+      {
+        orientation: "landscape",
+        unit: "mm",
+        format: "a4"
+      }
+    );
+
+
+  const pageWidth =
+    pdf.internal.pageSize.getWidth();
+
+
+  const pageHeight =
+    pdf.internal.pageSize.getHeight();
+
+
+  const margin =
+    14;
+
+
+  const maroon =
+    [109, 41, 43];
+
+
+  const gold =
+    [215, 188, 131];
+
+
+  const generatedBy =
+    currentProfile?.fullName ||
+    "Museo User";
+
+
+  const generatedOn =
+    new Intl.DateTimeFormat(
+      "en-PH",
+      {
+        month: "long",
+        day: "numeric",
+        year: "numeric",
+        hour: "numeric",
+        minute: "2-digit"
+      }
+    ).format(
+      new Date()
+    );
+
+
+  // -------------------------------------------------------
+  // HEADER BAND
+  // -------------------------------------------------------
+
+  pdf.setFillColor(...maroon);
+
+  pdf.rect(
+    0,
+    0,
+    pageWidth,
+    28,
+    "F"
+  );
+
+
+  pdf.setFillColor(...gold);
+
+  pdf.rect(
+    0,
+    28,
+    pageWidth,
+    1.2,
+    "F"
+  );
+
+
+  pdf.setTextColor(
+    255,
+    255,
+    255
+  );
+
+
+  pdf.setFont(
+    "helvetica",
+    "bold"
+  );
+
+  pdf.setFontSize(18);
+
+  pdf.text(
+    "MUSEO DE LUCENA",
+    margin,
+    13
+  );
+
+
+  pdf.setFont(
+    "helvetica",
+    "normal"
+  );
+
+  pdf.setFontSize(9);
+
+  pdf.text(
+    "Artifact Records System",
+    margin,
+    20
+  );
+
+
+  pdf.setFontSize(8);
+
+  pdf.text(
+    "COLLECTION REPORT",
+    pageWidth - margin,
+    13,
+    { align: "right" }
+  );
+
+
+  // -------------------------------------------------------
+  // TITLE + DETAILS
+  // -------------------------------------------------------
+
+  let y =
+    40;
+
+
+  pdf.setTextColor(
+    48,
+    38,
+    32
+  );
+
+  pdf.setFont(
+    "helvetica",
+    "bold"
+  );
+
+  pdf.setFontSize(16);
+
+
+  const titleLines =
+    pdf.splitTextToSize(
+      pdfText(title),
+      pageWidth - margin * 2
+    );
+
+
+  pdf.text(
+    titleLines,
+    margin,
+    y
+  );
+
+
+  y +=
+    titleLines.length * 7;
+
+
+  pdf.setTextColor(
+    110,
+    100,
+    92
+  );
+
+  pdf.setFont(
+    "helvetica",
+    "normal"
+  );
+
+  pdf.setFontSize(9.5);
+
+
+  const subtitleLines =
+    pdf.splitTextToSize(
+      pdfText(subtitle),
+      pageWidth - margin * 2
+    );
+
+
+  pdf.text(
+    subtitleLines,
+    margin,
+    y
+  );
+
+
+  y +=
+    subtitleLines.length * 5 + 2;
+
+
+  pdf.setFontSize(8.5);
+
+  pdf.text(
+    pdfText(
+      `Generated on: ${generatedOn}     |     Generated by: ${generatedBy}     |     Total records: ${records.length}`
+    ),
+    margin,
+    y
+  );
+
+
+  y +=
+    5;
+
+
+  // -------------------------------------------------------
+  // TABLE
+  // -------------------------------------------------------
+
+  const body =
+    records.length
+      ? records.map(
+          artifact => [
+
+            pdfText(
+              artifact.accessionNumber ||
+              "-"
+            ),
+
+            pdfText(
+              artifact.name ||
+              artifact.artifactName ||
+              "Untitled Artifact"
+            ),
+
+            pdfText(
+              artifact.category ||
+              artifact.categoryName ||
+              "Uncategorized"
+            ),
+
+            pdfText(
+              artifact.condition ||
+              "Not specified"
+            ),
+
+            pdfText(
+              artifact.status ||
+              "Active"
+            ),
+
+            pdfText(
+              formatArtifactDate(
+                artifact.dateAcquired
+              )
+            ),
+
+            pdfText(
+              artifact.currentLocation ||
+              "Not specified"
+            )
+
+          ]
+        )
+      : [
+          [
+            {
+              content:
+                "No matching artifact records were found for the selected report criteria.",
+
+              colSpan:
+                7,
+
+              styles: {
+                halign: "center",
+                fontStyle: "italic",
+                textColor: [130, 120, 112]
+              }
+            }
+          ]
+        ];
+
+
+  pdf.autoTable(
+    {
+      startY:
+        y,
+
+      margin: {
+        left: margin,
+        right: margin,
+        top: 16,
+        bottom: 18
+      },
+
+      head: [
+        [
+          "Accession No.",
+          "Artifact Name",
+          "Category",
+          "Condition",
+          "Status",
+          "Date Acquired",
+          "Current Location"
+        ]
+      ],
+
+      body,
+
+      theme:
+        "grid",
+
+      styles: {
+        font: "helvetica",
+        fontSize: 8.5,
+        cellPadding: 2.2,
+        lineColor: [225, 218, 208],
+        lineWidth: 0.2,
+        textColor: [60, 50, 45],
+        overflow: "linebreak",
+        valign: "middle"
+      },
+
+      headStyles: {
+        fillColor: maroon,
+        textColor: [255, 255, 255],
+        fontStyle: "bold"
+      },
+
+      alternateRowStyles: {
+        fillColor: [250, 247, 241]
+      },
+
+      columnStyles: {
+        0: { cellWidth: 32 },
+        1: { cellWidth: 62, fontStyle: "bold" },
+        2: { cellWidth: 40 },
+        3: { cellWidth: 22, halign: "center" },
+        4: { cellWidth: 22, halign: "center" },
+        5: { cellWidth: 30 },
+        6: { cellWidth: 61 }
+      },
+
+      // Kulay ng Condition at Status
+
+      didParseCell:
+        data => {
+
+          if (
+            data.section !== "body" ||
+            !records.length
+          ) {
+
+            return;
+
+          }
+
+
+          const value =
+            String(
+              data.cell.text[0] || ""
+            ).toLowerCase();
+
+
+          if (
+            data.column.index === 3
+          ) {
+
+            if (value === "good") {
+
+              data.cell.styles.textColor =
+                [62, 105, 79];
+
+            } else if (value === "poor") {
+
+              data.cell.styles.textColor =
+                [150, 61, 66];
+
+            } else {
+
+              data.cell.styles.textColor =
+                [146, 101, 46];
+
+            }
+
+            data.cell.styles.fontStyle =
+              "bold";
+
+          }
+
+
+          if (
+            data.column.index === 4
+          ) {
+
+            data.cell.styles.textColor =
+              value === "archived"
+                ? [117, 105, 95]
+                : [70, 104, 83];
+
+            data.cell.styles.fontStyle =
+              "bold";
+
+          }
+
+        }
+    }
+  );
+
+
+  // -------------------------------------------------------
+  // TOTAL SA DULO
+  // -------------------------------------------------------
+
+  let endY =
+    pdf.lastAutoTable.finalY + 8;
+
+
+  if (
+    endY > pageHeight - 22
+  ) {
+
+    pdf.addPage();
+
+    endY =
+      20;
+
+  }
+
+
+  pdf.setTextColor(
+    ...maroon
+  );
+
+  pdf.setFont(
+    "helvetica",
+    "bold"
+  );
+
+  pdf.setFontSize(10);
+
+  pdf.text(
+    `Total records: ${records.length}`,
+    margin,
+    endY
+  );
+
+
+  pdf.setTextColor(
+    150,
+    140,
+    132
+  );
+
+  pdf.setFont(
+    "helvetica",
+    "italic"
+  );
+
+  pdf.setFontSize(8);
+
+  pdf.text(
+    "- End of report -",
+    pageWidth - margin,
+    endY,
+    { align: "right" }
+  );
+
+
+  // -------------------------------------------------------
+  // FOOTER SA BAWAT PAGE
+  // -------------------------------------------------------
+
+  const pageCount =
+    pdf.getNumberOfPages();
+
+
+  for (
+    let page = 1;
+    page <= pageCount;
+    page++
+  ) {
+
+    pdf.setPage(page);
+
+
+    pdf.setDrawColor(
+      225,
+      218,
+      208
+    );
+
+    pdf.setLineWidth(0.3);
+
+    pdf.line(
+      margin,
+      pageHeight - 12,
+      pageWidth - margin,
+      pageHeight - 12
+    );
+
+
+    pdf.setTextColor(
+      140,
+      130,
+      122
+    );
+
+    pdf.setFont(
+      "helvetica",
+      "normal"
+    );
+
+    pdf.setFontSize(8);
+
+
+    pdf.text(
+      "Museo de Lucena Artifact Records System",
+      margin,
+      pageHeight - 7
+    );
+
+
+    pdf.text(
+      `Page ${page} of ${pageCount}`,
+      pageWidth - margin,
+      pageHeight - 7,
+      { align: "right" }
+    );
+
+  }
+
+
+  return pdf;
+
+}
+
+
+async function downloadReportPdf(
+  records,
+  title,
+  subtitle
+) {
+
+  const originalLabel =
+    generateReportButton
+      ? generateReportButton.textContent
+      : "";
+
+
+  try {
+
+    if (generateReportButton) {
+
+      generateReportButton.disabled =
+        true;
+
+
+      generateReportButton.textContent =
+        "Generating PDF...";
+
+    }
+
+
+    await loadPdfLibraries();
+
+
+    const pdf =
+      buildReportPdf(
+        records,
+        title,
+        subtitle
+      );
+
+
+    // I-download ang PDF.
+    // Kung gusto mong magbukas sa bagong tab sa halip,
+    // palitan ng:
+    // window.open(pdf.output("bloburl"), "_blank");
+
+    pdf.save(
+      buildPdfFileName(
+        title
+      )
+    );
+
+
+  } catch (error) {
+
+    console.error(
+      "PDF REPORT ERROR:",
+      error
+    );
+
+
+    alert(
+      "Unable to create the PDF report. Please check your internet connection and try again."
+    );
+
+
+  } finally {
+
+    if (generateReportButton) {
+
+      generateReportButton.disabled =
+        false;
+
+
+      generateReportButton.textContent =
+        originalLabel;
+
+    }
+
+  }
+
+}
 
 
 // =========================================================
