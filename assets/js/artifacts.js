@@ -5114,7 +5114,7 @@ onAuthStateChanged(
       updateRemoveImageButton();
 
 
-      // Ipakita agad ang page (hindi na hinihintay ang data).
+      
 
       if (pageLoader) {
 
@@ -5131,8 +5131,7 @@ onAuthStateChanged(
       ]);
 
 
-      // I-render ulit para lumabas ang tamang buttons
-      // ayon sa role (halimbawa Delete para sa admin).
+     
 
       if (artifacts.length) {
 
