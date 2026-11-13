@@ -595,6 +595,9 @@ function getArtifactImageSource(
 ) {
 
   return (
+    // ADDED: thumbnail ng mga bagong-save na artifact
+    artifact.thumbData ||
+
     artifact.imageData ||
     artifact.imageUrl ||
     ""

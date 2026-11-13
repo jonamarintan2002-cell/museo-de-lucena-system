@@ -42,6 +42,27 @@ let selectedRating = 0;
 
 
 // =========================================================
+// ADDED (1/4): FULL IMAGE SETTINGS
+// Ang buong larawan ng mga bagong-save na artifact ay nasa
+// hiwalay na collection na "artifact_images".
+// =========================================================
+
+const IMAGE_COLLECTION =
+  "artifact_images";
+
+
+// Cache para hindi paulit-ulit ang Firestore read
+const fullImageCache =
+  new Map();
+
+
+// Para hindi magkapalit ang larawan kapag mabilis magpalit
+// ng artifact sa modal
+let modalImageToken =
+  0;
+
+
+// =========================================================
 // PAGE ELEMENTS
 // =========================================================
 
@@ -684,10 +705,107 @@ function getArtifactImageSource(
 ) {
 
   return (
+    // ADDED (2/4): thumbnail ng mga bagong-save na artifact
+    artifact.thumbData ||
+
     artifact.imageData ||
     artifact.imageUrl ||
     ""
   );
+
+}
+
+
+// =========================================================
+// ADDED (3/4): LOAD FULL IMAGE FOR MODAL
+// Thumbnail muna ang lalabas, tapos papalitan ng buong
+// larawan galing sa "artifact_images" kapag dumating na.
+// =========================================================
+
+async function loadFullImageForModal(
+  artifact,
+  token
+) {
+
+  try {
+
+    let fullImage =
+      fullImageCache.get(
+        artifact.id
+      ) ||
+      "";
+
+
+    if (!fullImage) {
+
+      const snapshot =
+        await getDoc(
+          doc(
+            db,
+            IMAGE_COLLECTION,
+            artifact.id
+          )
+        );
+
+
+      fullImage =
+        snapshot.exists()
+          ? snapshot.data().imageData ||
+            ""
+          : "";
+
+
+      if (fullImage) {
+
+        fullImageCache.set(
+          artifact.id,
+          fullImage
+        );
+
+      }
+
+    }
+
+
+    // Kung ibang artifact na ang nakabukas, huwag nang ipakita.
+
+    if (token !== modalImageToken) {
+
+      return;
+
+    }
+
+
+    if (
+      fullImage &&
+      modalArtifactImage
+    ) {
+
+      modalArtifactImage.src =
+        fullImage;
+
+
+      modalArtifactImage.style.display =
+        "block";
+
+
+      if (modalImagePlaceholder) {
+
+        modalImagePlaceholder.style.display =
+          "none";
+
+      }
+
+    }
+
+  } catch (error) {
+
+    console.error(
+      "Unable to load full artifact image:",
+      error
+    );
+
+  }
 
 }
 
@@ -1315,6 +1433,27 @@ async function openArtifactModal(
         "grid";
 
     }
+
+  }
+
+
+  // =======================================================
+  // ADDED (4/4): KUNIN SA BACKGROUND ANG BUONG LARAWAN
+  // (hindi hinihintay, para hindi maantala ang evaluation)
+  // =======================================================
+
+  modalImageToken++;
+
+
+  if (
+    artifact.hasImage &&
+    !artifact.imageData
+  ) {
+
+    loadFullImageForModal(
+      artifact,
+      modalImageToken
+    );
 
   }
 
@@ -2163,6 +2302,11 @@ function closeArtifactModal() {
 
   currentArtifact =
     null;
+
+
+  // ADDED: ihinto ang pagkuha ng larawan para sa saradong modal
+
+  modalImageToken++;
 
 
   resetEvaluationForm();
